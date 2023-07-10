@@ -1,0 +1,11 @@
+<div class="j_certification-editor">
+  <div>
+    <app-gridster-cards></app-gridster-cards>
+  </div>
+  <div class="editor-container">
+    <ngx-editor-menu *ngIf="currentEditor" [editor]="currentEditor" [toolbar]="toolbar"></ngx-editor-menu>
+    <div class="gridster-container">
+      <app-gridster-container [columnsSize]="24" [rowsSize]="52" [width]="885" [height]="1054" (onWidgetEdit)="showMenu($event)"></app-gridster-container>
+    </div>
+  </div>
+</div>

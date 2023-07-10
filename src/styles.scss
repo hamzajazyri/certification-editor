@@ -1,1 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
+
+
+html, body {
+  height: 100%;
+  margin:0px;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+gridster .gridster-row {
+  border:1px solid rgba(0, 0, 255, 0.3) !important;
+}
+gridster .gridster-column {
+  border:1px solid rgba(0, 0, 255, 0.3) !important;
+}
+
+
+.NgxEditor__ImageWrapper {
+  padding:0px !important;
+}
+
+.ProseMirror {
+  padding:0px !important;
+  * {
+    margin:0px !important;
+  }
+}
+.NgxEditor {
+  border: 0px solid white !important;
+  background:red !important;
+  height: 100% !important;
+  width:100% !important;
+}

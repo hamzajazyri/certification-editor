@@ -1,0 +1,23 @@
+.widget-container {
+  position: relative;
+  overflow: visible;
+  height: 100%;
+  button {
+    display: none;
+    position: absolute;
+    top:0px;
+    left:0px;
+    height: 30px;
+    width: 120px;
+    z-index: 10000;
+  }
+  &:hover button {
+    display: block;
+  }
+}
+
+
+.editor-ngx {
+  height: 100%;
+  width: 100%;
+}

@@ -1,0 +1,6 @@
+<div [formGroup]="form" class="widget-container">
+  <ngx-editor [editor]="editor" formControlName="content" class="editor-ngx"></ngx-editor>
+  <button class="gridster-item-content" (click)="edit($event)">Edit</button>
+</div>
+
+{{form.get('content')?.value | json }}
