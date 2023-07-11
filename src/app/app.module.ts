@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { CertificationEditorComponent } from './certification-editor/certification-editor.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { CertificationEditorComponent } from './certification-editor/certificati
   ],
   imports: [
     BrowserModule,
-    CertificationEditorComponent
+    CertificationEditorComponent,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

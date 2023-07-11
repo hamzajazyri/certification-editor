@@ -1,4 +1,4 @@
-export const TEXT_DOC = {
+export const HEADING_DOC = {
       type: 'heading',
       attrs: {
         level: 1,
@@ -13,12 +13,16 @@ export const TEXT_DOC = {
 };
 
 
-export const IMAGE_DOC = {
-  type: "image",
+export const TEXT_DOC = {
+  type: 'paragraph',
   attrs: {
-    src: "https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    alt: "",
-    title: "",
-    width: "100%"
-  }
-}
+    level: 1,
+    align: 'center',
+  },
+  content: [
+    {
+      type: 'text',
+      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad culpa architecto iure necessitatibus laborum molestias hic, quidem totam adipisci ut vitae a esse fugiat amet, quod asperiores, cupiditate at nesciunt!',
+    },
+  ]
+};

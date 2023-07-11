@@ -57,7 +57,7 @@ export const gridsterConfig: GridsterConfig = {
 
 export const gridsterItemConfig: GridsterItem = {
   cols: 10, // Width of the item in grid columns (should be within the maximum allowed)
-  rows: 4, // Height of the item in grid rows (should be within the maximum allowed)
+  rows: 10, // Height of the item in grid rows (should be within the maximum allowed)
   x: 0, // X position of the item in the grid
   y: 0, // Y position of the item in the grid
   dragEnabled: true, // Allow item to be dragged

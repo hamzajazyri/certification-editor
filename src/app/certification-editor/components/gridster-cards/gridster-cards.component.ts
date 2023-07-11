@@ -1,14 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DraggableDirective } from '../../directives/draggable.directive';
 
 
 
 @Component({
   selector: 'app-editor-tool-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DraggableDirective],
   template: `
-    <div class="tool-card">
+    <div class="tool-card" Draggable [component]="component">
       <div class="tool-card-content">
         <img [src]="iconUrl" class="tool-icon" [alt]="text" />
         <h5>{{text}}</h5>
@@ -45,6 +46,7 @@ import { CommonModule } from '@angular/common';
 export class EditorToolCardComponent {
   @Input() text!: string;
   @Input() iconUrl!: string;
+  @Input() component!: string;
 }
 
 
@@ -57,15 +59,10 @@ export class EditorToolCardComponent {
 })
 export class GridsterCardsComponent {
 
-  tools = [
-    {
-      iconUrl: 'assets/editor-tools-icons/divider-icon.svg',
-      text: 'Divider',
-      html: '<img src="assets/editor-tools-icons/divider-icon.svg" />'
-    }, {
+  tools = [{
       iconUrl: 'assets/editor-tools-icons/heading-icon.svg',
       text: 'Heading',
-      html: '<h1>HEADING</h1>'
+      html: 'heading'
     }, {
       iconUrl: 'assets/editor-tools-icons/auto-icon.svg',
       text: 'Auto Generation',
@@ -73,19 +70,11 @@ export class GridsterCardsComponent {
     }, {
       iconUrl: 'assets/editor-tools-icons/image-icon.svg',
       text: 'Image',
-      html: '<img src="assets/editor-tools-icons/image-icon.svg" />'
-    }, {
-      iconUrl: 'assets/editor-tools-icons/logo-icon.svg',
-      text: 'Logo',
-      html: '<img src="assets/editor-tools-icons/logo-icon.svg" />'
-    }, {
+      html: 'image'
+    },{
       iconUrl: 'assets/editor-tools-icons/paragraph-icon.svg',
       text: 'Paragraph',
-      html: '<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem voluptatum, saepe eum quibusdam inventore dolorum dolor quia consequuntur atque vel repellat eveniet unde illum aliquid accusantium. Laudantium asperiores iure possimus!</p>'
-    }, {
-      iconUrl: 'assets/editor-tools-icons/spacer-icon.svg',
-      text: 'Spacer',
-      html: '<div>SPACER</div>'
+      html: 'text'
     }
   ];
 

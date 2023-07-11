@@ -1,6 +1,12 @@
-<div [formGroup]="form" class="widget-container">
-  <ngx-editor [editor]="editor" formControlName="content" class="editor-ngx"></ngx-editor>
-  <button class="gridster-item-content" (click)="edit($event)">Edit</button>
-</div>
+<div [formGroup]="form" class="widget-container"
+  [ngStyle]="{'padding': widgetConfig.padding+'px',
+              'margin': widgetConfig.margin+'px',
+              'background-color': widgetConfig.bgColor}">
+    <ngx-editor [editor]="editor" formControlName="content" class="editor-ngx">
 
-{{form.get('content')?.value | json }}
+    </ngx-editor>
+    <div class="content-controls">
+      <button class="gridster-item-content" (click)="edit($event)" *ngIf="!isEditMode">Edit</button>
+      <button class="gridster-item-content" (click)="done($event)" *ngIf="isEditMode">Hide</button>
+    </div>
+</div>

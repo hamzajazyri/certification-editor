@@ -2,16 +2,16 @@
   position: relative;
   overflow: visible;
   height: 100%;
-  button {
+  .content-controls {
     display: none;
     position: absolute;
-    top:0px;
+    bottom:0px;
     left:0px;
     height: 30px;
     width: 120px;
     z-index: 10000;
   }
-  &:hover button {
+  &:hover .content-controls {
     display: block;
   }
 }
