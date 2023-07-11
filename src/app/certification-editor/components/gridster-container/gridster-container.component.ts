@@ -8,7 +8,7 @@ import { ImageWidgetComponent } from '../widgets/image-widget/image-widget.compo
 import { WidgetInterface } from '../widgets/widget.interface';
 import { ComponentMap, WidgetComponent } from '../widgets/widget/widget.component';
 import { DroppableDirective } from '../../directives/droppable.directive';
-// import { jsPDF } from 'jspdf';
+import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'app-gridster-container',
@@ -86,17 +86,17 @@ export class GridsterContainerComponent implements OnInit {
   }
 
   print() {
-    // console.log(this.gridsterRef.nativeElement.innerHTML)
-    // // Create a new jsPDF instance
-    // const pdf = new jsPDF();
+    console.log(this.gridsterRef.nativeElement.innerHTML)
+    // Create a new jsPDF instance
+    const pdf = new jsPDF();
 
-    // // Generate PDF from the HTML element
-    // pdf.html(this.gridsterRef.nativeElement, {
-    //   callback: (doc) => {
-    //     doc.save('filename.pdf');
-    //   },
-    //   width: this.gridsterRef.nativeElement.clientWidth
-    // });
+    // Generate PDF from the HTML element
+    pdf.html(this.gridsterRef.nativeElement, {
+      callback: (doc) => {
+        doc.save('filename.pdf');
+      },
+      width: this.gridsterRef.nativeElement.clientWidth
+    });
 
     // Save the PDF
   }
