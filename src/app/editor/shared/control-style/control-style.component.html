@@ -1,0 +1,10 @@
+<div class="control-style">
+  <label class="control-label">{{control.label}}</label>
+  <div class="control-input-container">
+    <input class="control-input" [type]="control.type" [formControl]="inpControl" />
+    <div class="unit" *ngIf="control?.unit">{{control.unit}}</div>
+  </div>
+  <div class="control-hint" *ngIf="control?.hint">
+    {{control.hint}}
+  </div>
+</div>

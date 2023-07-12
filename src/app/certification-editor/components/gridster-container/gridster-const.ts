@@ -38,7 +38,7 @@ export const gridsterConfig: GridsterConfig = {
   ignoreMarginInRow: false,
   draggable: {
     enabled: true,
-    ignoreContent: false
+    ignoreContent: true
   },
   resizable: {
     enabled: true

@@ -1,0 +1,13 @@
+<div *ngIf="(templateEditorConfig$ | async) as obj"  class="jz-editor-preview"
+  [style.backgroundColor]="obj.grid.style.bgColor"
+  [style.padding]="obj.grid.style.padding+'px'"
+  [style.width]="obj.grid.width+'px'"
+  [style.height]="obj.grid.height+'px'"
+> <!-- DROPPABLE -->
+
+  <gridster [options]="gridsterConf" [style.backgroundColor]="obj.grid.style.bgColor">
+    <gridster-item *ngFor="let widget of obj.widgets">
+    </gridster-item>
+  </gridster>
+
+</div>

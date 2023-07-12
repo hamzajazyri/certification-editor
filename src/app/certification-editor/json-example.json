@@ -1,0 +1,41 @@
+{
+  "pages": [
+    {
+      "grid": {
+        "width": 100,
+        "height": 100,
+        "columnSize": 4,
+        "rowSize": 4,
+        "style": {
+          "padding": 10,
+          "bgColor": "color"
+        }
+      },
+      "widgets": [
+        {
+          "widgetType": "ComponentType",
+          "position": {
+            "columnStart": 0,
+            "rowStart": 0,
+            "columnWidth": 2,
+            "columnHeight": 2
+          },
+          "style": {
+            "padding": 10,
+            "bgColor": "color",
+            "borderWidth": 4,
+            "borderColor": "color",
+            "borderStyle": "solid"
+          },
+          "schema": [
+            {
+              "textMatch": "#{example}",
+              "mapTo": "ctx.path.to.object.value of datasource"
+            }
+          ],
+          "datasource": {}
+        }
+      ]
+    }
+  ]
+}

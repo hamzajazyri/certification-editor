@@ -1,0 +1,39 @@
+<div class="editor">
+  <div class="editor-header">
+    <div></div>
+    <button class="btn-editor">
+      <svg class="btn-icon">
+        <use xlink:href="assets/editor-assets/icons/download-icon.svg#download-icon" />
+      </svg>
+      <span>Save Template</span>
+    </button>
+  </div>
+
+  <div class="editor-aside">
+    <div class="editor-tab">
+      <div class="editor-tab-header">
+        <button class="btn-editor" (click)="currentTab = TAB.STYLES">
+          <svg class="btn-icon">
+            <use xlink:href="assets/editor-assets/icons/styles-icon.svg#styles-icon" />
+          </svg>
+          <span>Style</span>
+        </button>
+        <button class="btn-editor" (click)="currentTab = TAB.ELEMENTS">
+          <svg class="btn-icon">
+            <use xlink:href="assets/editor-assets/icons/elements-icon.svg#elements-icon" />
+          </svg>
+          <span>Elements</span>
+        </button>
+      </div>
+      <div class="editor-tab-body">
+        <app-editor-style-tab *ngIf="currentTab === TAB.STYLES"></app-editor-style-tab>
+        <app-draggable-elements-tab *ngIf="currentTab === TAB.ELEMENTS"></app-draggable-elements-tab>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="editor-body">
+    <app-editor-preview></app-editor-preview>
+  </div>
+</div>

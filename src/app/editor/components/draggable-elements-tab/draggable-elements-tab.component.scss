@@ -1,0 +1,34 @@
+.draggable-elements-tab {
+  margin:10px 0px;
+
+  .draggable-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+    border:1px solid #D0D5DD;
+    height: 60px;
+    padding:0px 10px;
+    margin-bottom: 17px;
+    cursor: move;
+    .draggable-item-info {
+      display: flex;
+      align-items: center;
+    }
+    svg {
+      width: 32px;
+      height: 32px;
+      &.drag-icon{
+        opacity: .3;
+      }
+    }
+
+    h3 {
+      margin:0px;
+      margin-left: 15px;
+      color: #344054;
+      font-size: 15px;
+      font-weight: 400;
+    }
+  }
+}

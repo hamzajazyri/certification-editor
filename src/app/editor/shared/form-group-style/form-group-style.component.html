@@ -1,0 +1,13 @@
+<div class="form-group-style">
+  <div class="form-group-style-header">
+    <svg class="group-icon">
+      <use xlink:href="assets/editor-assets/icons/border-icon.svg#border-icon" />
+    </svg>
+    <h3>{{groupName}}</h3>
+  </div>
+  <div class="form-group-style-body">
+    <div class="form-group-item" *ngFor="let control of controls">
+      <app-control-style [control]="control" (onControlValueChange)="onControlChangeHandler($event, control.name)"></app-control-style>
+    </div>
+  </div>
+</div>

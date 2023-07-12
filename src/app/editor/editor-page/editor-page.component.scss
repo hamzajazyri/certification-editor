@@ -1,0 +1,82 @@
+.editor {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  grid-template-rows: 70px calc(100vh - 70px);
+  background:#eee;
+  .editor-header {
+    grid-column: 2 / 3;
+    height: 100%;
+    background:#fff;
+    border-left: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:0px 20px;
+  }
+
+  .editor-aside {
+    // grid-column: 0 / 3;
+    grid-row: 1 / 3;
+    padding-bottom:30px 0px;
+    background:#fff;
+    max-height: 100%;
+    // background: green;
+  }
+
+  .editor-body {
+    max-height: 100%;
+    height: calc(100% - 40px);
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    overflow-y: auto;
+  }
+}
+
+
+.editor-tab {
+  height: 100%;
+  .editor-tab-header {
+    height: 70px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+  }
+  .editor-tab-body {
+    padding:10px;
+    max-height: calc(100% - 70px);
+    overflow-y: auto;
+  }
+}
+
+
+.btn-editor {
+  border-radius: 8px;
+  border: 1px solid #D0D5DD;
+  background: #FFF;
+  display: flex;
+  min-width: 130px;
+  min-height: 40px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-family: Inter;
+  font-size: 15px;
+  letter-spacing: 0.2px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #344054;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0px 0px 0px 4px #F2F4F7, 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  }
+
+  .btn-icon {
+    width: 22px;
+    height: 22px;
+  }
+}
