@@ -1,12 +1,17 @@
 <div class="editor">
   <div class="editor-header">
-    <div></div>
-    <button class="btn-editor">
-      <svg class="btn-icon">
-        <use xlink:href="assets/editor-assets/icons/download-icon.svg#download-icon" />
-      </svg>
-      <span>Save Template</span>
-    </button>
+    <div class="editor-header-top">
+      <div></div>
+      <button class="btn-editor">
+        <svg class="btn-icon">
+          <use xlink:href="assets/editor-assets/icons/download-icon.svg#download-icon" />
+        </svg>
+        <span>Save Template</span>
+      </button>
+    </div>
+    <div class="editor-header-toolbar" *ngIf="currentEditor">
+      <ngx-editor-menu [editor]="currentEditor" [toolbar]="toolbar"></ngx-editor-menu>
+    </div>
   </div>
 
   <div class="editor-aside">
@@ -34,6 +39,6 @@
   </div>
 
   <div class="editor-body">
-    <app-editor-preview></app-editor-preview>
+    <app-editor-preview (onEventTrigger)="onEventTrigger($event)"></app-editor-preview>
   </div>
 </div>

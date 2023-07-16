@@ -1,37 +1,36 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IEditor } from '../../editor.model';
 import { EditorService } from '../../services/editor.service';
-import { Observable, distinctUntilChanged, map } from 'rxjs';
-import { GridsterConfig, GridsterModule } from 'angular-gridster2';
+import { Observable, map } from 'rxjs';
+import { GridsterConfig, GridsterItem, GridsterModule } from 'angular-gridster2';
+import { WidgetComponent } from '../../widgets/widget.component';
+import { Editor } from 'ngx-editor';
 
 @Component({
   selector: 'app-editor-preview',
   standalone: true,
-  imports: [CommonModule, GridsterModule],
+  imports: [CommonModule, GridsterModule, WidgetComponent],
   templateUrl: './editor-preview.component.html',
   styleUrls: ['./editor-preview.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class EditorPreviewComponent {
 
-  templateEditorConfig$! : Observable<IEditor>;
+  templateEditorConfig$!: Observable<IEditor>;
   gridsterConf = gridsterOptions;
+
+  @Output() onEventTrigger = new EventEmitter<{ eventName: string; eventValue: any; }>();
 
   constructor(
     private editorSrv: EditorService
   ) {
     this.templateEditorConfig$ = this.editorSrv.templateConfig$.asObservable();
-
+    this.gridsterConf.emptyCellDropCallback = this.emptyCellDropCallback.bind(this);
 
     this.templateEditorConfig$.pipe(
-      map( x => x.grid),
-      // distinctUntilChanged()
-    ).subscribe( res => {
-      this.gridsterConf.minCols = res.columnsSize;
-      this.gridsterConf.maxCols = res.columnsSize;
-      this.gridsterConf.minRows = res.columnsSize;
-      this.gridsterConf.maxRows = res.columnsSize;
+      map(x => x.grid)
+    ).subscribe(res => {
       this.gridsterConf = {
         ...this.gridsterConf,
         minCols: res.columnsSize,
@@ -39,13 +38,72 @@ export class EditorPreviewComponent {
         minRows: res.rowsSize,
         maxRows: res.rowsSize
       };
-      console.log(this.gridsterConf)
     });
+
+  }
+
+  emptyCellDropCallback(event: DragEvent, item: GridsterItem): void {
+    let componentName = event.dataTransfer!.getData('text');
+    this.editorSrv.pushWidget(componentName, item);
   }
 
 }
 
-
+export const gridsterOptions: GridsterConfig = {
+  gridType: 'fit',
+  compactType: 'none',
+  margin: 0,
+  outerMargin: true,
+  outerMarginTop: null,
+  outerMarginRight: null,
+  outerMarginBottom: null,
+  outerMarginLeft: null,
+  useTransformPositioning: true,
+  mobileBreakpoint: 200,
+  minCols: 1,
+  maxCols: 100,
+  minRows: 1,
+  maxRows: 100,
+  maxItemCols: 100,
+  minItemCols: 1,
+  maxItemRows: 100,
+  minItemRows: 1,
+  maxItemArea: 500,
+  minItemArea: 1,
+  defaultItemCols: 1,
+  defaultItemRows: 1,
+  // fixedColWidth: 105,
+  // fixedRowHeight: 105,
+  keepFixedHeightInMobile: false,
+  keepFixedWidthInMobile: false,
+  scrollSensitivity: 10,
+  scrollSpeed: 20,
+  enableEmptyCellClick: false,
+  enableEmptyCellContextMenu: false,
+  enableEmptyCellDrop: true,
+  enableEmptyCellDrag: false,
+  emptyCellDragMaxCols: 50,
+  emptyCellDragMaxRows: 50,
+  ignoreMarginInRow: false,
+  draggable: {
+    enabled: true,
+    ignoreContent: false
+  },
+  resizable: {
+    enabled: true
+  },
+  swap: true,
+  pushItems: true,
+  disablePushOnDrag: true,
+  disablePushOnResize: true,
+  pushDirections: { north: true, east: true, south: true, west: true },
+  pushResizeItems: false,
+  displayGrid: 'always',
+  disableWindowResize: false,
+  disableWarnings: false,
+  scrollToNewItems: false
+};
+/*
 export const gridsterOptions: GridsterConfig = {
   gridType: 'fit',
   compactType: 'none',
@@ -72,10 +130,10 @@ export const gridsterOptions: GridsterConfig = {
   enableEmptyCellDrag: false,
   // emptyCellDragMaxCols: 50,
   // emptyCellDragMaxRows: 50,
-  // ignoreMarginInRow: false,
+  ignoreMarginInRow: false,
   draggable: {
     enabled: true,
-    ignoreContent: true
+    ignoreContent: false
   },
   resizable: {
     enabled: true
@@ -91,3 +149,4 @@ export const gridsterOptions: GridsterConfig = {
   disableWarnings: false,
   scrollToNewItems: true
 };
+*/

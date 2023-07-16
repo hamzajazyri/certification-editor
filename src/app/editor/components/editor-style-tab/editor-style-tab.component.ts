@@ -30,27 +30,25 @@ export class EditorStyleTabComponent {
               label: 'Width',
               type: 'number',
               value: config.grid.width,
-              hint: 'The with of the page',
               name: 'grid.width',
               unit: 'px'
             }, {
               label: 'Height',
               type: 'number',
               value: config.grid.height,
-              hint: 'The height of the page',
               name: 'grid.height',
               unit: 'px'
             }, {
               label: 'Columns Size',
               type: 'number',
               value: config.grid.columnsSize,
-              hint: 'The height of the page',
+              hint: 'Update grid size before adding widgets!!',
               name: 'grid.columnsSize'
             }, {
               label: 'Rows Size',
               type: 'number',
               value: config.grid.rowsSize,
-              hint: 'The height of the page',
+              hint: 'Update grid size before adding widgets!!',
               name: 'grid.rowsSize',
             }
           ]
@@ -71,7 +69,7 @@ export class EditorStyleTabComponent {
             {
               label: 'Background Color',
               type: 'color',
-              value: config.grid.style.bgColor,
+              value: config.grid.style.backgroundColor,
               name: 'grid.style.bgColor',
             }
           ]

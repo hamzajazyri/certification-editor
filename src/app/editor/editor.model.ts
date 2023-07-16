@@ -1,3 +1,6 @@
+import { GridsterItem } from "angular-gridster2";
+import { ComponentMap } from "./widgets/widget.model";
+
 export interface IEditor {
   grid: IGrid;
   widgets: Array<IWidget>;
@@ -15,14 +18,14 @@ export interface IGrid {
 
 export interface IGridStyle {
   padding: number;
-  bgColor: string;
+  backgroundColor: string;
 }
 
 export interface IWidget {
-  widgetType: string;
-  position: IWidgetPosition;
+  widgetType: keyof typeof ComponentMap;
+  gridConfig: GridsterItem;
   style: IWidgetStyle;
-  schema: IWidgetSchema;
+  schema: Array<IWidgetSchema>;
   datasource: any;
 }
 
@@ -31,10 +34,9 @@ export interface IWidgetStyle extends IGridStyle {
   borderColor: string;
   borderStyle: 'solid' | 'dashed';
   borderRadius: number;
-  verticalAlign: contentAlign;
-  horizantalAlign: contentAlign;
+  verticalAlign: 'left' | 'right' | 'center';
+  horizantalAlign: 'top' | 'bottom' | 'center';
 }
-type contentAlign = 'left' | 'right' | 'center';
 
 export interface IWidgetSchema {
   textMatch: string; // "#{example}"
@@ -42,10 +44,10 @@ export interface IWidgetSchema {
 }
 
 export interface IWidgetPosition {
-  columnStart: number,
-  rowStart: number,
-  columnWidth: number,
-  columnHeight: number
+  cols: number,
+  rows: number,
+  x: number,
+  y: number
 }
 
 
