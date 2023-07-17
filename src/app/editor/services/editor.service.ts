@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IEditor } from '../editor.model';
+import { IEditor, IWidget } from '../editor.model';
 import { BehaviorSubject } from 'rxjs';
 import { GridsterItem } from 'angular-gridster2';
 import { ComponentMap } from '../widgets/widget.model';
@@ -68,6 +68,13 @@ export class EditorService {
       widgetType: component
     });
     this.templateConfig$.next(nextTempalteConfigValue)
+  }
+
+  removeWidget(widget: IWidget) {
+    let copy = {...this.templateConfig$.getValue()};
+    const findIndex = this.templateConfig$.getValue().widgets.findIndex( w => w === widget);
+    copy.widgets.splice(findIndex, 1);
+    this.emitNewValue(copy);
   }
 
 

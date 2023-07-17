@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IEditor } from '../../editor.model';
+import { IEditor, IWidget } from '../../editor.model';
 import { EditorService } from '../../services/editor.service';
 import { Observable, map } from 'rxjs';
 import { GridsterConfig, GridsterItem, GridsterModule } from 'angular-gridster2';
@@ -29,8 +29,6 @@ export class EditorPreviewComponent {
     this.templateEditorConfig$ = this.editorSrv.templateConfig$;
     this.gridsterConf.emptyCellDropCallback = this.emptyCellDropCallback.bind(this);
 
-    this.templateEditorConfig$.subscribe( res => {console.log("hereere")})
-
     this.templateEditorConfig$.pipe(
       map(x => x.grid)
     ).subscribe(res => {
@@ -42,12 +40,15 @@ export class EditorPreviewComponent {
         maxRows: res.rowsSize
       };
     });
-
   }
 
   emptyCellDropCallback(event: DragEvent, item: GridsterItem): void {
     let componentName = event.dataTransfer!.getData('text') as keyof typeof ComponentMap;
     this.editorSrv.pushWidget(componentName, item);
+  }
+
+  onWidgetDeleteHandler(widget: IWidget) {
+    this.editorSrv.removeWidget(widget);
   }
 
 }

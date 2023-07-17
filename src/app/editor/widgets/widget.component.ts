@@ -11,11 +11,12 @@ import { ComponentMap, WidgetContentComponentInterface } from './widget.model';
   styleUrls: ['./widget.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class WidgetComponent implements AfterViewInit, OnChanges {
+export class WidgetComponent implements AfterViewInit {
 
   @Input('config') config!: IWidget;
 
   @Output() onEventTrigger = new EventEmitter<{ eventName: string; eventValue: any; }>();
+  @Output() onDelete = new EventEmitter<void>();
 
   @ViewChild('widgetRef') widgetRef!: ElementRef<HTMLDivElement>;
   @ViewChild('containerRef', { read: ViewContainerRef }) containerRef!: ViewContainerRef;
@@ -28,21 +29,21 @@ export class WidgetComponent implements AfterViewInit, OnChanges {
   ) { }
 
   ngAfterViewInit(): void {
-    this.updateWidgetStyle();
+    // this.updateWidgetStyle();
     this.updateContent();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("changes");
-    // console.log(changes);
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   console.log("changes");
+  //   // console.log(changes);
+  // }
 
-  updateWidgetStyle() {
-    for (let key of Object.keys(this.config.style)) {
-      console.log(key + '|' + this.config.style[key as keyof IWidgetStyle]);
-      this.renderer.setStyle(this.widgetRef.nativeElement, key, this.config.style[key as keyof IWidgetStyle]);
-    }
-  }
+  // updateWidgetStyle() {
+  //   for (let key of Object.keys(this.config.style)) {
+  //     console.log(key + '|' + this.config.style[key as keyof IWidgetStyle]);
+  //     this.renderer.setStyle(this.widgetRef.nativeElement, key, this.config.style[key as keyof IWidgetStyle]);
+  //   }
+  // }
 
   updateContent() {
     this.containerRef.clear();
@@ -56,10 +57,7 @@ export class WidgetComponent implements AfterViewInit, OnChanges {
     });
 
     this.containerRef.insert(this.componentRef.hostView, 0);
-    // this.cdr.detectChanges();
-    // this.containerRef.insert()
   }
-  // handle widget child
 
   widgetEditHandler() {
     this.onEventTrigger.emit({ eventName: 'WIDGET_EDIT_ON', eventValue: this.config })
