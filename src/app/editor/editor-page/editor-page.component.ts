@@ -4,11 +4,14 @@ import { DraggableElementsTabComponent } from '../components/draggable-elements-
 import { EditorStyleTabComponent } from '../components/editor-style-tab/editor-style-tab.component';
 import { EditorPreviewComponent } from '../components/editor-preview/editor-preview.component';
 import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
+import { IWidget } from '../editor.model';
+import { WidgetStyleTabComponent } from '../components/widget-style-tab/widget-style-tab.component';
 
 
 export enum EDITOR_TAB {
   STYLES,
-  ELEMENTS
+  ELEMENTS,
+  WIDGET_EDIT
 }
 
 @Component({
@@ -19,7 +22,8 @@ export enum EDITOR_TAB {
     DraggableElementsTabComponent,
     EditorStyleTabComponent,
     EditorPreviewComponent,
-    NgxEditorModule
+    NgxEditorModule,
+    WidgetStyleTabComponent
   ],
   templateUrl: './editor-page.component.html',
   styleUrls: ['./editor-page.component.scss']
@@ -33,7 +37,7 @@ export class EditorPageComponent {
   /**
    * Holds the reference to the currently selected widget for editing.
    */
-  currentWidget: any;
+  currentWidget: IWidget | null = null;
 
   currentEditor: Editor | null = null;
 
@@ -51,10 +55,10 @@ export class EditorPageComponent {
           this.currentEditor = event.eventValue as Editor;
         }, 0);
         break;
-      case 'WIDGET_EDIT':
-
+      case 'WIDGET_EDIT_ON':
+        this.currentTab = EDITOR_TAB.WIDGET_EDIT;
+        this.currentWidget = event.eventValue;
         break;
-
     }
   }
 }

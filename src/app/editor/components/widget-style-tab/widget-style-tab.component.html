@@ -1,1 +1,10 @@
-<p>widget-style-tab works!</p>
+<div class="editor-style-tab">
+  <div class="editor-style-tab-item" *ngFor="let form of formStyleGroups">
+    <app-form-group-style
+      [groupName]="form.groupName"
+      [controls]="form.controls"
+      (onControlChange)="onControlValueChange($event)"
+      >
+    </app-form-group-style>
+  </div>
+</div>

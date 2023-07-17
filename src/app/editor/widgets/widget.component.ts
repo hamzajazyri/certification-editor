@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentRef, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentRef, ElementRef, EventEmitter, Input, OnChanges, Output, Renderer2, SimpleChanges, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IWidget, IWidgetStyle } from '../editor.model';
 import { ComponentMap, WidgetContentComponentInterface } from './widget.model';
@@ -11,7 +11,7 @@ import { ComponentMap, WidgetContentComponentInterface } from './widget.model';
   styleUrls: ['./widget.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class WidgetComponent implements AfterViewInit {
+export class WidgetComponent implements AfterViewInit, OnChanges {
 
   @Input('config') config!: IWidget;
 
@@ -26,14 +26,20 @@ export class WidgetComponent implements AfterViewInit {
     private renderer: Renderer2,
     private cdr: ChangeDetectorRef
   ) { }
+
   ngAfterViewInit(): void {
     this.updateWidgetStyle();
     this.updateContent();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("changes");
+    // console.log(changes);
+  }
 
   updateWidgetStyle() {
     for (let key of Object.keys(this.config.style)) {
+      console.log(key + '|' + this.config.style[key as keyof IWidgetStyle]);
       this.renderer.setStyle(this.widgetRef.nativeElement, key, this.config.style[key as keyof IWidgetStyle]);
     }
   }
@@ -55,5 +61,8 @@ export class WidgetComponent implements AfterViewInit {
   }
   // handle widget child
 
+  widgetEditHandler() {
+    this.onEventTrigger.emit({ eventName: 'WIDGET_EDIT_ON', eventValue: this.config })
+  }
 
 }

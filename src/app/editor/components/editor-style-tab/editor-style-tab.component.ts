@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroupStyleComponent, IFormGroupStyle } from '../../shared/form-group-style/form-group-style.component';
 import { EditorService } from '../../services/editor.service';
 import { take } from 'rxjs';
+import { IWidget } from '../../editor.model';
 
 @Component({
   selector: 'app-editor-style-tab',
@@ -14,6 +15,7 @@ import { take } from 'rxjs';
 export class EditorStyleTabComponent {
 
   formGroups: Array<IFormGroupStyle> = [];
+  @Input() widget!: IWidget;
 
   constructor(
     private editorSrv: EditorService
@@ -70,7 +72,7 @@ export class EditorStyleTabComponent {
               label: 'Background Color',
               type: 'color',
               value: config.grid.style.backgroundColor,
-              name: 'grid.style.bgColor',
+              name: 'grid.style.backgroundColor',
             }
           ]
         }
@@ -81,6 +83,8 @@ export class EditorStyleTabComponent {
 
 
   onControlValueChange(changes: {value: any, keyName:string}) {
+    // EditorService.updateObjectValueByKeyName(changes.value, changes.keyName, this.widget);
     this.editorSrv.updateTemplateValue(changes.value, changes.keyName);
+    this.editorSrv.log();
   }
 }

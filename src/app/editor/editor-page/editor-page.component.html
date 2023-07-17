@@ -32,6 +32,7 @@
       </div>
       <div class="editor-tab-body">
         <app-editor-style-tab *ngIf="currentTab === TAB.STYLES"></app-editor-style-tab>
+        <app-widget-style-tab *ngIf="currentTab === TAB.WIDGET_EDIT" [widget]="currentWidget!"></app-widget-style-tab>
         <app-draggable-elements-tab *ngIf="currentTab === TAB.ELEMENTS"></app-draggable-elements-tab>
       </div>
     </div>

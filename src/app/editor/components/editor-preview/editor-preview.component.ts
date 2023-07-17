@@ -6,6 +6,7 @@ import { Observable, map } from 'rxjs';
 import { GridsterConfig, GridsterItem, GridsterModule } from 'angular-gridster2';
 import { WidgetComponent } from '../../widgets/widget.component';
 import { Editor } from 'ngx-editor';
+import { ComponentMap } from '../../widgets/widget.model';
 
 @Component({
   selector: 'app-editor-preview',
@@ -25,8 +26,10 @@ export class EditorPreviewComponent {
   constructor(
     private editorSrv: EditorService
   ) {
-    this.templateEditorConfig$ = this.editorSrv.templateConfig$.asObservable();
+    this.templateEditorConfig$ = this.editorSrv.templateConfig$;
     this.gridsterConf.emptyCellDropCallback = this.emptyCellDropCallback.bind(this);
+
+    this.templateEditorConfig$.subscribe( res => {console.log("hereere")})
 
     this.templateEditorConfig$.pipe(
       map(x => x.grid)
@@ -43,7 +46,7 @@ export class EditorPreviewComponent {
   }
 
   emptyCellDropCallback(event: DragEvent, item: GridsterItem): void {
-    let componentName = event.dataTransfer!.getData('text');
+    let componentName = event.dataTransfer!.getData('text') as keyof typeof ComponentMap;
     this.editorSrv.pushWidget(componentName, item);
   }
 

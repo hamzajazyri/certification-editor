@@ -42,10 +42,10 @@ export class DraggableElementsTabComponent {
   },{
     iconUrl: 'assets/editor-assets/icons/image-icon.svg#image-icon',
     text: 'Image',
-    html: 'Image'
+    component: 'ImageComp'
   }, {
     iconUrl: 'assets/editor-assets/icons/table-icon.svg#table-icon',
     text: 'Dynamic Table',
-    html: 'TableDynamic'
+    component: 'DynamicTable'
   }];
 }

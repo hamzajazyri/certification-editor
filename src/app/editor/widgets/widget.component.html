@@ -1,11 +1,18 @@
-<div class="jz-widget" #widgetRef>
+<div class="jz-widget" #widgetRef
+  [style.backgroundColor]="config.style.backgroundColor"
+  [style.padding]="config.style.padding+'px'"
+  [style.border]="config.style.borderWidth+'px '+config.style.borderStyle+' '+config.style.borderColor"
+  [style.alignItems]="config.style.verticalAlign"
+  [style.justifyContent]="config.style.horizantalAlign"
+  [style.borderRadius]="config.style.borderRadius+'px'"
+  >
   <div class="jz-widget-controls">
     <div class="jz-widget-control move-control">
       <svg class="jz-widget-control-icon">
         <use xlink:href="assets/editor-assets/icons/move-icon.svg#move-icon" />
       </svg>
     </div>
-    <div class="gridster-item-content jz-widget-control">
+    <div class="gridster-item-content jz-widget-control" (click)="widgetEditHandler()">
       <svg class="jz-widget-control-icon">
         <use xlink:href="assets/editor-assets/icons/edit-icon.svg#edit-icon" />
       </svg>

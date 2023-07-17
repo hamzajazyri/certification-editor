@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IFormControlStyle } from '../form-group-style/form-group-style.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { switchMap } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-control-style',
@@ -20,7 +20,9 @@ export class ControlStyleComponent implements OnInit {
 
   ngOnInit(): void {
     this.inpControl.setValue(this.control.value, {emitEvent: false});
-    this.inpControl.valueChanges.subscribe(
+    this.inpControl.valueChanges.pipe(
+      debounceTime(100)
+    ).subscribe(
       val => this.onControlValueChange.emit(val)
     );
   }
