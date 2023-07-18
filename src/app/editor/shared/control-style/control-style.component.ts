@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IFormControlStyle } from '../form-group-style/form-group-style.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -9,7 +9,8 @@ import { debounceTime, switchMap } from 'rxjs';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './control-style.component.html',
-  styleUrls: ['./control-style.component.scss']
+  styleUrls: ['./control-style.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ControlStyleComponent implements OnInit {
 

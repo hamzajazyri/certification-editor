@@ -1,10 +1,39 @@
 <div class="editor-style-tab">
   <div class="editor-style-tab-item" *ngFor="let form of formStyleGroups">
-    <app-form-group-style
-      [groupName]="form.groupName"
-      [controls]="form.controls"
-      (onControlChange)="onControlValueChange($event)"
-      >
+    <app-form-group-style [groupName]="form.groupName" [controls]="form.controls"
+      (onControlChange)="onControlValueChange($event)">
     </app-form-group-style>
+  </div>
+
+  <div class="editor-style-tab-item">
+    <div class="jz-form-group-style">
+      <div class="form-group-style-header">
+        <svg class="group-icon">
+          <use xlink:href="assets/editor-assets/icons/border-icon.svg#border-icon" />
+        </svg>
+        <h3>Variables</h3>
+      </div>
+      <div class="form-group-style-body" [formGroup]="schemaFrom">
+        <div class="form-group-item" formArrayName="groups">
+          <div class="jz-control-style" *ngFor="let group of formGroups.controls; let i = index" [formGroupName]="i">
+            <div class="actions">
+              <svg (click)="removeSchemaVariable(i)">
+                <use xlink:href="assets/editor-assets/icons/delete-icon.svg#delete-icon" />
+              </svg>
+            </div>
+            <div class="control-input-container">
+              <input type="text" class="control-input" placeholder="Text Match" formControlName="textMatch" />
+            </div>
+            <div class="control-input-container">
+              <input type="text" class="control-input" placeholder="Map To" formControlName="mapTo" />
+            </div>
+          </div>
+        </div>
+        <div class="btn-actions">
+          <button (click)="addSchemaVariable()" class="btn-add">Add New Variable</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>

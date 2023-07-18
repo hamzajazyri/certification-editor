@@ -49,6 +49,12 @@ export class EditorPreviewComponent {
 
   onWidgetDeleteHandler(widget: IWidget) {
     this.editorSrv.removeWidget(widget);
+    // hide the widget-style-tab
+    this.onEventTriggerHandler({eventName: 'WIDGET_DELTED', eventValue: widget});
+  }
+
+  onEventTriggerHandler(event: {eventName: string, eventValue: any}) {
+    this.onEventTrigger.emit(event);
   }
 
 }

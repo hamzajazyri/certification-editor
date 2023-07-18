@@ -23,6 +23,18 @@ export class EditorService {
     );
   }
 
+  updateWidget(value: any, keyName: string, widget: IWidget) {
+    let copy = {...this.templateConfig$.getValue()};
+
+    let findIndex = copy.widgets.findIndex( w => w === widget);
+    console.log(findIndex);
+    const newWidget = EditorService.updateObjectValueByKeyName(value, keyName, copy.widgets[findIndex]);
+    console.log("newWidget")
+    console.log(newWidget)
+    // this.templateConfig$.next(copy);
+    return copy.widgets[findIndex];
+  }
+
   emitNewValue(newValue: IEditor|null =null) {
     if(newValue) {
       this.templateConfig$.next(newValue);
@@ -36,7 +48,6 @@ export class EditorService {
   }
 
   static updateObjectValueByKeyName(value: any, keyName: string, obj: any) {
-    console.log(obj);
     const deep = keyName.split('.');
     let templateNewVal = {...obj};
     let keyRef: any = templateNewVal;
@@ -51,22 +62,9 @@ export class EditorService {
   // add item to the grid
   pushWidget(component: keyof typeof ComponentMap, item: GridsterItem){
     const nextTempalteConfigValue = this.templateConfig$.getValue();
-    nextTempalteConfigValue.widgets.push({
-      datasource: {},
-      gridConfig: {...item, cols:2, rows:2},
-      schema: [],
-      style: {
-        borderWidth: 0,
-        borderColor: 'red',
-        borderStyle: 'solid',
-        borderRadius: 0,
-        verticalAlign: 'left',
-        horizantalAlign: 'top',
-        padding: 0,
-        backgroundColor: '#ffffff'
-      },
-      widgetType: component
-    });
+    nextTempalteConfigValue.widgets.push(
+      {...defaultWidgetConfig, gridConfig: {...item, cols:2, rows:2}, widgetType: component}
+    );
     this.templateConfig$.next(nextTempalteConfigValue)
   }
 
@@ -100,6 +98,21 @@ export const defaultTemplateConfig: IEditor = {
   datasource: {}
 }
 
+export const defaultWidgetConfig: any = { // IWidget
+  datasource: {},
+  gridConfig: {x:0, y:0, cols:2, rows:2},
+  schema: [],
+  style: {
+    borderWidth: 0,
+    borderColor: '#ffffff',
+    borderStyle: 'solid',
+    borderRadius: 0,
+    verticalAlign: 'left',
+    horizantalAlign: 'top',
+    padding: 0,
+    backgroundColor: '#ffffff'
+  }
+};
 
 export const gridsterItemConfig: GridsterItem = {
   cols: 4, // Width of the item in grid columns (should be within the maximum allowed)

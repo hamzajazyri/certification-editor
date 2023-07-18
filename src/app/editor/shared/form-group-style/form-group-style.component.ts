@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlStyleComponent } from '../control-style/control-style.component';
 
@@ -7,7 +7,8 @@ import { ControlStyleComponent } from '../control-style/control-style.component'
   standalone: true,
   imports: [CommonModule, ControlStyleComponent],
   templateUrl: './form-group-style.component.html',
-  styleUrls: ['./form-group-style.component.scss']
+  styleUrls: ['./form-group-style.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class FormGroupStyleComponent {
 

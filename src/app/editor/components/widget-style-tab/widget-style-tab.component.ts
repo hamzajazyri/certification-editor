@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroupStyleComponent, IFormGroupStyle } from '../../shared/form-group-style/form-group-style.component';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IWidget } from '../../editor.model';
 import { EditorService } from '../../services/editor.service';
@@ -21,16 +21,17 @@ export class WidgetStyleTabComponent implements OnInit {
 
   formStyleGroups: Array<IFormGroupStyle> = [];
 
-  schemaFromArray = new FormArray([]);
-
-  schemaFormGroup = new FormGroup({
-    textMatch: new FormControl(''),
-    mapTo: new FormControl('')
+  schemaFrom = new FormGroup({
+    groups: new FormArray<any>([])
   });
 
+  get formGroups() : FormArray{
+    return this.schemaFrom.get('groups') as FormArray;
+  }
+
   constructor(
-    private editorSrv: EditorService
-  ) { }
+    private editorSrv: EditorService,
+  ) {}
 
   ngOnInit(): void {
     this.formStyleGroups = [
@@ -105,9 +106,24 @@ export class WidgetStyleTabComponent implements OnInit {
   }
 
   onControlValueChange(changes: {value: any, keyName:string}) {
-    EditorService.updateObjectValueByKeyName(changes.value, changes.keyName, this.widget);
-    this.editorSrv.emitNewValue();
+    console.log("this.widget");
+    console.log(this.widget);
+    this.editorSrv.updateWidget(changes.value, changes.keyName, this.widget);
+    // EditorService.updateObjectValueByKeyName(changes.value, changes.keyName, this.widget);
+
+    // this.editorSrv.emitNewValue();
     this.editorSrv.log();
   }
 
+  addSchemaVariable() {
+    const schemaFormGroup = new FormGroup({
+      textMatch: new FormControl(''),
+      mapTo: new FormControl('')
+    });
+    this.schemaFrom.controls.groups.push(schemaFormGroup);
+  }
+
+  removeSchemaVariable(index: number) {
+    this.formGroups.removeAt(index);
+  }
 }

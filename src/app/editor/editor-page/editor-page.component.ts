@@ -55,6 +55,12 @@ export class EditorPageComponent {
           this.currentEditor = event.eventValue as Editor;
         }, 0);
         break;
+      case 'WIDGET_DELTED':
+        if(this.currentWidget === event.eventValue) {
+          this.currentTab = EDITOR_TAB.ELEMENTS;
+          this.currentWidget = null;
+        }
+        break;
       case 'WIDGET_EDIT_ON':
         this.currentTab = EDITOR_TAB.WIDGET_EDIT;
         this.currentWidget = event.eventValue;
