@@ -19,4 +19,6 @@ export class DynamicTableWidgetComponent implements WidgetContentComponentInterf
   // widget config
   schema: IWidgetSchema[] = [];
   datasource: any;
+
+
 }

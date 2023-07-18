@@ -1,0 +1,13 @@
+.jz-widget-table {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  thead, tbody {
+    text-align: center;
+  }
+}
+
+table, th, td {
+  border: 1px solid;
+  padding:7px 0px;
+}
