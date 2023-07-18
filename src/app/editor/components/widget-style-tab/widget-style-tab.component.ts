@@ -25,87 +25,19 @@ export class WidgetStyleTabComponent implements OnInit {
     groups: new FormArray<any>([])
   });
 
-  get formGroups() : FormArray{
+  get formGroups(): FormArray {
     return this.schemaFrom.get('groups') as FormArray;
   }
 
   constructor(
     private editorSrv: EditorService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.formStyleGroups = [
-      {
-        groupName: 'Border',
-        controls: [
-          {
-            label: 'Width',
-            type: 'number',
-            value: this.widget.style.borderWidth,
-            name: 'style.borderWidth',
-            unit: 'px'
-          }, {
-            label: 'Style',
-            type: 'list',
-            suggestions: ['solid','dashed'],
-            value: this.widget.style.borderStyle,
-            name: 'style.borderStyle',
-          }, {
-            label: 'Color',
-            type: 'color',
-            value: this.widget.style.borderColor,
-            name: 'style.borderColor'
-          },{
-            label: 'Radius',
-            type: 'number',
-            value: this.widget.style.borderRadius,
-            name: 'style.borderRadius',
-            unit: 'px'
-          }
-        ]
-      }, {
-        groupName: 'Align',
-        controls: [
-          {
-            label: 'Vertical',
-            type: 'list',
-            suggestions: ['left', 'right', 'center'],
-            value: this.widget.style.verticalAlign,
-            name: 'style.verticalAlign'
-          },{
-            label: 'Horizantal',
-            type: 'list',
-            suggestions: ['top', 'center', 'bottom'],
-            value: this.widget.style.horizantalAlign,
-            name: 'style.horizantalAlign'
-          }
-        ]
-      }, {
-        groupName: 'Colors',
-        controls: [
-          {
-            label: 'Background Color',
-            type: 'color',
-            value: this.widget.style.backgroundColor,
-            name: 'style.backgroundColor',
-          }
-        ]
-      },{
-        groupName: 'Spacing',
-        controls: [
-          {
-            label: 'padding',
-            type: 'number',
-            value: this.widget.style.padding,
-            name: 'style.padding',
-            unit: 'px'
-          }
-        ]
-      }
-    ];
+    this.formStyleGroups = getFormStyleGroupsConfig(this.widget)
   }
 
-  onControlValueChange(changes: {value: any, keyName:string}) {
+  onControlValueChange(changes: { value: any, keyName: string }) {
     console.log("this.widget");
     console.log(this.widget);
     this.editorSrv.updateWidget(changes.value, changes.keyName, this.widget);
@@ -127,3 +59,78 @@ export class WidgetStyleTabComponent implements OnInit {
     this.formGroups.removeAt(index);
   }
 }
+
+
+
+
+export const getFormStyleGroupsConfig = (widget: IWidget) : Array<IFormGroupStyle> => {
+  return [
+    {
+      groupName: 'Border',
+      controls: [
+        {
+          label: 'Width',
+          type: 'number',
+          value: widget.style.borderWidth,
+          name: 'style.borderWidth',
+          unit: 'px'
+        }, {
+          label: 'Style',
+          type: 'list',
+          suggestions: ['solid', 'dashed'],
+          value: widget.style.borderStyle,
+          name: 'style.borderStyle',
+        }, {
+          label: 'Color',
+          type: 'color',
+          value: widget.style.borderColor,
+          name: 'style.borderColor'
+        }, {
+          label: 'Radius',
+          type: 'number',
+          value: widget.style.borderRadius,
+          name: 'style.borderRadius',
+          unit: 'px'
+        }
+      ]
+    }, {
+      groupName: 'Align',
+      controls: [
+        {
+          label: 'Vertical',
+          type: 'list',
+          suggestions: ['left', 'right', 'center'],
+          value: widget.style.verticalAlign,
+          name: 'style.verticalAlign'
+        }, {
+          label: 'Horizantal',
+          type: 'list',
+          suggestions: ['top', 'center', 'bottom'],
+          value: widget.style.horizantalAlign,
+          name: 'style.horizantalAlign'
+        }
+      ]
+    }, {
+      groupName: 'Colors',
+      controls: [
+        {
+          label: 'Background Color',
+          type: 'color',
+          value: widget.style.backgroundColor,
+          name: 'style.backgroundColor',
+        }
+      ]
+    }, {
+      groupName: 'Spacing',
+      controls: [
+        {
+          label: 'padding',
+          type: 'number',
+          value: widget.style.padding,
+          name: 'style.padding',
+          unit: 'px'
+        }
+      ]
+    }
+  ];
+};

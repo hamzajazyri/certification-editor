@@ -27,6 +27,8 @@ export class TextEditorWidgetComponent implements WidgetContentComponentInterfac
 
   ngOnInit() {
     this.editor = new Editor({ inputRules: true });
+    if(!this.isEditMode)
+      this.editorContent.disable();
   }
 
 

@@ -1,11 +1,7 @@
-<div class="jz-widget" #widgetRef
-  [style.backgroundColor]="config.style.backgroundColor"
+<div class="jz-widget" #widgetRef [style.backgroundColor]="config.style.backgroundColor"
   [style.padding]="config.style.padding+'px'"
   [style.border]="config.style.borderWidth+'px '+config.style.borderStyle+' '+config.style.borderColor"
-  [style.alignItems]="config.style.verticalAlign"
-  [style.justifyContent]="config.style.horizantalAlign"
-  [style.borderRadius]="config.style.borderRadius+'px'"
-  >
+  [style.borderRadius]="config.style.borderRadius+'px'" [ngClass]="{'preview-mode': !isEditable}">
   <div class="jz-widget-controls">
     <div class="jz-widget-control move-control">
       <svg class="jz-widget-control-icon">
@@ -23,7 +19,8 @@
       </svg>
     </div>
   </div>
-  <div class="gridster-item-content">
+  <div class="gridster-item-content" [style.alignItems]="config.style.verticalAlign"
+    [style.justifyContent]="config.style.horizantalAlign">
     <ng-container #containerRef></ng-container>
   </div>
 </div>

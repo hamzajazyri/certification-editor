@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IEditor, IWidget } from '../../editor.model';
 import { EditorService } from '../../services/editor.service';
@@ -16,16 +16,20 @@ import { ComponentMap } from '../../widgets/widget.model';
   styleUrls: ['./editor-preview.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class EditorPreviewComponent {
+export class EditorPreviewComponent implements OnInit {
 
   templateEditorConfig$!: Observable<IEditor>;
   gridsterConf = gridsterOptions;
 
   @Output() onEventTrigger = new EventEmitter<{ eventName: string; eventValue: any; }>();
 
+  @Input('editable') isEditable = true;
+  @Input() templateConfig!: IEditor;
+
   constructor(
     private editorSrv: EditorService
   ) {
+
     this.templateEditorConfig$ = this.editorSrv.templateConfig$;
     this.gridsterConf.emptyCellDropCallback = this.emptyCellDropCallback.bind(this);
 
@@ -40,6 +44,16 @@ export class EditorPreviewComponent {
         maxRows: res.rowsSize
       };
     });
+  }
+
+  ngOnInit(): void {
+
+    if(!this.isEditable) {
+      console.log(this.isEditable)
+      this.gridsterConf.displayGrid = 'none';
+      this.gridsterConf.draggable!.enabled = false;
+      this.gridsterConf.resizable!.enabled = false;
+    }
   }
 
   emptyCellDropCallback(event: DragEvent, item: GridsterItem): void {

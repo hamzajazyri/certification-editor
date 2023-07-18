@@ -14,7 +14,11 @@
     top:0px;
     width:100px;
     height: 140px;
-
+  }
+  &.preview-mode {
+    .jz-widget-controls {
+      display: none !important;
+    }
   }
 
   .jz-widget-controls {
@@ -62,4 +66,11 @@
   max-height: 100%;
   max-width: 100%;
   overflow: hidden;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // background:red !important;
+  // >* {
+  //   background:green !important;
+  // }
 }

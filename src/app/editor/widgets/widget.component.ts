@@ -14,6 +14,7 @@ import { ComponentMap, WidgetContentComponentInterface } from './widget.model';
 export class WidgetComponent implements AfterViewInit {
 
   @Input('config') config!: IWidget;
+  @Input('editable') isEditable = true;
 
   @Output() onEventTrigger = new EventEmitter<{ eventName: string; eventValue: any; }>();
   @Output() onDelete = new EventEmitter<void>();
@@ -22,7 +23,9 @@ export class WidgetComponent implements AfterViewInit {
   @ViewChild('containerRef', { read: ViewContainerRef }) containerRef!: ViewContainerRef;
 
   componentRef!: ComponentRef<WidgetContentComponentInterface>;
-  // create the default style of widget parent
+
+
+
   constructor(
     private renderer: Renderer2,
     private cdr: ChangeDetectorRef
@@ -51,7 +54,7 @@ export class WidgetComponent implements AfterViewInit {
     this.componentRef = this.containerRef.createComponent<WidgetContentComponentInterface>(ComponentMap[this.config.widgetType]);
     this.componentRef.instance.schema = this.config.schema;
     this.componentRef.instance.datasource = this.config.datasource;
-
+    this.componentRef.instance.isEditMode = this.isEditable;
     this.componentRef.instance.onEventTrigger.subscribe(res => {
       this.onEventTrigger.emit(res);
     });
