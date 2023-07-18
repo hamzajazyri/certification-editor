@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormGroupStyleComponent, IFormGroupStyle } from '../../shared/form-group-style/form-group-style.component';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,11 +13,9 @@ import { take } from 'rxjs';
   templateUrl: './widget-style-tab.component.html',
   styleUrls: ['./widget-style-tab.component.scss']
 })
-export class WidgetStyleTabComponent implements OnInit {
-
+export class WidgetStyleTabComponent implements OnInit, OnChanges {
 
   @Input() widget!: IWidget;
-
 
   formStyleGroups: Array<IFormGroupStyle> = [];
 
@@ -33,8 +31,14 @@ export class WidgetStyleTabComponent implements OnInit {
     private editorSrv: EditorService,
   ) { }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(Object.keys(changes).includes('widget')) {
+      this.formStyleGroups = getFormStyleGroupsConfig(changes['widget'].currentValue as IWidget);
+    }
+  }
+
   ngOnInit(): void {
-    this.formStyleGroups = getFormStyleGroupsConfig(this.widget)
+    this.formStyleGroups = getFormStyleGroupsConfig(this.widget);
   }
 
   onControlValueChange(changes: { value: any, keyName: string }) {
@@ -52,6 +56,7 @@ export class WidgetStyleTabComponent implements OnInit {
   removeSchemaVariable(index: number) {
     this.formGroups.removeAt(index);
   }
+
 }
 
 

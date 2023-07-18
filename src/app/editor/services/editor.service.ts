@@ -14,6 +14,7 @@ export class EditorService {
   constructor() { }
 
   saveTemplate() { }
+
   loadTemplate() { }
 
   updateTemplateValue(value: any, keyName: string) {
@@ -25,12 +26,8 @@ export class EditorService {
 
   updateWidget(value: any, keyName: string, widget: IWidget) {
     let copy = { ...this.templateConfig$.getValue() };
-
     let findIndex = copy.widgets.findIndex(w => w === widget);
-    console.log(findIndex);
     const newWidget = EditorService.updateObjectValueByKeyName(value, keyName, copy.widgets[findIndex]);
-    console.log("newWidget")
-    console.log(newWidget)
     this.emitNewValue(copy);
     return copy.widgets[findIndex];
   }
@@ -81,7 +78,6 @@ export class EditorService {
       },
       widgetType: component
     });
-
     this.templateConfig$.next(nextTempalteConfigValue);
   }
 
@@ -92,10 +88,10 @@ export class EditorService {
     this.emitNewValue(copy);
   }
 
-
   log() {
     console.log(this.templateConfig$.getValue())
   }
+
 }
 
 
