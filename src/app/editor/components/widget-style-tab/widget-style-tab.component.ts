@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroupStyleComponent, IFormGroupStyle } from '../../shared/form-group-style/form-group-style.component';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IWidget } from '../../editor.model';
 import { EditorService } from '../../services/editor.service';
@@ -38,13 +38,7 @@ export class WidgetStyleTabComponent implements OnInit {
   }
 
   onControlValueChange(changes: { value: any, keyName: string }) {
-    console.log("this.widget");
-    console.log(this.widget);
     this.editorSrv.updateWidget(changes.value, changes.keyName, this.widget);
-    // EditorService.updateObjectValueByKeyName(changes.value, changes.keyName, this.widget);
-
-    // this.editorSrv.emitNewValue();
-    this.editorSrv.log();
   }
 
   addSchemaVariable() {

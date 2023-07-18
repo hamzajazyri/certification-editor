@@ -13,10 +13,10 @@ export class EditorService {
 
   constructor() { }
 
-  saveTemplate(){}
-  loadTemplate(){}
+  saveTemplate() { }
+  loadTemplate() { }
 
-  updateTemplateValue(value: any, keyName: string){
+  updateTemplateValue(value: any, keyName: string) {
     const obj = this.templateConfig$.getValue();
     this.templateConfig$.next(
       EditorService.updateObjectValueByKeyName(value, keyName, obj)
@@ -24,53 +24,70 @@ export class EditorService {
   }
 
   updateWidget(value: any, keyName: string, widget: IWidget) {
-    let copy = {...this.templateConfig$.getValue()};
+    let copy = { ...this.templateConfig$.getValue() };
 
-    let findIndex = copy.widgets.findIndex( w => w === widget);
+    let findIndex = copy.widgets.findIndex(w => w === widget);
     console.log(findIndex);
     const newWidget = EditorService.updateObjectValueByKeyName(value, keyName, copy.widgets[findIndex]);
     console.log("newWidget")
     console.log(newWidget)
-    // this.templateConfig$.next(copy);
+    this.emitNewValue(copy);
     return copy.widgets[findIndex];
   }
 
-  emitNewValue(newValue: IEditor|null =null) {
-    if(newValue) {
+  emitNewValue(newValue: IEditor | null = null) {
+    if (newValue) {
       this.templateConfig$.next(newValue);
       return;
     }
-    let newVal = {...this.templateConfig$.getValue()};
-    for(let i=0; i<newVal.widgets.length;i++) {
-      newVal.widgets[i] = {...newVal.widgets[i]};
+    let newVal = { ...this.templateConfig$.getValue() };
+    for (let i = 0; i < newVal.widgets.length; i++) {
+      newVal.widgets[i] = { ...newVal.widgets[i] };
     }
     this.templateConfig$.next(newVal);
   }
 
   static updateObjectValueByKeyName(value: any, keyName: string, obj: any) {
     const deep = keyName.split('.');
-    let templateNewVal = {...obj};
+    let templateNewVal = { ...obj };
     let keyRef: any = templateNewVal;
 
-    for(let depth of deep.slice(0,-1))
+    for (let depth of deep.slice(0, -1))
       keyRef = keyRef[depth as keyof IEditor];
 
-    keyRef[deep[deep.length-1]] =  typeof(keyRef[deep[deep.length-1]]) === 'number' ? parseInt(value) : value;
+    keyRef[deep[deep.length - 1]] = typeof (keyRef[deep[deep.length - 1]]) === 'number' ? parseInt(value) : value;
     return templateNewVal;
   }
 
   // add item to the grid
-  pushWidget(component: keyof typeof ComponentMap, item: GridsterItem){
+  pushWidget(component: keyof typeof ComponentMap, item: GridsterItem) {
     const nextTempalteConfigValue = this.templateConfig$.getValue();
-    nextTempalteConfigValue.widgets.push(
-      {...defaultWidgetConfig, gridConfig: {...item, cols:2, rows:2}, widgetType: component}
-    );
-    this.templateConfig$.next(nextTempalteConfigValue)
+    console.log("-------")
+    console.log({ ...defaultWidgetConfig, gridConfig: { ...item, cols: 2, rows: 2 }, widgetType: component })
+    console.log("----------")
+    nextTempalteConfigValue.widgets.push({
+      datasource: {},
+      gridConfig: { ...item, cols: 2, rows: 2 },
+      schema: [],
+      style: {
+        borderWidth: 0,
+        borderColor: '#ffffff',
+        borderStyle: 'solid',
+        borderRadius: 0,
+        verticalAlign: 'left',
+        horizantalAlign: 'top',
+        padding: 0,
+        backgroundColor: '#ffffff'
+      },
+      widgetType: component
+    });
+
+    this.templateConfig$.next(nextTempalteConfigValue);
   }
 
   removeWidget(widget: IWidget) {
-    let copy = {...this.templateConfig$.getValue()};
-    const findIndex = this.templateConfig$.getValue().widgets.findIndex( w => w === widget);
+    let copy = { ...this.templateConfig$.getValue() };
+    const findIndex = this.templateConfig$.getValue().widgets.findIndex(w => w === widget);
     copy.widgets.splice(findIndex, 1);
     this.emitNewValue(copy);
   }
@@ -100,7 +117,7 @@ export const defaultTemplateConfig: IEditor = {
 
 export const defaultWidgetConfig: any = { // IWidget
   datasource: {},
-  gridConfig: {x:0, y:0, cols:2, rows:2},
+  gridConfig: { x: 0, y: 0, cols: 2, rows: 2 },
   schema: [],
   style: {
     borderWidth: 0,
