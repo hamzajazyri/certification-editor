@@ -53,6 +53,7 @@ export class EditorService {
       keyRef = keyRef[depth as keyof IEditor];
 
     keyRef[deep[deep.length - 1]] = typeof (keyRef[deep[deep.length - 1]]) === 'number' ? parseInt(value) : value;
+    console.log(templateNewVal);
     return templateNewVal;
   }
 
@@ -65,6 +66,7 @@ export class EditorService {
     nextTempalteConfigValue.widgets.push({
       datasource: {},
       gridConfig: { ...item, cols: 2, rows: 2 },
+      variables: {},
       schema: [],
       style: {
         borderWidth: 0,

@@ -5,13 +5,23 @@
     </app-form-group-style>
   </div>
 
+  <div *ngIf="widget.variablesGroups.length">
+    <h3>Widget Custom Variables</h3>
+    <div class="editor-style-tab-item" *ngFor="let form of widget.variablesGroups">
+      <app-form-group-style [groupName]="form.groupName" [controls]="form.controls"
+        (onControlChange)="onControlValueChange($event)">
+      </app-form-group-style>
+    </div>
+  </div>
+
+
   <div class="editor-style-tab-item">
     <div class="jz-form-group-style">
       <div class="form-group-style-header">
         <svg class="group-icon">
           <use xlink:href="assets/editor-assets/icons/border-icon.svg#border-icon" />
         </svg>
-        <h3>Variables</h3>
+        <h3>Schema Variables</h3>
       </div>
       <div class="form-group-style-body" [formGroup]="schemaFrom">
         <div class="form-group-item" formArrayName="groups">

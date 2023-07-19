@@ -1,37 +1,10 @@
-<table class="jz-widget-table">
+<table class="jz-widget-table" *ngIf="headers.length">
   <thead>
-    <th>head1</th>
-    <th>head1</th>
-    <th>head1</th>
-    <th>head1</th>
+    <th *ngFor="let header of headers">{{header}}</th>
   </thead>
   <tbody>
-    <tr>
-      <td>val1</td>
-      <td>val1</td>
-      <td>val1</td>
-      <td>val1</td>
-    </tr>
-
-    <tr>
-      <td>val1</td>
-      <td>val1</td>
-      <td>val1</td>
-      <td>val1</td>
-    </tr>
-
-    <tr>
-      <td>val1</td>
-      <td>val1</td>
-      <td>val1</td>
-      <td>val1</td>
-    </tr>
-
-    <tr>
-      <td>val1</td>
-      <td>val1</td>
-      <td>val1</td>
-      <td>val1</td>
+    <tr *ngFor="let count of [0,1,2,3]">
+      <td *ngFor="let header of headers">{{header}} n<sup>{{count}}</sup></td>
     </tr>
   </tbody>
 </table>

@@ -24,37 +24,22 @@ export class WidgetComponent implements AfterViewInit {
 
   componentRef!: ComponentRef<WidgetContentComponentInterface>;
 
-
-
   constructor(
     private renderer: Renderer2,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngAfterViewInit(): void {
-    // this.updateWidgetStyle();
     this.updateContent();
   }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   console.log("changes");
-  //   // console.log(changes);
-  // }
-
-  // updateWidgetStyle() {
-  //   for (let key of Object.keys(this.config.style)) {
-  //     console.log(key + '|' + this.config.style[key as keyof IWidgetStyle]);
-  //     this.renderer.setStyle(this.widgetRef.nativeElement, key, this.config.style[key as keyof IWidgetStyle]);
-  //   }
-  // }
-
   updateContent() {
     this.containerRef.clear();
-
     this.componentRef = this.containerRef.createComponent<WidgetContentComponentInterface>(ComponentMap[this.config.widgetType]);
     this.componentRef.instance.schema = this.config.schema;
     this.componentRef.instance.datasource = this.config.datasource;
     this.componentRef.instance.isEditMode = this.isEditable;
+    this.componentRef.instance.variables = this.config.variables;
     this.componentRef.instance.onEventTrigger.subscribe(res => {
       this.onEventTrigger.emit(res);
     });
@@ -63,7 +48,13 @@ export class WidgetComponent implements AfterViewInit {
   }
 
   widgetEditHandler() {
-    this.onEventTrigger.emit({ eventName: 'WIDGET_EDIT_ON', eventValue: this.config })
+    this.onEventTrigger.emit({
+      eventName: 'WIDGET_EDIT_ON',
+      eventValue: {
+        widget: this.config,
+        variablesGroups: this.componentRef.instance.variablesGroups
+      }
+    });
   }
 
 }

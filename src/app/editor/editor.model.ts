@@ -27,6 +27,7 @@ export interface IWidget {
   style: IWidgetStyle;
   schema: Array<IWidgetSchema>;
   datasource: any;
+  variables?: any;
 }
 
 export interface IWidgetStyle extends IGridStyle {

@@ -8,6 +8,7 @@ import { IEditor, IWidget } from '../editor.model';
 import { WidgetStyleTabComponent } from '../components/widget-style-tab/widget-style-tab.component';
 import { EditorService } from '../services/editor.service';
 import { jsPDF } from 'jspdf';
+import { IFormGroupStyle } from '../shared/form-group-style/form-group-style.component';
 
 export enum EDITOR_TAB {
   STYLES,
@@ -38,7 +39,7 @@ export class EditorPageComponent {
   /**
    * Holds the reference to the currently selected widget for editing.
    */
-  currentWidget: IWidget | null = null;
+  currentWidget: {widget: IWidget, variablesGroups: Array<IFormGroupStyle>} | null = null;
 
   currentEditor: Editor | null = null;
 
@@ -62,7 +63,7 @@ export class EditorPageComponent {
         }, 0);
         break;
       case 'WIDGET_DELTED':
-        if (this.currentWidget === event.eventValue) {
+        if (this.currentWidget?.widget === event.eventValue) {
           this.currentTab = EDITOR_TAB.ELEMENTS;
           this.currentWidget = null;
         }

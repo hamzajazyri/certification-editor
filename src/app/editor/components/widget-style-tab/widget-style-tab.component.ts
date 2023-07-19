@@ -15,7 +15,10 @@ import { take } from 'rxjs';
 })
 export class WidgetStyleTabComponent implements OnInit, OnChanges {
 
-  @Input() widget!: IWidget;
+  @Input() widget!: {
+    widget: IWidget,
+    variablesGroups: Array<IFormGroupStyle>
+  };
 
   formStyleGroups: Array<IFormGroupStyle> = [];
 
@@ -33,16 +36,16 @@ export class WidgetStyleTabComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if(Object.keys(changes).includes('widget')) {
-      this.formStyleGroups = getFormStyleGroupsConfig(changes['widget'].currentValue as IWidget);
+      this.formStyleGroups = getFormStyleGroupsConfig(changes['widget'].currentValue.widget as IWidget);
     }
   }
 
   ngOnInit(): void {
-    this.formStyleGroups = getFormStyleGroupsConfig(this.widget);
+    this.formStyleGroups = getFormStyleGroupsConfig(this.widget.widget);
   }
 
   onControlValueChange(changes: { value: any, keyName: string }) {
-    this.editorSrv.updateWidget(changes.value, changes.keyName, this.widget);
+    this.editorSrv.updateWidget(changes.value, changes.keyName, this.widget.widget);
   }
 
   addSchemaVariable() {
