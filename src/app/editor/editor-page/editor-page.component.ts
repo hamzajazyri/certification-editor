@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DraggableElementsTabComponent } from '../components/draggable-elements-tab/draggable-elements-tab.component';
 import { EditorStyleTabComponent } from '../components/editor-style-tab/editor-style-tab.component';
@@ -7,8 +7,8 @@ import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { IEditor, IWidget } from '../editor.model';
 import { WidgetStyleTabComponent } from '../components/widget-style-tab/widget-style-tab.component';
 import { EditorService } from '../services/editor.service';
-import { jsPDF } from 'jspdf';
 import { IFormGroupStyle } from '../shared/form-group-style/form-group-style.component';
+import { jsPDF } from 'jspdf';
 
 export enum EDITOR_TAB {
   STYLES,
@@ -99,7 +99,7 @@ export const toolbarEditorDefaultConfig: Toolbar = [
   ],
   template: `
     <div class="jz-editor-prev">
-      <div class="editor-preview-container" #editorPreviewRef>
+      <div class="editor-preview-container" #editorPreviewRef id="print-content">
         <app-editor-preview [editable]="false" ></app-editor-preview>
       </div>
       <button (click)="print()">Download PDF </button>
@@ -121,11 +121,12 @@ export const toolbarEditorDefaultConfig: Toolbar = [
     `.editor-preview {
       border:3px solid red;
     }`
-  ]
+  ],
+  encapsulation: ViewEncapsulation.None
 })
 export class EditorPreviewPageComponent {
 
-  @ViewChild('editorPreviewRef', { static: true, read: ElementRef }) editorPreviewRef!: ElementRef<HTMLDivElement>;
+  @ViewChild('editorPreviewRef', { static: false}) editorPreviewRef!: ElementRef<HTMLDivElement>;
 
   constructor(
     private editorSrv: EditorService
@@ -134,21 +135,16 @@ export class EditorPreviewPageComponent {
   }
 
   print() {
-    // add pdf properties,
-
-    // Create a new jsPDF instance
     const pdf = new jsPDF();
-
-    // Generate PDF from the HTML element
-    pdf.html(this.editorPreviewRef.nativeElement, {
+    pdf.html(document.querySelector('#print-content') as HTMLElement, {
       callback: (doc) => {
         doc.save('filename.pdf');
       },
       width: this.editorPreviewRef.nativeElement.clientWidth,
-      autoPaging: true,
-
+      autoPaging: false,
     });
   }
+
 }
 
 
@@ -156,79 +152,40 @@ export class EditorPreviewPageComponent {
 
 export const templateExample = {
   "grid": {
-    "columnsSize": 12,
-    "rowsSize": 24,
-    "width": 854,
-    "height": 1054,
-    "style": {
-      "backgroundColor": "#ffffff",
-      "padding": 0
-    }
+      "columnsSize": 12,
+      "rowsSize": 24,
+      "width": 854,
+      "height": 1054,
+      "style": {
+          "backgroundColor": "#ffffff",
+          "padding": 0
+      }
   },
   "widgets": [
-    {
-      "datasource": {},
-      "gridConfig": {
-        "x": 5,
-        "y": 2,
-        "cols": 2,
-        "rows": 2
-      },
-      "schema": [],
-      "style": {
-        "borderWidth": 0,
-        "borderColor": "#ffffff",
-        "borderStyle": "solid",
-        "borderRadius": 0,
-        "verticalAlign": "left",
-        "horizantalAlign": "top",
-        "padding": 0,
-        "backgroundColor": "#ffffff"
-      },
-      "widgetType": "TextEditor"
-    },
-    {
-      "datasource": {},
-      "gridConfig": {
-        "x": 4,
-        "y": 6,
-        "cols": 2,
-        "rows": 2
-      },
-      "schema": [],
-      "style": {
-        "borderWidth": 0,
-        "borderColor": "#ffffff",
-        "borderStyle": "solid",
-        "borderRadius": 0,
-        "verticalAlign": "left",
-        "horizantalAlign": "top",
-        "padding": 0,
-        "backgroundColor": "#ffffff"
-      },
-      "widgetType": "ImageComp"
-    },
-    {
-      "datasource": {},
-      "gridConfig": {
-        "x": 9,
-        "y": 11,
-        "cols": 3,
-        "rows": 3
-      },
-      "schema": [],
-      "style": {
-        "borderWidth": 0,
-        "borderColor": "#ffffff",
-        "borderStyle": "solid",
-        "borderRadius": 0,
-        "verticalAlign": "left",
-        "horizantalAlign": "top",
-        "padding": 0,
-        "backgroundColor": "#ffffff"
-      },
-      "widgetType": "DynamicTable"
-    }
+      {
+          "datasource": {},
+          "gridConfig": {
+              "x": 3,
+              "y": 3,
+              "cols": 6,
+              "rows": 5
+          },
+          "variables": {
+              "headers": "head1, head2, head3, head4"
+          },
+          "schema": [],
+          "style": {
+              "borderWidth": 0,
+              "borderColor": "#ffffff",
+              "borderStyle": "solid",
+              "borderRadius": 0,
+              "verticalAlign": "left",
+              "horizantalAlign": "top",
+              "padding": 0,
+              "backgroundColor": "#ffffff"
+          },
+          "widgetType": "DynamicTable"
+      }
   ],
   "datasource": {}
 }

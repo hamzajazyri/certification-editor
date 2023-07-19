@@ -2,7 +2,7 @@
   [style.padding]="config.style.padding+'px'"
   [style.border]="config.style.borderWidth+'px '+config.style.borderStyle+' '+config.style.borderColor"
   [style.borderRadius]="config.style.borderRadius+'px'" [ngClass]="{'preview-mode': !isEditable}">
-  <div class="jz-widget-controls">
+  <div class="jz-widget-controls" *ngIf="isEditable">
     <div class="jz-widget-control move-control">
       <svg class="jz-widget-control-icon">
         <use xlink:href="assets/editor-assets/icons/move-icon.svg#move-icon" />

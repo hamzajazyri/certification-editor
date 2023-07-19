@@ -1,22 +1,26 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Editor, NgxEditorModule } from 'ngx-editor';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { IWidgetSchema } from '../../editor.model';
 import { WidgetContentComponentInterface } from '../widget.model';
 import { IFormGroupStyle } from '../../shared/form-group-style/form-group-style.component';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-text-editor-widget',
   standalone: true,
   imports: [CommonModule, NgxEditorModule, ReactiveFormsModule],
   templateUrl: './text-editor-widget.component.html',
-  styleUrls: ['./text-editor-widget.component.scss']
+  styleUrls: ['./text-editor-widget.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TextEditorWidgetComponent implements WidgetContentComponentInterface, OnInit {
 
   @Input('editable') isEditMode: boolean = false;
-  @Input() variables : any;
+  @Input() variables : any = {
+    editorContent: ''
+  };
 
   @Output() onEventTrigger = new EventEmitter<{ eventName: string; eventValue: any; }>();
 
@@ -35,6 +39,10 @@ export class TextEditorWidgetComponent implements WidgetContentComponentInterfac
       this.editorContent.patchValue(this.variables['editorContent']);
     if(!this.isEditMode)
       this.editorContent.disable();
+
+    this.editorContent.valueChanges.pipe(
+      debounceTime(100)
+    ).subscribe( content => this.variables.editorContent = content);
   }
 
   focusInEventHandler() {

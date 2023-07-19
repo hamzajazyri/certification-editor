@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WidgetContentComponentInterface } from '../widget.model';
 import { IWidgetSchema } from '../../editor.model';
@@ -9,7 +9,8 @@ import { IFormGroupStyle } from '../../shared/form-group-style/form-group-style.
   standalone: true,
   imports: [CommonModule],
   templateUrl: './dynamic-table-widget.component.html',
-  styleUrls: ['./dynamic-table-widget.component.scss']
+  styleUrls: ['./dynamic-table-widget.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DynamicTableWidgetComponent implements WidgetContentComponentInterface {
 
