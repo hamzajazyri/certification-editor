@@ -4,7 +4,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 import { CommonModule } from '@angular/common';
 import { IWidget } from '../../editor.model';
 import { EditorService } from '../../services/editor.service';
-import { take } from 'rxjs';
+import { debounceTime, take } from 'rxjs';
 
 @Component({
   selector: 'app-widget-style-tab',
@@ -42,10 +42,20 @@ export class WidgetStyleTabComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.formStyleGroups = getFormStyleGroupsConfig(this.widget.widget);
+    this.schemaFrom.valueChanges.pipe(
+      debounceTime(100)
+    ).subscribe( res => {
+      this.onSchemaFormChange();
+    })
   }
 
   onControlValueChange(changes: { value: any, keyName: string }) {
     this.editorSrv.updateWidget(changes.value, changes.keyName, this.widget.widget);
+  }
+
+  onSchemaFormChange() {
+    console.log(this.formGroups.value)
+    this.editorSrv.updateWidgetSchema(this.formGroups.value, this.widget.widget);
   }
 
   addSchemaVariable() {

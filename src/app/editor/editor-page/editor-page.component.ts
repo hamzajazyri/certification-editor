@@ -163,7 +163,15 @@ export class EditorPreviewPageComponent {
           key4: 'val 444',
           key5: 'val 555',
         }
-      ]
+      ],
+      user: {
+        id:4,
+        uuid: 'uuid',
+        info: {
+          name: 'name',
+          age: 29
+        }
+      }
     }
   }
 
@@ -189,7 +197,7 @@ export const templateExample = {
       "width": 854,
       "height": 1054,
       "style": {
-          "backgroundColor": "#f57f7f",
+          "backgroundColor": "#ffffff",
           "padding": 0
       }
   },
@@ -197,16 +205,53 @@ export const templateExample = {
       {
           "datasource": {},
           "gridConfig": {
-              "x": 2,
-              "y": 7,
-              "cols": 8,
-              "rows": 6
+              "x": 1,
+              "y": 1,
+              "cols": 4,
+              "rows": 5
           },
           "variables": {
-              "headers": "keyN1, keyN2, keyN3, keyN4, keyN5",
-              "keys": "key1.val, key2, key3, key4, key5",
-              "entryPoint": "obj.entrypoint"
+              "editorContent": "<p>user id #{id}</p><p>user uuid #{uuid}</p><p>user info name #{name}</p><p>user info age #{age}</p><p></p>"
           },
+          "schema": [
+              {
+                  "textMatch": "id",
+                  "mapTo": "obj.user.id"
+              },
+              {
+                  "textMatch": "uuid",
+                  "mapTo": "obj.user.uuid"
+              },
+              {
+                  "textMatch": "name",
+                  "mapTo": "obj.user.info.name"
+              },
+              {
+                  "textMatch": "age",
+                  "mapTo": "obj.user.info.age"
+              }
+          ],
+          "style": {
+              "borderWidth": 0,
+              "borderColor": "#ffffff",
+              "borderStyle": "solid",
+              "borderRadius": 0,
+              "verticalAlign": "left",
+              "horizantalAlign": "top",
+              "padding": 0,
+              "backgroundColor": "#ffffff"
+          },
+          "widgetType": "TextEditor"
+      },
+      {
+          "datasource": {},
+          "gridConfig": {
+              "x": 5,
+              "y": 1,
+              "cols": 4,
+              "rows": 7
+          },
+          "variables": {},
           "schema": [],
           "style": {
               "borderWidth": 0,
@@ -215,21 +260,23 @@ export const templateExample = {
               "borderRadius": 0,
               "verticalAlign": "left",
               "horizantalAlign": "top",
-              "padding": 10,
+              "padding": 0,
               "backgroundColor": "#ffffff"
           },
-          "widgetType": "DynamicTable"
+          "widgetType": "ImageComp"
       },
       {
           "datasource": {},
           "gridConfig": {
-              "x": 1,
-              "y": 1,
-              "cols": 6,
-              "rows": 3
+              "x": 2,
+              "y": 9,
+              "cols": 8,
+              "rows": 7
           },
           "variables": {
-              "editorContent": "<p>test #{fullname} another #{name}</p>"
+              "headers": "head1, head2, head3, head4, head5",
+              "keys": "key1.val, key2, key3, key4, key5",
+              "entryPoint": "obj.entrypoint"
           },
           "schema": [],
           "style": {
@@ -242,7 +289,7 @@ export const templateExample = {
               "padding": 0,
               "backgroundColor": "#ffffff"
           },
-          "widgetType": "TextEditor"
+          "widgetType": "DynamicTable"
       }
   ],
   "datasource": {}

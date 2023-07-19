@@ -6,6 +6,7 @@ import { IWidgetSchema } from '../../editor.model';
 import { WidgetContentComponentInterface } from '../widget.model';
 import { IFormGroupStyle } from '../../shared/form-group-style/form-group-style.component';
 import { debounceTime } from 'rxjs';
+import { EditorService } from '../../services/editor.service';
 
 @Component({
   selector: 'app-text-editor-widget',
@@ -37,8 +38,10 @@ export class TextEditorWidgetComponent implements WidgetContentComponentInterfac
     this.editor = new Editor({ inputRules: true });
     if(Object.keys(this.variables).includes('editorContent'))
       this.editorContent.patchValue(this.variables['editorContent']);
-    if(!this.isEditMode)
+    if(!this.isEditMode){
       this.editorContent.disable();
+      this.editorContent.patchValue(this.replaceTextMatch(this.schema, this.variables['editorContent']));
+    }
 
     this.editorContent.valueChanges.pipe(
       debounceTime(100)
@@ -47,5 +50,12 @@ export class TextEditorWidgetComponent implements WidgetContentComponentInterfac
 
   focusInEventHandler() {
     this.onEventTrigger.emit({eventName: 'EDITOR_FOCUS_IN', eventValue: this.editor});
+  }
+
+  replaceTextMatch(schema: Array<IWidgetSchema>, editorContent: string): string{
+    for( let schem of schema) {
+      editorContent = editorContent.replaceAll(`#{${schem.textMatch}}`, EditorService.getObjectValueByKeyName(schem.mapTo, this.datasource));
+    }
+    return editorContent;
   }
 }

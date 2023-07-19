@@ -51,10 +51,11 @@ export class EditorPreviewComponent implements OnInit {
   ngOnInit(): void {
 
     if(!this.isEditable) {
-      console.log(this.isEditable)
       this.gridsterConf.displayGrid = 'none';
       this.gridsterConf.draggable!.enabled = false;
       this.gridsterConf.resizable!.enabled = false;
+      console.log(this.datasource);
+      this.templateEditorConfig$.subscribe( res => console.log(res));
     }
   }
 

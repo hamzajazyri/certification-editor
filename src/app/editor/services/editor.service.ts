@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IEditor, IWidget } from '../editor.model';
+import { IEditor, IWidget, IWidgetSchema } from '../editor.model';
 import { BehaviorSubject } from 'rxjs';
 import { GridsterItem } from 'angular-gridster2';
 import { ComponentMap } from '../widgets/widget.model';
@@ -28,6 +28,14 @@ export class EditorService {
     let copy = { ...this.templateConfig$.getValue() };
     let findIndex = copy.widgets.findIndex(w => w === widget);
     const newWidget = EditorService.updateObjectValueByKeyName(value, keyName, copy.widgets[findIndex]);
+    this.emitNewValue(copy);
+    return copy.widgets[findIndex];
+  }
+
+  updateWidgetSchema(schema: Array<IWidgetSchema>, widget: IWidget){
+    let copy = { ...this.templateConfig$.getValue() };
+    let findIndex = copy.widgets.findIndex(w => w === widget);
+    copy.widgets[findIndex].schema = schema;
     this.emitNewValue(copy);
     return copy.widgets[findIndex];
   }
