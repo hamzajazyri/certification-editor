@@ -2,9 +2,14 @@
   <thead>
     <th *ngFor="let header of headers">{{header}}</th>
   </thead>
-  <tbody>
+  <tbody *ngIf="isEditMode">
     <tr *ngFor="let count of [0,1,2,3]">
       <td *ngFor="let header of headers">{{header}} n<sup>{{count}}</sup></td>
+    </tr>
+  </tbody>
+  <tbody *ngIf="!isEditMode">
+    <tr *ngFor="let item of list">
+      <td *ngFor="let key of keys">{{getValueByKeyName(key, item)}}</td>
     </tr>
   </tbody>
 </table>

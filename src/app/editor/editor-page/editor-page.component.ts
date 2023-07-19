@@ -101,7 +101,7 @@ export const toolbarEditorDefaultConfig: Toolbar = [
   template: `
     <div class="jz-editor-prev">
       <div class="editor-preview-container" #editorPreviewRef>
-        <app-editor-preview [editable]="false" ></app-editor-preview>
+        <app-editor-preview [editable]="false" [datasource]="data"></app-editor-preview>
       </div>
       <button (click)="print()">Download PDF </button>
     </div>
@@ -135,13 +135,45 @@ export class EditorPreviewPageComponent {
     this.editorSrv.emitNewValue(templateExample as IEditor);
   }
 
+  data = {
+    obj: {
+      entrypoint: [
+        {
+          key1: {
+            val: 'val 1'
+          },
+          key2: 'val 2',
+          key3: 'val 3',
+          key4: 'val 4',
+          key5: 'val 5',
+        },{
+          key1: {
+            val: 'val 11'
+          },
+          key2: 'val 22',
+          key3: 'val 33',
+          key4: 'val 44',
+          key5: 'val 55',
+        },{
+          key1: {
+            val: 'val 111'
+          },
+          key2: 'val 222',
+          key3: 'val 333',
+          key4: 'val 444',
+          key5: 'val 555',
+        }
+      ]
+    }
+  }
+
   print() {
     const nativeElement = this.editorPreviewRef.nativeElement;
     html2canvas(nativeElement).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
       pdf.addImage(imgData, 0, 0, 0, 0);
-      pdf.save('element.pdf');
+      pdf.save('certification-name.pdf');
     });
   }
 
@@ -157,7 +189,7 @@ export const templateExample = {
       "width": 854,
       "height": 1054,
       "style": {
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#f57f7f",
           "padding": 0
       }
   },
@@ -165,59 +197,15 @@ export const templateExample = {
       {
           "datasource": {},
           "gridConfig": {
-              "x": 1,
-              "y": 1,
-              "cols": 2,
-              "rows": 2
-          },
-          "variables": {
-              "editorContent": "<h1 style=\"text-align:center\"><em><strong><u>text editor content</u></strong></em></h1>"
-          },
-          "schema": [],
-          "style": {
-              "borderWidth": 0,
-              "borderColor": "#ffffff",
-              "borderStyle": "solid",
-              "borderRadius": 0,
-              "verticalAlign": "left",
-              "horizantalAlign": "top",
-              "padding": 0,
-              "backgroundColor": "#c32c2c"
-          },
-          "widgetType": "TextEditor"
-      },
-      {
-          "datasource": {},
-          "gridConfig": {
-              "x": 1,
-              "y": 4,
-              "cols": 2,
-              "rows": 2
-          },
-          "variables": {},
-          "schema": [],
-          "style": {
-              "borderWidth": 5,
-              "borderColor": "#d41616",
-              "borderStyle": "solid",
-              "borderRadius": 10,
-              "verticalAlign": "left",
-              "horizantalAlign": "top",
-              "padding": 5,
-              "backgroundColor": "#ffffff"
-          },
-          "widgetType": "ImageComp"
-      },
-      {
-          "datasource": {},
-          "gridConfig": {
-              "x": 1,
+              "x": 2,
               "y": 7,
-              "cols": 2,
-              "rows": 5
+              "cols": 8,
+              "rows": 6
           },
           "variables": {
-              "headers": "t,b,c"
+              "headers": "keyN1, keyN2, keyN3, keyN4, keyN5",
+              "keys": "key1.val, key2, key3, key4, key5",
+              "entryPoint": "obj.entrypoint"
           },
           "schema": [],
           "style": {
@@ -227,7 +215,7 @@ export const templateExample = {
               "borderRadius": 0,
               "verticalAlign": "left",
               "horizantalAlign": "top",
-              "padding": 0,
+              "padding": 10,
               "backgroundColor": "#ffffff"
           },
           "widgetType": "DynamicTable"
@@ -235,58 +223,14 @@ export const templateExample = {
       {
           "datasource": {},
           "gridConfig": {
-              "x": 4,
-              "y": 3,
-              "cols": 6,
-              "rows": 8
-          },
-          "variables": {},
-          "schema": [],
-          "style": {
-              "borderWidth": 0,
-              "borderColor": "#ffffff",
-              "borderStyle": "solid",
-              "borderRadius": 0,
-              "verticalAlign": "left",
-              "horizantalAlign": "top",
-              "padding": 0,
-              "backgroundColor": "#ffffff"
-          },
-          "widgetType": "ImageComp"
-      },
-      {
-          "datasource": {},
-          "gridConfig": {
-              "x": 4,
+              "x": 1,
               "y": 1,
               "cols": 6,
-              "rows": 2
+              "rows": 3
           },
           "variables": {
-              "editorContent": "<p>testest rtset test set set set set se t</p>"
+              "editorContent": "<p>test #{fullname} another #{name}</p>"
           },
-          "schema": [],
-          "style": {
-              "borderWidth": 0,
-              "borderColor": "#ffffff",
-              "borderStyle": "solid",
-              "borderRadius": 0,
-              "verticalAlign": "left",
-              "horizantalAlign": "top",
-              "padding": 0,
-              "backgroundColor": "#9d8aff"
-          },
-          "widgetType": "TextEditor"
-      },
-      {
-          "datasource": {},
-          "gridConfig": {
-              "x": 1,
-              "y": 13,
-              "cols": 10,
-              "rows": 10
-          },
-          "variables": {},
           "schema": [],
           "style": {
               "borderWidth": 0,
@@ -298,7 +242,7 @@ export const templateExample = {
               "padding": 0,
               "backgroundColor": "#ffffff"
           },
-          "widgetType": "ImageComp"
+          "widgetType": "TextEditor"
       }
   ],
   "datasource": {}

@@ -24,7 +24,9 @@ export class EditorPreviewComponent implements OnInit {
   @Output() onEventTrigger = new EventEmitter<{ eventName: string; eventValue: any; }>();
 
   @Input('editable') isEditable = true;
+  @Input('datasource') datasource: any;
   @Input() templateConfig!: IEditor;
+
 
   constructor(
     private editorSrv: EditorService

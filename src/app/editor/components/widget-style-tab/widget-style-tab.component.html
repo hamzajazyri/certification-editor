@@ -6,7 +6,6 @@
   </div>
 
   <div *ngIf="widget.variablesGroups.length">
-    <h3>Widget Custom Variables</h3>
     <div class="editor-style-tab-item" *ngFor="let form of widget.variablesGroups">
       <app-form-group-style [groupName]="form.groupName" [controls]="form.controls"
         (onControlChange)="onControlValueChange($event)">
@@ -44,6 +43,6 @@
         </div>
       </div>
     </div>
-
   </div>
+
 </div>

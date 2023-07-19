@@ -15,6 +15,7 @@ export class WidgetComponent implements AfterViewInit {
 
   @Input('config') config!: IWidget;
   @Input('editable') isEditable = true;
+  @Input('datasource') datasource: any;
 
   @Output() onEventTrigger = new EventEmitter<{ eventName: string; eventValue: any; }>();
   @Output() onDelete = new EventEmitter<void>();
@@ -37,7 +38,7 @@ export class WidgetComponent implements AfterViewInit {
     this.containerRef.clear();
     this.componentRef = this.containerRef.createComponent<WidgetContentComponentInterface>(ComponentMap[this.config.widgetType]);
     this.componentRef.instance.schema = this.config.schema;
-    this.componentRef.instance.datasource = this.config.datasource;
+    this.componentRef.instance.datasource = this.datasource;
     this.componentRef.instance.isEditMode = this.isEditable;
     this.componentRef.instance.variables = this.config.variables;
     this.componentRef.instance.onEventTrigger.subscribe(res => {

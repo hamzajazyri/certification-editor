@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WidgetContentComponentInterface } from '../widget.model';
 import { IWidgetSchema } from '../../editor.model';
 import { IFormGroupStyle } from '../../shared/form-group-style/form-group-style.component';
+import { EditorService } from '../../services/editor.service';
 
 @Component({
   selector: 'app-dynamic-table-widget',
@@ -12,7 +13,7 @@ import { IFormGroupStyle } from '../../shared/form-group-style/form-group-style.
   styleUrls: ['./dynamic-table-widget.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DynamicTableWidgetComponent implements WidgetContentComponentInterface {
+export class DynamicTableWidgetComponent implements WidgetContentComponentInterface, OnInit {
 
   @Input('editable') isEditMode: boolean = false;
   @Input('variables') variables: any = {
@@ -55,6 +56,12 @@ export class DynamicTableWidgetComponent implements WidgetContentComponentInterf
   schema: IWidgetSchema[] = [];
   datasource: any;
 
+  list: Array<any> = [];
+
+  ngOnInit(): void {
+    if(!this.isEditMode)
+    this.list = EditorService.getObjectValueByKeyName(this.variables.entryPoint, this.datasource);
+  }
 
   get headers(){
     if(!this.variables?.headers || !this.variables?.headers.length) {
@@ -65,5 +72,14 @@ export class DynamicTableWidgetComponent implements WidgetContentComponentInterf
     );
   }
 
+  get keys() {
+    return (this.variables?.keys.split(',') as Array<string>).map(
+      h => h.trim()
+    );
+  }
+
+  getValueByKeyName(keyName: string, obj: any) {
+    return EditorService.getObjectValueByKeyName(keyName, obj);
+  }
 
 }

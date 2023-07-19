@@ -57,6 +57,14 @@ export class EditorService {
     return templateNewVal;
   }
 
+  static getObjectValueByKeyName(keyName: string, obj: any){
+    const deep = keyName.split('.');
+    let val = obj;
+    for(let depth of deep.slice(0, -1))
+      val = val[depth];
+    return val[deep[deep.length-1]];
+  }
+
   // add item to the grid
   pushWidget(component: keyof typeof ComponentMap, item: GridsterItem) {
     const nextTempalteConfigValue = this.templateConfig$.getValue();
