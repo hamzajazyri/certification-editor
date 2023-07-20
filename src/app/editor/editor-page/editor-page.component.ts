@@ -10,11 +10,14 @@ import { EditorService } from '../services/editor.service';
 import { IFormGroupStyle } from '../shared/form-group-style/form-group-style.component';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { EditorSchemaVariablesComponent } from '../components/editor-schema-variables/editor-schema-variables.component';
 
 export enum EDITOR_TAB {
   STYLES,
   ELEMENTS,
-  WIDGET_EDIT
+  SCHEMA_VARIABLES,
+  WIDGET_EDIT,
+
 }
 
 @Component({
@@ -26,7 +29,8 @@ export enum EDITOR_TAB {
     EditorStyleTabComponent,
     EditorPreviewComponent,
     NgxEditorModule,
-    WidgetStyleTabComponent
+    WidgetStyleTabComponent,
+    EditorSchemaVariablesComponent
   ],
   templateUrl: './editor-page.component.html',
   styleUrls: ['./editor-page.component.scss']
@@ -146,7 +150,7 @@ export class EditorPreviewPageComponent {
           key3: 'val 3',
           key4: 'val 4',
           key5: 'val 5',
-        },{
+        }, {
           key1: {
             val: 'val 11'
           },
@@ -154,7 +158,7 @@ export class EditorPreviewPageComponent {
           key3: 'val 33',
           key4: 'val 44',
           key5: 'val 55',
-        },{
+        }, {
           key1: {
             val: 'val 111'
           },
@@ -165,7 +169,7 @@ export class EditorPreviewPageComponent {
         }
       ],
       user: {
-        id:4,
+        id: 4,
         uuid: 'uuid',
         info: {
           name: 'name',
@@ -201,36 +205,28 @@ export const templateExample = {
           "padding": 0
       }
   },
+  "schema": [
+      {
+          "textMatch": "id",
+          "mapTo": "obj.user.id"
+      },
+      {
+          "textMatch": "name",
+          "mapTo": "obj.user.info.name"
+      }
+  ],
   "widgets": [
       {
           "datasource": {},
           "gridConfig": {
-              "x": 1,
-              "y": 1,
-              "cols": 4,
-              "rows": 5
+              "x": 3,
+              "y": 2,
+              "cols": 6,
+              "rows": 7
           },
           "variables": {
-              "editorContent": "<p>user id #{id}</p><p>user uuid #{uuid}</p><p>user info name #{name}</p><p>user info age #{age}</p><p></p>"
+              "editorContent": "<h1 style=\"text-align:center\">test #{id} #{name}</h1>"
           },
-          "schema": [
-              {
-                  "textMatch": "id",
-                  "mapTo": "obj.user.id"
-              },
-              {
-                  "textMatch": "uuid",
-                  "mapTo": "obj.user.uuid"
-              },
-              {
-                  "textMatch": "name",
-                  "mapTo": "obj.user.info.name"
-              },
-              {
-                  "textMatch": "age",
-                  "mapTo": "obj.user.info.age"
-              }
-          ],
           "style": {
               "borderWidth": 0,
               "borderColor": "#ffffff",
@@ -242,54 +238,6 @@ export const templateExample = {
               "backgroundColor": "#ffffff"
           },
           "widgetType": "TextEditor"
-      },
-      {
-          "datasource": {},
-          "gridConfig": {
-              "x": 5,
-              "y": 1,
-              "cols": 4,
-              "rows": 7
-          },
-          "variables": {},
-          "schema": [],
-          "style": {
-              "borderWidth": 0,
-              "borderColor": "#ffffff",
-              "borderStyle": "solid",
-              "borderRadius": 0,
-              "verticalAlign": "left",
-              "horizantalAlign": "top",
-              "padding": 0,
-              "backgroundColor": "#ffffff"
-          },
-          "widgetType": "ImageComp"
-      },
-      {
-          "datasource": {},
-          "gridConfig": {
-              "x": 2,
-              "y": 9,
-              "cols": 8,
-              "rows": 7
-          },
-          "variables": {
-              "headers": "head1, head2, head3, head4, head5",
-              "keys": "key1.val, key2, key3, key4, key5",
-              "entryPoint": "obj.entrypoint"
-          },
-          "schema": [],
-          "style": {
-              "borderWidth": 0,
-              "borderColor": "#ffffff",
-              "borderStyle": "solid",
-              "borderRadius": 0,
-              "verticalAlign": "left",
-              "horizantalAlign": "top",
-              "padding": 0,
-              "backgroundColor": "#ffffff"
-          },
-          "widgetType": "DynamicTable"
       }
   ],
   "datasource": {}

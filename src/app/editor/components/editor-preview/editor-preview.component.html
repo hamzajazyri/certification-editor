@@ -6,7 +6,7 @@
 > <!-- DROPPABLE -->
   <gridster [options]="gridsterConf" [style.backgroundColor]="obj.grid.style.backgroundColor">
     <gridster-item *ngFor="let widget of obj.widgets" [item]="widget.gridConfig" class="custom-gridster-item" >
-      <app-widget [config]="widget" [datasource]="datasource"
+      <app-widget [config]="widget" [datasource]="datasource" [schema]="obj.schema"
         (onEventTrigger)="onEventTriggerHandler($event)"
         (onDelete)="onWidgetDeleteHandler(widget)"
         [editable]="isEditable"></app-widget>

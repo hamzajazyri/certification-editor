@@ -5,6 +5,7 @@ export interface IEditor {
   grid: IGrid;
   widgets: Array<IWidget>;
   datasource: any;
+  schema: Array<IWidgetSchema>;
 }
 
 
@@ -25,7 +26,6 @@ export interface IWidget {
   widgetType: keyof typeof ComponentMap;
   gridConfig: GridsterItem;
   style: IWidgetStyle;
-  schema: Array<IWidgetSchema>;
   datasource: any;
   variables?: any;
 }

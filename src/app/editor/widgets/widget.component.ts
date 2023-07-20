@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ComponentRef, ElementRef, EventEmitter, Input, OnChanges, Output, Renderer2, SimpleChanges, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IWidget, IWidgetStyle } from '../editor.model';
+import { IWidget, IWidgetSchema, IWidgetStyle } from '../editor.model';
 import { ComponentMap, WidgetContentComponentInterface } from './widget.model';
 
 @Component({
@@ -14,6 +14,7 @@ import { ComponentMap, WidgetContentComponentInterface } from './widget.model';
 export class WidgetComponent implements AfterViewInit {
 
   @Input('config') config!: IWidget;
+  @Input('schema') schema: Array<IWidgetSchema> = [];
   @Input('editable') isEditable = true;
   @Input('datasource') datasource: any;
 
@@ -37,7 +38,7 @@ export class WidgetComponent implements AfterViewInit {
   updateContent() {
     this.containerRef.clear();
     this.componentRef = this.containerRef.createComponent<WidgetContentComponentInterface>(ComponentMap[this.config.widgetType]);
-    this.componentRef.instance.schema = this.config.schema;
+    this.componentRef.instance.schema = this.schema;
     this.componentRef.instance.datasource = this.datasource;
     this.componentRef.instance.isEditMode = this.isEditable;
     this.componentRef.instance.variables = this.config.variables;

@@ -22,14 +22,6 @@ export class WidgetStyleTabComponent implements OnInit, OnChanges {
 
   formStyleGroups: Array<IFormGroupStyle> = [];
 
-  schemaFrom = new FormGroup({
-    groups: new FormArray<any>([])
-  });
-
-  get formGroups(): FormArray {
-    return this.schemaFrom.get('groups') as FormArray;
-  }
-
   constructor(
     private editorSrv: EditorService,
   ) { }
@@ -42,33 +34,17 @@ export class WidgetStyleTabComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.formStyleGroups = getFormStyleGroupsConfig(this.widget.widget);
-    this.schemaFrom.valueChanges.pipe(
-      debounceTime(100)
-    ).subscribe( res => {
-      this.onSchemaFormChange();
-    })
   }
 
   onControlValueChange(changes: { value: any, keyName: string }) {
     this.editorSrv.updateWidget(changes.value, changes.keyName, this.widget.widget);
   }
 
-  onSchemaFormChange() {
-    console.log(this.formGroups.value)
-    this.editorSrv.updateWidgetSchema(this.formGroups.value, this.widget.widget);
-  }
 
-  addSchemaVariable() {
-    const schemaFormGroup = new FormGroup({
-      textMatch: new FormControl(''),
-      mapTo: new FormControl('')
-    });
-    this.schemaFrom.controls.groups.push(schemaFormGroup);
-  }
 
-  removeSchemaVariable(index: number) {
-    this.formGroups.removeAt(index);
-  }
+
+
+
 
 }
 
@@ -105,24 +81,26 @@ export const getFormStyleGroupsConfig = (widget: IWidget) : Array<IFormGroupStyl
           unit: 'px'
         }
       ]
-    }, {
-      groupName: 'Align',
-      controls: [
-        {
-          label: 'Vertical',
-          type: 'list',
-          suggestions: ['left', 'right', 'center'],
-          value: widget.style.verticalAlign,
-          name: 'style.verticalAlign'
-        }, {
-          label: 'Horizantal',
-          type: 'list',
-          suggestions: ['top', 'center', 'bottom'],
-          value: widget.style.horizantalAlign,
-          name: 'style.horizantalAlign'
-        }
-      ]
-    }, {
+    },
+    // {
+    //   groupName: 'Align',
+    //   controls: [
+    //     {
+    //       label: 'Vertical',
+    //       type: 'list',
+    //       suggestions: ['left', 'right', 'center'],
+    //       value: widget.style.verticalAlign,
+    //       name: 'style.verticalAlign'
+    //     }, {
+    //       label: 'Horizantal',
+    //       type: 'list',
+    //       suggestions: ['top', 'center', 'bottom'],
+    //       value: widget.style.horizantalAlign,
+    //       name: 'style.horizantalAlign'
+    //     }
+    //   ]
+    // },
+    {
       groupName: 'Colors',
       controls: [
         {

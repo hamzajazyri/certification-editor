@@ -32,12 +32,14 @@ export class EditorService {
     return copy.widgets[findIndex];
   }
 
-  updateWidgetSchema(schema: Array<IWidgetSchema>, widget: IWidget){
+  updateSchema(schema: Array<IWidgetSchema>){
     let copy = { ...this.templateConfig$.getValue() };
-    let findIndex = copy.widgets.findIndex(w => w === widget);
-    copy.widgets[findIndex].schema = schema;
+    // let findIndex = copy.widgets.findIndex(w => w === widget);
+    copy.schema = schema;
+    // copy.widgets[findIndex].schema = schema;
     this.emitNewValue(copy);
-    return copy.widgets[findIndex];
+    // return copy.widgets[findIndex];
+
   }
 
   emitNewValue(newValue: IEditor | null = null) {
@@ -83,7 +85,6 @@ export class EditorService {
       datasource: {},
       gridConfig: { ...item, cols: 2, rows: 2 },
       variables: {},
-      schema: [],
       style: {
         borderWidth: 0,
         borderColor: '#ffffff',
@@ -125,6 +126,7 @@ export const defaultTemplateConfig: IEditor = {
       padding: 0
     }
   },
+  schema: [],
   widgets: [],
   datasource: {}
 }

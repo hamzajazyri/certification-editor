@@ -29,7 +29,7 @@ export class TextEditorWidgetComponent implements WidgetContentComponentInterfac
   editorContent = new FormControl({ value: '', disabled: false });
 
   // widget config
-  schema: IWidgetSchema[] = [];
+  @Input() schema: IWidgetSchema[] = [];
   datasource: any;
 
   variablesGroups: Array<IFormGroupStyle> = [];
