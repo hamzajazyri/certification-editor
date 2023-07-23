@@ -47,5 +47,9 @@ export class DraggableElementsTabComponent {
     iconUrl: 'assets/editor-assets/icons/table-icon.svg#table-icon',
     text: 'Dynamic Table',
     component: 'DynamicTable'
+  },{
+    iconUrl: 'assets/editor-assets/icons/table-icon.svg#table-icon',
+    text: 'Table',
+    component: 'TableComp'
   }];
 }

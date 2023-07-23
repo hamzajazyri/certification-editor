@@ -11,7 +11,7 @@ import { ComponentMap, WidgetContentComponentInterface } from './widget.model';
   styleUrls: ['./widget.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class WidgetComponent implements AfterViewInit {
+export class WidgetComponent implements AfterViewInit, OnChanges {
 
   @Input('config') config!: IWidget;
   @Input('schema') schema: Array<IWidgetSchema> = [];
@@ -35,6 +35,9 @@ export class WidgetComponent implements AfterViewInit {
     this.updateContent();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+  }
+
   updateContent() {
     this.containerRef.clear();
     this.componentRef = this.containerRef.createComponent<WidgetContentComponentInterface>(ComponentMap[this.config.widgetType]);
@@ -42,6 +45,7 @@ export class WidgetComponent implements AfterViewInit {
     this.componentRef.instance.datasource = this.datasource;
     this.componentRef.instance.isEditMode = this.isEditable;
     this.componentRef.instance.variables = this.config.variables;
+    this.componentRef.instance.widget = this.config;
     this.componentRef.instance.onEventTrigger.subscribe(res => {
       this.onEventTrigger.emit(res);
     });

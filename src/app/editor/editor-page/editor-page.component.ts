@@ -55,8 +55,8 @@ export class EditorPageComponent {
     private editorSrv: EditorService
   ) { }
 
-  logTemplate() {
-    this.editorSrv.log();
+  saveTemplate() {
+    this.editorSrv.saveTemplate();
   }
 
   onEventTrigger(event: { eventName: string, eventValue: any }) {
@@ -136,7 +136,7 @@ export class EditorPreviewPageComponent {
   constructor(
     private editorSrv: EditorService
   ) {
-    this.editorSrv.emitNewValue(templateExample as IEditor);
+    this.editorSrv.loadTemplate();
   }
 
   data = {
@@ -189,56 +189,4 @@ export class EditorPreviewPageComponent {
     });
   }
 
-}
-
-
-
-
-export const templateExample = {
-  "grid": {
-      "columnsSize": 12,
-      "rowsSize": 24,
-      "width": 854,
-      "height": 1054,
-      "style": {
-          "backgroundColor": "#ffffff",
-          "padding": 0
-      }
-  },
-  "schema": [
-      {
-          "textMatch": "id",
-          "mapTo": "obj.user.id"
-      },
-      {
-          "textMatch": "name",
-          "mapTo": "obj.user.info.name"
-      }
-  ],
-  "widgets": [
-      {
-          "datasource": {},
-          "gridConfig": {
-              "x": 3,
-              "y": 2,
-              "cols": 6,
-              "rows": 7
-          },
-          "variables": {
-              "editorContent": "<h1 style=\"text-align:center\">test #{id} #{name}</h1>"
-          },
-          "style": {
-              "borderWidth": 0,
-              "borderColor": "#ffffff",
-              "borderStyle": "solid",
-              "borderRadius": 0,
-              "verticalAlign": "left",
-              "horizantalAlign": "top",
-              "padding": 0,
-              "backgroundColor": "#ffffff"
-          },
-          "widgetType": "TextEditor"
-      }
-  ],
-  "datasource": {}
 }

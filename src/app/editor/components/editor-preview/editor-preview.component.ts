@@ -54,8 +54,6 @@ export class EditorPreviewComponent implements OnInit {
       this.gridsterConf.displayGrid = 'none';
       this.gridsterConf.draggable!.enabled = false;
       this.gridsterConf.resizable!.enabled = false;
-      console.log(this.datasource);
-      this.templateEditorConfig$.subscribe( res => console.log(res));
     }
   }
 
@@ -66,7 +64,6 @@ export class EditorPreviewComponent implements OnInit {
 
   onWidgetDeleteHandler(widget: IWidget) {
     this.editorSrv.removeWidget(widget);
-    // hide the widget-style-tab
     this.onEventTriggerHandler({eventName: 'WIDGET_DELTED', eventValue: widget});
   }
 

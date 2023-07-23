@@ -13,9 +13,19 @@ export class EditorService {
 
   constructor() { }
 
-  saveTemplate() { }
+  saveTemplate() {
+    localStorage.setItem('template', JSON.stringify(this.templateConfig$.getValue()));
+  }
 
-  loadTemplate() { }
+  loadTemplate() {
+    const tempStr = localStorage.getItem('template');
+    if(tempStr === null){
+      alert("Template is missing");
+      return;
+    }
+    const template = JSON.parse(tempStr!) as IEditor;
+    this.templateConfig$.next(template);
+  }
 
   updateTemplateValue(value: any, keyName: string) {
     const obj = this.templateConfig$.getValue();
@@ -27,19 +37,21 @@ export class EditorService {
   updateWidget(value: any, keyName: string, widget: IWidget) {
     let copy = { ...this.templateConfig$.getValue() };
     let findIndex = copy.widgets.findIndex(w => w === widget);
-    const newWidget = EditorService.updateObjectValueByKeyName(value, keyName, copy.widgets[findIndex]);
+    copy.widgets[findIndex] = EditorService.updateObjectValueByKeyName(value, keyName, copy.widgets[findIndex]);
     this.emitNewValue(copy);
     return copy.widgets[findIndex];
   }
 
+  udpateWigetContent(value: any, keyName: string, widget: IWidget) {
+    let copy = { ...this.templateConfig$.getValue() };
+    let findIndex = copy.widgets.findIndex(w => w === widget);
+    copy.widgets[findIndex] = EditorService.updateObjectValueByKeyName(value, keyName, copy.widgets[findIndex]);
+  }
+
   updateSchema(schema: Array<IWidgetSchema>){
     let copy = { ...this.templateConfig$.getValue() };
-    // let findIndex = copy.widgets.findIndex(w => w === widget);
     copy.schema = schema;
-    // copy.widgets[findIndex].schema = schema;
     this.emitNewValue(copy);
-    // return copy.widgets[findIndex];
-
   }
 
   emitNewValue(newValue: IEditor | null = null) {
@@ -49,7 +61,11 @@ export class EditorService {
     }
     let newVal = { ...this.templateConfig$.getValue() };
     for (let i = 0; i < newVal.widgets.length; i++) {
-      newVal.widgets[i] = { ...newVal.widgets[i] };
+      var newWidget: IWidget = {...newVal.widgets[i]};
+      for(let key of Object.keys(newVal.widgets[i])) {
+        newWidget[key as keyof IWidget] = {...newVal.widgets[i][key as keyof IWidget]};
+      }
+      newVal.widgets[i] = newWidget;
     }
     this.templateConfig$.next(newVal);
   }
@@ -58,12 +74,11 @@ export class EditorService {
     const deep = keyName.split('.');
     let templateNewVal = { ...obj };
     let keyRef: any = templateNewVal;
-
     for (let depth of deep.slice(0, -1))
       keyRef = keyRef[depth as keyof IEditor];
 
-    keyRef[deep[deep.length - 1]] = typeof (keyRef[deep[deep.length - 1]]) === 'number' ? parseInt(value) : value;
-    console.log(templateNewVal);
+    //
+    keyRef[deep[deep.length - 1]] = ((keyRef[deep[deep.length - 1]]) && typeof (keyRef[deep[deep.length - 1]]) === 'number') ? parseInt(value) : value;
     return templateNewVal;
   }
 
@@ -78,9 +93,6 @@ export class EditorService {
   // add item to the grid
   pushWidget(component: keyof typeof ComponentMap, item: GridsterItem) {
     const nextTempalteConfigValue = this.templateConfig$.getValue();
-    console.log("-------")
-    console.log({ ...defaultWidgetConfig, gridConfig: { ...item, cols: 2, rows: 2 }, widgetType: component })
-    console.log("----------")
     nextTempalteConfigValue.widgets.push({
       datasource: {},
       gridConfig: { ...item, cols: 2, rows: 2 },

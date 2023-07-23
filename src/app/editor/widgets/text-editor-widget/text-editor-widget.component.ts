@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } fro
 import { CommonModule } from '@angular/common';
 import { Editor, NgxEditorModule } from 'ngx-editor';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { IWidgetSchema } from '../../editor.model';
+import { IWidget, IWidgetSchema } from '../../editor.model';
 import { WidgetContentComponentInterface } from '../widget.model';
 import { IFormGroupStyle } from '../../shared/form-group-style/form-group-style.component';
 import { debounceTime } from 'rxjs';
@@ -30,6 +30,7 @@ export class TextEditorWidgetComponent implements WidgetContentComponentInterfac
 
   // widget config
   @Input() schema: IWidgetSchema[] = [];
+  @Input() widget!: IWidget;
   datasource: any;
 
   variablesGroups: Array<IFormGroupStyle> = [];

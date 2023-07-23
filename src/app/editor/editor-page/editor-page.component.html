@@ -2,7 +2,7 @@
   <div class="editor-header">
     <div class="editor-header-top">
       <div></div>
-      <button class="btn-editor btn-save" (click)="logTemplate()">
+      <button class="btn-editor btn-save" (click)="saveTemplate()">
         <svg class="btn-icon">
           <use xlink:href="assets/editor-assets/icons/download-icon.svg#download-icon" />
         </svg>
@@ -40,7 +40,7 @@
         <app-editor-style-tab *ngIf="currentTab === TAB.STYLES"></app-editor-style-tab>
         <app-widget-style-tab *ngIf="currentTab === TAB.WIDGET_EDIT" [widget]="currentWidget!"></app-widget-style-tab>
         <app-draggable-elements-tab *ngIf="currentTab === TAB.ELEMENTS"></app-draggable-elements-tab>
-        <app-editor-schema-variables *ngIf="currentTab === TAB.SCHEMA_VARIABLES"></app-editor-schema-variables>
+        <app-editor-schema-variables *ngIf="currentTab === TAB.SCHEMA_VARIABLES" ></app-editor-schema-variables>
       </div>
     </div>
 

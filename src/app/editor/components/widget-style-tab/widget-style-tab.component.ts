@@ -37,7 +37,7 @@ export class WidgetStyleTabComponent implements OnInit, OnChanges {
   }
 
   onControlValueChange(changes: { value: any, keyName: string }) {
-    this.editorSrv.updateWidget(changes.value, changes.keyName, this.widget.widget);
+    this.widget.widget = this.editorSrv.updateWidget(changes.value, changes.keyName, this.widget.widget);
   }
 
 

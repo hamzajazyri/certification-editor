@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WidgetContentComponentInterface } from '../widget.model';
-import { IWidgetSchema } from '../../editor.model';
+import { IWidget, IWidgetSchema } from '../../editor.model';
 import { IFormGroupStyle } from '../../shared/form-group-style/form-group-style.component';
 import { EditorService } from '../../services/editor.service';
 
@@ -21,7 +21,6 @@ export class DynamicTableWidgetComponent implements WidgetContentComponentInterf
     keys: '',
     entryPoint: '',
   };
-
 
   variablesGroups: Array<IFormGroupStyle> = [
     {
@@ -54,6 +53,7 @@ export class DynamicTableWidgetComponent implements WidgetContentComponentInterf
 
   // widget config
   schema: IWidgetSchema[] = [];
+  @Input() widget!: IWidget;
   datasource: any;
 
   list: Array<any> = [];

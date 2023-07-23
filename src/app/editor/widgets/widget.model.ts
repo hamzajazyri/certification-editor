@@ -1,9 +1,10 @@
 import { EventEmitter, Output } from "@angular/core";
-import { IWidgetSchema } from "../editor.model";
+import { IWidget, IWidgetSchema } from "../editor.model";
 import { TextEditorWidgetComponent } from "./text-editor-widget/text-editor-widget.component";
 import { ImageWidgetComponent } from "./image-widget/image-widget.component";
 import { DynamicTableWidgetComponent } from "./dynamic-table-widget/dynamic-table-widget.component";
 import { IFormGroupStyle } from "../shared/form-group-style/form-group-style.component";
+import { TableWidgetComponent } from "./table-widget/table-widget.component";
 
 export interface WidgetContentComponentInterface {
 
@@ -20,6 +21,8 @@ export interface WidgetContentComponentInterface {
   // to init the custom widget variable
   variables: any;
 
+  widget: IWidget;
+
   // will handle all variables related to specific object
   // on edit widget, all content will be renderer in widget style tab
   // and binding directly to widget
@@ -30,5 +33,6 @@ export interface WidgetContentComponentInterface {
 export const ComponentMap = {
   TextEditor: TextEditorWidgetComponent,
   ImageComp: ImageWidgetComponent,
-  DynamicTable: DynamicTableWidgetComponent
+  DynamicTable: DynamicTableWidgetComponent,
+  TableComp: TableWidgetComponent
 };
