@@ -179,32 +179,4 @@ export class EditorPreviewPageComponent {
     }
   }
 
-  print() {
-
-  }
-
-
-  /***
-   *
-    console.log("html pdf");
-    console.log(this.editorPreviewRef.nativeElement.innerHTML)
-    const jspdf = new jsPDF();
-    jspdf.html(this.editorPreviewRef.nativeElement.innerHTML);
-    jspdf.save("test.pdf");
-   */
-  /***
-   *     // const nativeElement = this.editorPreviewRef.nativeElement;
-    // html2canvas(nativeElement).then((canvas) => {
-    //   const imgData = canvas.toDataURL('image/png');
-    //   const pdf = new jsPDF('p', 'mm', 'a4');
-    //   pdf.addImage(imgData, 0, 0, 0, 0);
-    //   pdf.save('certification-name.pdf');
-    // });
-    // jspdf.html(this.editorPreviewRef.nativeElement.innerHTML, 15, 15, {
-    //   'width': 170,
-    //   'elementHandlers': specialElementHandlers
-    // });
-    // doc.save('role.pdf');
-   */
-
 }

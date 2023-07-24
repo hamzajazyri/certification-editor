@@ -4,7 +4,6 @@ import { ComponentMap } from "./widgets/widget.model";
 export interface IEditor {
   grid: IGrid;
   widgets: Array<IWidget>;
-  datasource: any;
   schema: Array<IWidgetSchema>;
 }
 
@@ -26,7 +25,6 @@ export interface IWidget {
   widgetType: keyof typeof ComponentMap;
   gridConfig: GridsterItem;
   style: IWidgetStyle;
-  datasource: any;
   variables?: any;
 }
 

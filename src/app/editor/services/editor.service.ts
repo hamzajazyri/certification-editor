@@ -94,7 +94,6 @@ export class EditorService {
   pushWidget(component: keyof typeof ComponentMap, item: GridsterItem) {
     const nextTempalteConfigValue = this.templateConfig$.getValue();
     nextTempalteConfigValue.widgets.push({
-      datasource: {},
       gridConfig: { ...item, cols: 2, rows: 2 },
       variables: {},
       style: {
@@ -139,12 +138,10 @@ export const defaultTemplateConfig: IEditor = {
     }
   },
   schema: [],
-  widgets: [],
-  datasource: {}
+  widgets: []
 }
 
 export const defaultWidgetConfig: any = { // IWidget
-  datasource: {},
   gridConfig: { x: 0, y: 0, cols: 2, rows: 2 },
   schema: [],
   style: {
