@@ -8,9 +8,8 @@ import { IEditor, IWidget } from '../editor.model';
 import { WidgetStyleTabComponent } from '../components/widget-style-tab/widget-style-tab.component';
 import { EditorService } from '../services/editor.service';
 import { IFormGroupStyle } from '../shared/form-group-style/form-group-style.component';
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
 import { EditorSchemaVariablesComponent } from '../components/editor-schema-variables/editor-schema-variables.component';
+import { NgxPrintModule } from 'ngx-print';
 
 export enum EDITOR_TAB {
   STYLES,
@@ -100,14 +99,15 @@ export const toolbarEditorDefaultConfig: Toolbar = [
   standalone: true,
   imports: [
     CommonModule,
-    EditorPreviewComponent
+    EditorPreviewComponent,
+    NgxPrintModule
   ],
   template: `
     <div class="jz-editor-prev">
-      <div class="editor-preview-container" #editorPreviewRef>
+      <div class="editor-preview-container" id="ngxPrintId" #editorPreviewRef>
         <app-editor-preview [editable]="false" [datasource]="data"></app-editor-preview>
       </div>
-      <button (click)="print()">Download PDF </button>
+      <button ngxPrint printSectionId="ngxPrintId" printTitle="Print title" [useExistingCss]="true">Download PDF </button>
     </div>
   `,
   styles: [
@@ -180,13 +180,31 @@ export class EditorPreviewPageComponent {
   }
 
   print() {
-    const nativeElement = this.editorPreviewRef.nativeElement;
-    html2canvas(nativeElement).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      pdf.addImage(imgData, 0, 0, 0, 0);
-      pdf.save('certification-name.pdf');
-    });
+
   }
+
+
+  /***
+   *
+    console.log("html pdf");
+    console.log(this.editorPreviewRef.nativeElement.innerHTML)
+    const jspdf = new jsPDF();
+    jspdf.html(this.editorPreviewRef.nativeElement.innerHTML);
+    jspdf.save("test.pdf");
+   */
+  /***
+   *     // const nativeElement = this.editorPreviewRef.nativeElement;
+    // html2canvas(nativeElement).then((canvas) => {
+    //   const imgData = canvas.toDataURL('image/png');
+    //   const pdf = new jsPDF('p', 'mm', 'a4');
+    //   pdf.addImage(imgData, 0, 0, 0, 0);
+    //   pdf.save('certification-name.pdf');
+    // });
+    // jspdf.html(this.editorPreviewRef.nativeElement.innerHTML, 15, 15, {
+    //   'width': 170,
+    //   'elementHandlers': specialElementHandlers
+    // });
+    // doc.save('role.pdf');
+   */
 
 }
