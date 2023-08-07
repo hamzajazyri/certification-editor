@@ -4,12 +4,13 @@ import { DraggableElementsTabComponent } from '../components/draggable-elements-
 import { EditorStyleTabComponent } from '../components/editor-style-tab/editor-style-tab.component';
 import { EditorPreviewComponent } from '../components/editor-preview/editor-preview.component';
 import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
-import { IEditor, IWidget } from '../editor.model';
+import { IWidget } from '../editor.model';
 import { WidgetStyleTabComponent } from '../components/widget-style-tab/widget-style-tab.component';
 import { EditorService } from '../services/editor.service';
 import { IFormGroupStyle } from '../shared/form-group-style/form-group-style.component';
 import { EditorSchemaVariablesComponent } from '../components/editor-schema-variables/editor-schema-variables.component';
 import { NgxPrintModule } from 'ngx-print';
+import { jsPDF } from 'jspdf';
 
 export enum EDITOR_TAB {
   STYLES,
@@ -107,7 +108,8 @@ export const toolbarEditorDefaultConfig: Toolbar = [
       <div class="editor-preview-container" id="ngxPrintId" #editorPreviewRef>
         <app-editor-preview [editable]="false" [datasource]="data"></app-editor-preview>
       </div>
-      <button ngxPrint printSectionId="ngxPrintId" printTitle="Print title" [useExistingCss]="true">Download PDF </button>
+      <!-- <button ngxPrint printSectionId="ngxPrintId" printTitle="Print title" [useExistingCss]="true">Download PDF </button> -->
+      <button (click)="downloadPDF()">downloadpdf</button>
     </div>
   `,
   styles: [
@@ -137,6 +139,34 @@ export class EditorPreviewPageComponent {
     private editorSrv: EditorService
   ) {
     this.editorSrv.loadTemplate();
+  }
+
+
+  isHighDensity() {
+    return ((window.matchMedia && (window.matchMedia('only screen and (min-resolution: 124dpi), only screen and (min-resolution: 1.3dppx), only screen and (min-resolution: 48.8dpcm)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 2.6/2), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (min-device-pixel-ratio: 1.3)').matches)) || (window.devicePixelRatio && window.devicePixelRatio > 1.3));
+  }
+  isRetina() {
+    return ((window.matchMedia && (window.matchMedia('only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx), only screen and (min-resolution: 75.6dpcm)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min--moz-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)').matches)) || (window.devicePixelRatio && window.devicePixelRatio >= 2)) && /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
+  }
+  downloadPDF() {
+    // if (this.isRetina() == true || this.isHighDensity() == true) {
+    const template = localStorage.getItem('template');
+
+    var w = document.getElementById('ngxPrintId')?.clientWidth || 1225;
+    var h =document.getElementById('ngxPrintId')?.clientHeight || 1584;
+
+    var pdf = new jsPDF('p', 'px', 'a4');
+
+    pdf.internal.pageSize.width = w*1.6;
+    pdf.internal.pageSize.height = h*2;
+    // } else {
+    //   var pdf = new jsPDF('p', 'pt', 'letter');
+    // }
+    pdf.html(document.getElementById('ngxPrintId')!, {
+      callback: function (pdf) {
+        pdf.save('BOM NAME - Z2Data BOM Analysis.pdf');
+      }
+    });
   }
 
   data = {
