@@ -11,7 +11,7 @@ import { IFormGroupStyle } from '../shared/form-group-style/form-group-style.com
 import { EditorSchemaVariablesComponent } from '../components/editor-schema-variables/editor-schema-variables.component';
 import { NgxPrintModule } from 'ngx-print';
 import { jsPDF } from 'jspdf';
-
+import html2canvas from 'html2canvas';
 export enum EDITOR_TAB {
   STYLES,
   ELEMENTS,
@@ -148,24 +148,21 @@ export class EditorPreviewPageComponent {
   isRetina() {
     return ((window.matchMedia && (window.matchMedia('only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx), only screen and (min-resolution: 75.6dpcm)').matches || window.matchMedia('only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min--moz-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)').matches)) || (window.devicePixelRatio && window.devicePixelRatio >= 2)) && /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
   }
+
+
+
+
   downloadPDF() {
-    // if (this.isRetina() == true || this.isHighDensity() == true) {
-    const template = localStorage.getItem('template');
-
+    const ngxPrintElement = document.getElementById('ngxPrintId');
     var w = document.getElementById('ngxPrintId')?.clientWidth || 1225;
-    var h =document.getElementById('ngxPrintId')?.clientHeight || 1584;
-
-    var pdf = new jsPDF('p', 'px', 'a4');
-
-    pdf.internal.pageSize.width = w*1.6;
-    pdf.internal.pageSize.height = h*2;
-    // } else {
-    //   var pdf = new jsPDF('p', 'pt', 'letter');
-    // }
-    pdf.html(document.getElementById('ngxPrintId')!, {
-      callback: function (pdf) {
-        pdf.save('BOM NAME - Z2Data BOM Analysis.pdf');
-      }
+    var h = document.getElementById('ngxPrintId')?.clientHeight || 1584;
+    html2canvas(ngxPrintElement!, {
+      width: w * 1.5,
+      height: h * 1.5
+    }).then(canvas => {
+      var pdf = new jsPDF('p', 'px', 'a4');
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+      pdf.save('BOM NAME - Z2Data BOM Analysis.pdf');
     });
   }
 
