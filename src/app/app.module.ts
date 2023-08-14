@@ -10,16 +10,20 @@ import { RouterModule, Routes } from '@angular/router';
 
 const ROUTES: Routes = [
   {
-    path: '',
-    loadComponent: () => import ('./editor/editor-page/editor-page.component')
-                                .then( c => c.EditorPageComponent),
+    path: 'v1',
+    loadComponent: () => import('./editor/editor-page/editor-page.component')
+      .then(c => c.EditorPageComponent),
     pathMatch: 'full'
   }, {
     path: 'preview',
 
-    loadComponent: () => import ('./editor/editor-page/editor-page.component')
-                                .then( c => c.EditorPreviewPageComponent),
+    loadComponent: () => import('./editor/editor-page/editor-page.component')
+      .then(c => c.EditorPreviewPageComponent),
     pathMatch: 'full'
+  }, {
+    path: '',
+    loadComponent: () => import('./certification-editor/certification-editor.component')
+      .then(c => c.CertificationEditorComponent),
   }
 ]
 
