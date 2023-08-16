@@ -4,6 +4,7 @@
   background:green;
   position: relative;
   z-index: 100;
+  opacity: .5;
   &::after{
     content: '';
     position: absolute;
