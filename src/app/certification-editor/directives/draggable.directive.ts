@@ -7,7 +7,7 @@ import { ContentElementModel } from './content-element.model';
 })
 export class DraggableDirective {
 
-  @Input() object! : ContentElementModel;
+  @Input() componentType! : string;
 
   constructor(private element: ElementRef<HTMLElement>) {
     this.element.nativeElement.setAttribute('draggable', 'true');
@@ -18,7 +18,7 @@ export class DraggableDirective {
     console.log("DRAG EVENT START:");
     if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = 'move';
-      event.dataTransfer.setData('text/plain', JSON.stringify(this.object));
+      event.dataTransfer.setData('text/plain', this.componentType);
     }
   }
 

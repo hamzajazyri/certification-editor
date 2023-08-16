@@ -9,5 +9,4 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./heading-element.component.scss']
 })
 export class HeadingElementComponent {
-
 }

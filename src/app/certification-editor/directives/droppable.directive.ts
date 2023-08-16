@@ -2,6 +2,7 @@ import { ComponentRef, Directive, Host, HostListener, Input, ViewChild, ViewCont
 import { HeadingElementComponent } from '../content-elements/heading-element/heading-element.component';
 import { JEditorComponent } from '../j-editor/j-editor.component';
 import { PlaceholderElementComponent } from '../content-elements/placeholder-element/placeholder-element.component';
+import { componentTreeMap } from '../content-elements/content-element.interface';
 
 @Directive({
   selector: '[Droppable]',
@@ -24,10 +25,26 @@ export class DroppableDirective {
     // {projectableNodes: [[x]]}
     const compRef = this.containerRef.createComponent(componentType);
     this.containerRef.insert(compRef.hostView, index);
-    if (index)
+    if(index === 0)
+      this.componentRefs.unshift(compRef);
+    else if (index)
       this.componentRefs.splice(index, 0, compRef);
     else
       this.componentRefs.push(compRef);
+
+    // update x-index
+    for(let i=0; i<this.componentRefs.length; i++) {
+      (this.componentRefs[i].location.nativeElement as HTMLElement).setAttribute('x-index', i.toString());
+    }
+    (compRef.location.nativeElement as HTMLElement).addEventListener('dragenter', () => {
+      console.log((compRef.location.nativeElement as HTMLElement).getAttribute('x-index'));
+      this.isEntered = true;
+      this.containerRef.move(this.placeHolderRef.hostView, parseInt((compRef.location.nativeElement as HTMLElement).getAttribute('x-index')!));
+      this.placeHolderIndex = parseInt((compRef.location.nativeElement as HTMLElement).getAttribute('x-index')!);
+    } );
+    (compRef.location.nativeElement as HTMLElement).addEventListener('dragleave', () => {
+      this.isEntered = false;
+    });
     // this.viewContainerRef.
   }
 
@@ -59,16 +76,16 @@ export class DroppableDirective {
     if(!this.isEntered){
       this.loadPlaceHolder();
     }
-    for(let i=0; i<this.componentRefs.length; i++) {
-      (this.componentRefs[i].location.nativeElement as HTMLElement).addEventListener('dragenter', () => {
-        this.isEntered = true;
-        this.containerRef.move(this.placeHolderRef.hostView, i);
-        this.placeHolderIndex = i;
-      } );
-      (this.componentRefs[i].location.nativeElement as HTMLElement).addEventListener('dragleave', () => {
-        this.isEntered = false;
-      });
-    }
+    // for(let i=0; i<this.componentRefs.length; i++) {
+    //   (this.componentRefs[i].location.nativeElement as HTMLElement).addEventListener('dragenter', () => {
+    //     this.isEntered = true;
+    //     this.containerRef.move(this.placeHolderRef.hostView, i);
+    //     this.placeHolderIndex = i;
+    //   } );
+    //   (this.componentRefs[i].location.nativeElement as HTMLElement).addEventListener('dragleave', () => {
+    //     this.isEntered = false;
+    //   });
+    // }
 
     // this.loadComponent(PlaceholderElementComponent);
   }
@@ -80,21 +97,6 @@ export class DroppableDirective {
       return;
     }
     this.isEntered = false;
-    this.clearPlaceHolderElements();
-  }
-
-  clearPlaceHolderElements() {
-    return;
-    console.log("CLEAR PLACEHOLDER")
-    let length = this.componentRefs.length;
-    for (let i = 0; i < length; i++) {
-      if (this.componentRefs[i].instance instanceof PlaceholderElementComponent) {
-        this.containerRef.remove(i);
-        this.componentRefs[i].destroy();
-        this.componentRefs.splice(i, 1);
-        length -=1;
-      }
-    }
   }
 
   @HostListener('drop', ['$event'])
@@ -103,14 +105,16 @@ export class DroppableDirective {
 
     event.stopPropagation();
     this.containerRef.detach(this.placeHolderIndex);
-    this.loadComponent(HeadingElementComponent, this.placeHolderIndex);
+    console.log();
+    const componentTypeKey = event.dataTransfer!.getData('text/plain')  as keyof typeof componentTreeMap;
+    this.loadComponent(componentTreeMap[componentTypeKey], this.placeHolderIndex);
     this.placeHolderIndex = -1;
     this.hostComp.isEmpty = false;
-    this.clearPlaceHolderElements();
+
     // create component
     // add component
 
-    // this.hostComponent.addChild(event.dataTransfer!.getData('text/html'));
+    // this.hostComponent.addChild();
 
     return false;
   }
