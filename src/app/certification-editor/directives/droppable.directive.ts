@@ -1,5 +1,4 @@
-import { ComponentRef, Directive, Host, HostListener, Input, ViewChild, ViewContainerRef, ViewRef } from '@angular/core';
-import { HeadingElementComponent } from '../content-elements/heading-element/heading-element.component';
+import { ComponentRef, Directive, Host, HostListener, Input, ViewContainerRef} from '@angular/core';
 import { JEditorComponent } from '../j-editor/j-editor.component';
 import { PlaceholderElementComponent } from '../content-elements/placeholder-element/placeholder-element.component';
 import { componentTreeMap } from '../content-elements/content-element.interface';
@@ -45,7 +44,6 @@ export class DroppableDirective {
     (compRef.location.nativeElement as HTMLElement).addEventListener('dragleave', () => {
       this.isEntered = false;
     });
-    // this.viewContainerRef.
   }
 
   loadPlaceHolder(){
@@ -73,21 +71,18 @@ export class DroppableDirective {
   @HostListener('dragenter', ['$event'])
   handleDragEnter(event: DragEvent) {
     console.log("DRAG EVENT ENTER");
+
+    if(this.isDropZone(event.target as HTMLElement)) {
+      this.containerRef.detach(this.placeHolderIndex);
+    }
+
     if(!this.isEntered){
       this.loadPlaceHolder();
     }
-    // for(let i=0; i<this.componentRefs.length; i++) {
-    //   (this.componentRefs[i].location.nativeElement as HTMLElement).addEventListener('dragenter', () => {
-    //     this.isEntered = true;
-    //     this.containerRef.move(this.placeHolderRef.hostView, i);
-    //     this.placeHolderIndex = i;
-    //   } );
-    //   (this.componentRefs[i].location.nativeElement as HTMLElement).addEventListener('dragleave', () => {
-    //     this.isEntered = false;
-    //   });
-    // }
+  }
 
-    // this.loadComponent(PlaceholderElementComponent);
+  private isDropZone(element: HTMLElement) {
+    return element.hasAttribute('droppablezone');
   }
 
   @HostListener('dragleave', ['$event'])
@@ -102,10 +97,13 @@ export class DroppableDirective {
   @HostListener('drop', ['$event'])
   handleDrop(event: DragEvent) {
     console.log("laod component")
+    if(this.isDropZone(event.target as HTMLElement)) {
+      this.placeHolderIndex = -1;
+      return;
+    }
 
     event.stopPropagation();
     this.containerRef.detach(this.placeHolderIndex);
-    console.log();
     const componentTypeKey = event.dataTransfer!.getData('text/plain')  as keyof typeof componentTreeMap;
     this.loadComponent(componentTreeMap[componentTypeKey], this.placeHolderIndex);
     this.placeHolderIndex = -1;

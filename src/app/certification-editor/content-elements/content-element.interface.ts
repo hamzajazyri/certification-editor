@@ -1,3 +1,4 @@
+import { GridElementComponent } from "./grid-element/grid-element.component";
 import { HeadingElementComponent } from "./heading-element/heading-element.component";
 import { ParagraphElementComponent } from "./paragraph-element/paragraph-element.component";
 
@@ -9,5 +10,6 @@ export interface ContentElementInterface {
 
 export const componentTreeMap = {
   p: ParagraphElementComponent,
-  h: HeadingElementComponent
+  h: HeadingElementComponent,
+  layoutTwoColLeft: GridElementComponent
 }
