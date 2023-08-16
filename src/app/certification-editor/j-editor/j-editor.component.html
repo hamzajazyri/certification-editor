@@ -1,5 +1,9 @@
-<div>
-  <div class="j-editor-empty">
+<div Droppable [containerRef]="viewContainerRef" class="j-editor">
+  <!-- <app-placeholder-element></app-placeholder-element> -->
+
+  <ng-container #containerRef></ng-container>
+
+  <div class="j-editor-empty" *ngIf="isEmpty">
     <svg xmlns="http://www.w3.org/2000/svg" width="196" height="82" viewBox="0 0 196 82" fill="none">
       <rect width="66" height="22" rx="5" fill="#C9D1DA" />
       <rect y="30" width="66" height="22" rx="5" fill="#C9D1DA" />

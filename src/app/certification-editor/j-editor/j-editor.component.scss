@@ -8,8 +8,13 @@
   font-style: normal;
   font-weight: 300;
   line-height: 150%;
-
+  pointer-events: none;
   .empty-msg {
     margin-top: 50px;
   }
+}
+
+
+.j-editor {
+  height: 100%;
 }
