@@ -7,7 +7,7 @@
     <div class="btn-actions">
       <button>Delete</button>
       <button>Preview</button>
-      <button>Download</button>
+      <button (click)="generatePDF()">Download</button>
       <button class="btn-fill">Save Template</button>
     </div>
   </div>
@@ -81,8 +81,8 @@
       </j-collapse>
     </div>
     <div class="j-editor-content">
-      <div>
-        <app-j-editor></app-j-editor>
+      <div id="ngxPrintId">
+        <app-j-editor ></app-j-editor>
       </div>
     </div>
     <div class="j-editor-aside">
