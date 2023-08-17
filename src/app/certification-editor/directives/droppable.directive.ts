@@ -2,6 +2,7 @@ import { ComponentRef, Directive, Host, HostListener, Input, ViewContainerRef} f
 import { JEditorComponent } from '../j-editor/j-editor.component';
 import { PlaceholderElementComponent } from '../content-elements/placeholder-element/placeholder-element.component';
 import { componentTreeMap } from '../content-elements/content-element.interface';
+import { parseObject } from './helper';
 
 @Directive({
   selector: '[Droppable]',
@@ -20,9 +21,10 @@ export class DroppableDirective {
     @Host() private hostComp: JEditorComponent
   ) { }
 
-  loadComponent(componentType: any, index: number | undefined = undefined) {
+  loadComponent(componentType: any, data: any, index: number | undefined = undefined) {
     // {projectableNodes: [[x]]}
     const compRef = this.containerRef.createComponent(componentType);
+    (compRef.instance as any).data = data;
     this.containerRef.insert(compRef.hostView, index);
     if(index === 0)
       this.componentRefs.unshift(compRef);
@@ -104,16 +106,10 @@ export class DroppableDirective {
 
     event.stopPropagation();
     this.containerRef.detach(this.placeHolderIndex);
-    const componentTypeKey = event.dataTransfer!.getData('text/plain')  as keyof typeof componentTreeMap;
-    this.loadComponent(componentTreeMap[componentTypeKey], this.placeHolderIndex);
+    const obj = parseObject(event.dataTransfer!.getData('text/plain'));
+    this.loadComponent(componentTreeMap[obj.componentType], obj.componentData, this.placeHolderIndex);
     this.placeHolderIndex = -1;
     this.hostComp.isEmpty = false;
-
-    // create component
-    // add component
-
-    // this.hostComponent.addChild();
-
     return false;
   }
 

@@ -1,5 +1,4 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
-import { ContentElementModel } from './content-element.model';
 
 @Directive({
   selector: '[Draggable]',
@@ -8,6 +7,7 @@ import { ContentElementModel } from './content-element.model';
 export class DraggableDirective {
 
   @Input() componentType! : string;
+  @Input() componentData: any = {};
 
   constructor(private element: ElementRef<HTMLElement>) {
     this.element.nativeElement.setAttribute('draggable', 'true');
@@ -18,8 +18,14 @@ export class DraggableDirective {
     console.log("DRAG EVENT START:");
     if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = 'move';
-      event.dataTransfer.setData('text/plain', this.componentType);
+      event.dataTransfer.setData('text/plain', this.stringifyObject());
     }
   }
 
+  private stringifyObject(){
+    return JSON.stringify({
+      componentType: this.componentType,
+      componentData: this.componentData
+    });
+  }
 }
