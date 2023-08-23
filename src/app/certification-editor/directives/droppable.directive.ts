@@ -2,7 +2,8 @@ import { ComponentRef, Directive, Host, HostListener, Input, ViewContainerRef} f
 import { JEditorComponent } from '../j-editor/j-editor.component';
 import { PlaceholderElementComponent } from '../content-elements/placeholder-element/placeholder-element.component';
 import { componentTreeMap } from '../content-elements/content-element.interface';
-import { parseObject } from './helper';
+import { DragDropObject, parseObject } from './helper';
+import { ContentElementComponent } from '../content-elements/content-element.component';
 
 @Directive({
   selector: '[Droppable]',
@@ -21,29 +22,38 @@ export class DroppableDirective {
     @Host() private hostComp: JEditorComponent
   ) { }
 
-  loadComponent(componentType: any, data: any, index: number | undefined = undefined) {
-    // {projectableNodes: [[x]]}
-    const compRef = this.containerRef.createComponent(componentType);
-    (compRef.instance as any).data = data;
-    this.containerRef.insert(compRef.hostView, index);
+  loadComponent(obj: DragDropObject, index: number | undefined = undefined) {
+    //
+
+    const contentElementRef = this.containerRef.createComponent(ContentElementComponent);
+      // componentTreeMap[obj.componentType]);
+
+
+    const compRef = this.containerRef.createComponent(componentTreeMap[obj.componentType]);
+    (compRef.instance as any).data = obj.componentData;
+
+    contentElementRef.instance.updateContent(compRef);
+
+    // const widgetRef = this.containerRef.createComponent({projectableNodes: [[x]]})
+    this.containerRef.insert(contentElementRef.hostView, index);
     if(index === 0)
-      this.componentRefs.unshift(compRef);
+      this.componentRefs.unshift(contentElementRef);
     else if (index)
-      this.componentRefs.splice(index, 0, compRef);
+      this.componentRefs.splice(index, 0, contentElementRef);
     else
-      this.componentRefs.push(compRef);
+      this.componentRefs.push(contentElementRef);
 
     // update x-index
     for(let i=0; i<this.componentRefs.length; i++) {
       (this.componentRefs[i].location.nativeElement as HTMLElement).setAttribute('x-index', i.toString());
     }
-    (compRef.location.nativeElement as HTMLElement).addEventListener('dragenter', () => {
-      console.log((compRef.location.nativeElement as HTMLElement).getAttribute('x-index'));
+    (contentElementRef.location.nativeElement as HTMLElement).addEventListener('dragenter', () => {
+      console.log((contentElementRef.location.nativeElement as HTMLElement).getAttribute('x-index'));
       this.isEntered = true;
-      this.containerRef.move(this.placeHolderRef.hostView, parseInt((compRef.location.nativeElement as HTMLElement).getAttribute('x-index')!));
-      this.placeHolderIndex = parseInt((compRef.location.nativeElement as HTMLElement).getAttribute('x-index')!);
+      this.containerRef.move(this.placeHolderRef.hostView, parseInt((contentElementRef.location.nativeElement as HTMLElement).getAttribute('x-index')!));
+      this.placeHolderIndex = parseInt((contentElementRef.location.nativeElement as HTMLElement).getAttribute('x-index')!);
     } );
-    (compRef.location.nativeElement as HTMLElement).addEventListener('dragleave', () => {
+    (contentElementRef.location.nativeElement as HTMLElement).addEventListener('dragleave', () => {
       this.isEntered = false;
     });
   }
@@ -107,7 +117,7 @@ export class DroppableDirective {
     event.stopPropagation();
     this.containerRef.detach(this.placeHolderIndex);
     const obj = parseObject(event.dataTransfer!.getData('text/plain'));
-    this.loadComponent(componentTreeMap[obj.componentType], obj.componentData, this.placeHolderIndex);
+    this.loadComponent(obj, this.placeHolderIndex);
     this.placeHolderIndex = -1;
     this.hostComp.isEmpty = false;
     return false;

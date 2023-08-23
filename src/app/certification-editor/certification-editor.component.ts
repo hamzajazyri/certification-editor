@@ -5,11 +5,12 @@ import { JEditorComponent } from './j-editor/j-editor.component';
 import { DraggableDirective } from './directives/draggable.directive';
 import { MultiImageUploadContainerComponent } from './components/multi-image-upload-container/multi-image-upload-container.component';
 import { jsPDF } from 'jspdf';
+import { VariablesContainerComponent } from './components/variables-container/variables-container.component';
 
 @Component({
   selector: 'app-certification-editor',
   standalone: true,
-  imports: [CommonModule, JCollapseComponent, JEditorComponent, DraggableDirective, MultiImageUploadContainerComponent],
+  imports: [CommonModule, JCollapseComponent, JEditorComponent, DraggableDirective, MultiImageUploadContainerComponent, VariablesContainerComponent],
   templateUrl: './certification-editor.component.html',
   styleUrls: ['./certification-editor.component.scss']
 })

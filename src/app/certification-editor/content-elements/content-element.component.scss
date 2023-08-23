@@ -1,0 +1,75 @@
+.jz-widget {
+  position: relative;
+  border: 1px solid #D1D8E1;
+  margin:10px;
+  padding:10px;
+  background:#fff;
+  &::after {
+    content: '';
+    position: absolute;
+    background:transparent;
+    right:-70px;
+    top:0px;
+    width:100px;
+    height: 140px;
+  }
+  &.preview-mode {
+    .jz-widget-controls {
+      display: none !important;
+    }
+  }
+
+  .jz-widget-controls {
+    position: absolute;
+    display: none;
+    right:-70px;
+    top:0px;
+    width: 50px;
+    z-index: 1000;
+    background:#fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 2px 1px #eee;
+    padding:5px;
+    z-index: 100;
+    .jz-widget-control {
+      padding:7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #ccc;
+      cursor: pointer;
+      &.move-control {
+        cursor: move;
+      }
+      &:last-child {
+        border:none;
+      }
+      &:hover {
+        background:linear-gradient(45deg, #eee, transparent, #eee)
+      }
+      .jz-widget-control-icon {
+        width: 28px;
+        height: 28px;
+      }
+
+    }
+  }
+  .btn-delete {
+    position: absolute;
+    right: 0px;
+    top: -15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    border: 1px solid #A0A1AA;
+    background: #E6EDF0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    >svg {
+      width: 20px;
+      height: 20px;
+    }
+    cursor: pointer;
+  }
+}

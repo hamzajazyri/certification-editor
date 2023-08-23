@@ -86,7 +86,7 @@
       margin:auto;
       border: 1px dashed #2C363A;
       background: #F0F4F6;
-      overflow: hidden;
+      // overflow: hidden;
     }
   }
 }
@@ -110,21 +110,4 @@
     font-weight: 500;
     line-height: normal;
   }
-}
-
-
-
-
-.btn-add-var {
-  display: flex;
-  align-items: center;
-  gap:7px;
-  border:none;
-  cursor: pointer;
-  color:  #205280;
-  font-size: 14px;
-  font-weight: 400;
-  background:transparent;
-  margin-top: 10px;
-  padding:0px;
 }
