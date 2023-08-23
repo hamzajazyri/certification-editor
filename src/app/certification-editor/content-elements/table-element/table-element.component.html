@@ -1,18 +1,19 @@
-<table class="table-element">
- <thead>
-  <tr>
-    <th>xx</th>
-    <th>xx</th>
-    <th>xx</th>
-    <th>xx</th>
-  </tr>
- </thead>
- <tbody>
-  <tr *ngFor="let item of [1,2,3,4,5,6,7]">
-    <td>yy</td>
-    <td>yy</td>
-    <td>yy</td>
-    <td>yy</td>
-  </tr>
- </tbody>
-</table>
+<div class="j-table-element">
+  <select [formControl]="tableSize">
+    <option *ngFor="let item of values" [value]="item">{{item}}</option>
+  </select>
+  <table class="table-element">
+    <thead>
+      <tr>
+        <th *ngFor="let item of colsCount">xx</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of rowsCount">
+        <td *ngFor="let item of colsCount">yy</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
