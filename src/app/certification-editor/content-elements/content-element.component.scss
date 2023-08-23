@@ -14,9 +14,9 @@
     width:100px;
     height: 140px;
   }
-  &.preview-mode {
-    .jz-widget-controls {
-      display: none !important;
+  &:hover {
+    .btn-delete {
+      display: flex;
     }
   }
 
@@ -29,10 +29,10 @@
     border-radius: 20px;
     border: 1px solid #A0A1AA;
     background: #E6EDF0;
-    display: flex;
     align-items: center;
     justify-content: center;
     z-index: 100;
+    display: none;
     >svg {
       width: 20px;
       height: 20px;

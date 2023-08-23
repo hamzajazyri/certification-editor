@@ -1,1 +1,10 @@
-<h1 contenteditable="true">HEADING ELEMENT</h1>
+<div class="j-heading-element">
+  <div class="tooblar-container">
+    <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+    </ngx-editor-menu>
+  </div>
+  <div class="editor-container">
+    <ngx-editor [formControl]="editorContent" [editor]="editor">
+    </ngx-editor>
+  </div>
+</div>
