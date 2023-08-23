@@ -1,6 +1,6 @@
 .j-heading-element {
   position: relative;
-
+  white-space: nowrap !important;
   &:hover {
     .tooblar-container {
       display: block;

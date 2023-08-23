@@ -42,6 +42,7 @@ export class DroppableZoneDirective {
     (compRef.instance as any).data = obj.componentData;
 
     const contentElementRef = this.viewContainerRef.createComponent(ContentElementComponent);
+    contentElementRef.instance.insideDropZone = true;
 
 
     contentElementRef.instance.updateContent(compRef);

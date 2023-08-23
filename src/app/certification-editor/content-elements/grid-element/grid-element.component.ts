@@ -21,7 +21,7 @@ import { DroppableZoneDirective } from '../../directives/droppable-zone.directiv
         display: grid;
         grid-template-columns: 1fr 3fr;
         gap: 20px;
-        padding:20px;
+        /* padding:20px; */
         background:#fff;
     }`,
     `.j-grid-element-2 .droppable-item {
@@ -60,7 +60,7 @@ export class Grid2ColumnsLeftElementComponent {
         display: grid;
         grid-template-columns: 3fr 1fr;
         gap: 20px;
-        padding:20px;
+        /* padding:20px; */
         background:#fff;
     }`,
     `.j-grid-element .droppable-item {
@@ -102,7 +102,7 @@ export class Grid2ColumnsRightElementComponent {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 20px;
-        padding:20px;
+        /* padding:20px; */
         background:#fff;
     }`,
     `.j-grid-element .droppable-item {

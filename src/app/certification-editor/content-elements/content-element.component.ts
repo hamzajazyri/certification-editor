@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 export class ContentElementComponent {
 
   @Input() isEditable = true;
+  @Input() insideDropZone = false;
 
   @ViewChild('containerRef', {static: true, read: ViewContainerRef}) containerRef!: ViewContainerRef;
 
