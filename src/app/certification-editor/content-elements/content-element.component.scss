@@ -1,8 +1,9 @@
 .jz-widget {
   position: relative;
   border: 1px solid #D1D8E1;
-  margin:10px;
+  margin:17px;
   padding:10px;
+  border-radius: 3px;
   background:#fff;
   &::after {
     content: '';
@@ -19,41 +20,6 @@
     }
   }
 
-  .jz-widget-controls {
-    position: absolute;
-    display: none;
-    right:-70px;
-    top:0px;
-    width: 50px;
-    z-index: 1000;
-    background:#fff;
-    border-radius: 8px;
-    box-shadow: 0px 0px 2px 1px #eee;
-    padding:5px;
-    z-index: 100;
-    .jz-widget-control {
-      padding:7px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-bottom: 1px solid #ccc;
-      cursor: pointer;
-      &.move-control {
-        cursor: move;
-      }
-      &:last-child {
-        border:none;
-      }
-      &:hover {
-        background:linear-gradient(45deg, #eee, transparent, #eee)
-      }
-      .jz-widget-control-icon {
-        width: 28px;
-        height: 28px;
-      }
-
-    }
-  }
   .btn-delete {
     position: absolute;
     right: 0px;
@@ -66,6 +32,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 100;
     >svg {
       width: 20px;
       height: 20px;

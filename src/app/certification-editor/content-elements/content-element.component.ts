@@ -1,4 +1,4 @@
-import { Component, ComponentRef, Input, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, Input, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,7 +6,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './content-element.component.html',
-  styleUrls: ['./content-element.component.scss']
+  styleUrls: ['./content-element.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ContentElementComponent {
 

@@ -7,7 +7,7 @@ import { DroppableZoneDirective } from '../../directives/droppable-zone.directiv
   standalone: true,
   imports: [CommonModule, DroppableZoneDirective],
   template: `
-  <div class="j-grid-element">
+  <div class="j-grid-element-2">
     <div class="droppable-item" DroppableZone>
       Drop Content Here
     </div>
@@ -17,14 +17,14 @@ import { DroppableZoneDirective } from '../../directives/droppable-zone.directiv
   </div>
   `,
   styles: [
-    `.j-grid-element {
+    `.j-grid-element-2 {
         display: grid;
         grid-template-columns: 1fr 3fr;
         gap: 20px;
         padding:20px;
         background:#fff;
     }`,
-    `.j-grid-element .droppable-item {
+    `.j-grid-element-2 .droppable-item {
         width: 100%;
         padding: 20px;
         border: 1px dashed #2C363A;

@@ -1,6 +1,7 @@
 import { Directive, ElementRef, HostListener, ViewContainerRef } from '@angular/core';
 import { componentTreeMap } from '../content-elements/content-element.interface';
 import { parseObject } from './helper';
+import { ContentElementComponent } from '../content-elements/content-element.component';
 
 @Directive({
   selector: '[DroppableZone]',
@@ -39,7 +40,12 @@ export class DroppableZoneDirective {
     const obj = parseObject(event.dataTransfer!.getData('text/plain'));
     const compRef = this.viewContainerRef.createComponent(componentTreeMap[obj.componentType]);
     (compRef.instance as any).data = obj.componentData;
-    this.viewContainerRef.insert(compRef.hostView);
+
+    const contentElementRef = this.viewContainerRef.createComponent(ContentElementComponent);
+
+
+    contentElementRef.instance.updateContent(compRef);
+    this.viewContainerRef.insert(contentElementRef.hostView);
     this.element.nativeElement.style.display = 'none';
     this.element.nativeElement.setAttribute('aria-empty', 'false');
     return false;

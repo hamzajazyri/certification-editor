@@ -1,10 +1,23 @@
-p {
-  margin:0px;
-  // animation: anim 2s;
-  background:#fff;
+.j-paragraph-element {
+  position: relative;
 }
 
-@keyframes anim {
-  from { background:#ccc;}
-  to { background:white;}
+.tooblar-container {
+  position: absolute;
+  left:50%;
+  transform: translate(-50%, 0%);
+  z-index: 100;
+  top:-20px;
+  border-radius: 5px;
+  border: 1px solid #D1D8E1;
+  background: #FFF;
+  box-shadow: 0px 4px 11px 0px rgba(0, 0, 0, 0.05);
+  width: max-content;
+  padding:3px 10px;
+}
+
+
+.editor-container {
+  // margin-top: 20px;
+  // padding-top: 20px;
 }

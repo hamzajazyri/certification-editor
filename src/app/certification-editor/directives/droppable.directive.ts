@@ -23,18 +23,14 @@ export class DroppableDirective {
   ) { }
 
   loadComponent(obj: DragDropObject, index: number | undefined = undefined) {
-    //
 
     const contentElementRef = this.containerRef.createComponent(ContentElementComponent);
-      // componentTreeMap[obj.componentType]);
-
 
     const compRef = this.containerRef.createComponent(componentTreeMap[obj.componentType]);
     (compRef.instance as any).data = obj.componentData;
 
     contentElementRef.instance.updateContent(compRef);
 
-    // const widgetRef = this.containerRef.createComponent({projectableNodes: [[x]]})
     this.containerRef.insert(contentElementRef.hostView, index);
     if(index === 0)
       this.componentRefs.unshift(contentElementRef);
