@@ -5,11 +5,29 @@ import { ParagraphElementComponent } from "./paragraph-element/paragraph-element
 import { SpacerElementComponent } from "./spacer-element/spacer-element.component";
 import { TableElementComponent } from "./table-element/table-element.component";
 
-export interface ContentElementInterface {
-  // onMouseEnter;
+
+export interface ContentElementStyle {
+  paddingTop: number;
+  paddingBottom: number;
+  paddingRight: number;
+  paddingLeft: number;
 }
 
+export interface ContentElementData {
+  componentKey?: keyof typeof componentTreeMap;
+  style: ContentElementStyle,
+  componentData: any
+}
 
+export const initContentElementData : ContentElementData = {
+  style: {
+    paddingBottom: 0,
+    paddingTop: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+  componentData: {}
+}
 
 export const componentTreeMap = {
   p: ParagraphElementComponent,

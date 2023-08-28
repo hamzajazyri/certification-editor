@@ -7,11 +7,12 @@ import { MultiImageUploadContainerComponent } from './components/multi-image-upl
 import { jsPDF } from 'jspdf';
 import { VariablesContainerComponent } from './components/variables-container/variables-container.component';
 import { EditorService } from './services/editor.service';
+import { ContentElementContainerConfigComponent } from './content-elements/content-element.component';
 
 @Component({
   selector: 'app-certification-editor',
   standalone: true,
-  imports: [CommonModule, JCollapseComponent, JEditorComponent, DraggableDirective, MultiImageUploadContainerComponent, VariablesContainerComponent],
+  imports: [CommonModule, JCollapseComponent, JEditorComponent, DraggableDirective, MultiImageUploadContainerComponent, VariablesContainerComponent, ContentElementContainerConfigComponent],
   templateUrl: './certification-editor.component.html',
   styleUrls: ['./certification-editor.component.scss']
 })

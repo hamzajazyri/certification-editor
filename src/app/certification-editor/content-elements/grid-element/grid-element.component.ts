@@ -102,7 +102,6 @@ export class Grid2ColumnsRightElementComponent {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 20px;
-        /* padding:20px; */
         background:#fff;
     }`,
     `.j-grid-element .droppable-item {

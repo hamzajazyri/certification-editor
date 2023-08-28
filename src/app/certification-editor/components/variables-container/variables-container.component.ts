@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JCollapseComponent } from '../j-collapse/j-collapse.component';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { EditorService } from '../../services/editor.service';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-variables-container',
@@ -20,10 +22,20 @@ export class VariablesContainerComponent {
     return this.schemaFrom.get('groups') as FormArray;
   }
 
-  addSchemaVariable(label: string, defaultValue: string) {
+  constructor(
+    private editorSrv: EditorService
+  ) {
+    this.schemaFrom.valueChanges.pipe(
+      debounceTime(1000)
+    ).subscribe( _ => {
+      this.editorSrv.updateVariablesGroups(this.formGroups.value)
+    });
+  }
+
+  addSchemaVariable(label: string, value: string) {
     const schemaFormGroup = new FormGroup({
       label: new FormControl(label),
-      defaultValue: new FormControl(defaultValue)
+      value: new FormControl(value)
     });
     this.schemaFrom.controls.groups.push(schemaFormGroup);
   }

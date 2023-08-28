@@ -4,6 +4,7 @@ import { PlaceholderElementComponent } from '../content-elements/placeholder-ele
 import { componentTreeMap } from '../content-elements/content-element.interface';
 import { DragDropObject, parseObject } from './helper';
 import { ContentElementComponent } from '../content-elements/content-element.component';
+import { EditorService } from '../services/editor.service';
 
 @Directive({
   selector: '[Droppable]',
@@ -19,7 +20,8 @@ export class DroppableDirective {
   placeHolderIndex = -1;
 
   constructor(
-    @Host() private hostComp: JEditorComponent
+    @Host() private hostComp: JEditorComponent,
+    private editorSrv: EditorService
   ) { }
 
   loadComponent(obj: DragDropObject, index: number | undefined = undefined) {
@@ -30,6 +32,10 @@ export class DroppableDirective {
     (compRef.instance as any).data = obj.componentData;
 
     contentElementRef.instance.updateContent(compRef);
+    contentElementRef.instance.onContentDelete.subscribe( _ => {
+      this.editorSrv.removeContentElement(contentElementRef);
+    });
+    this.editorSrv.addContentElement(contentElementRef);
 
     this.containerRef.insert(contentElementRef.hostView, index);
     if(index === 0)

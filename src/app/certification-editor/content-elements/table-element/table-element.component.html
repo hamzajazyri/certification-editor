@@ -1,4 +1,4 @@
-<div class="j-table-element" [ngClass]="{'m-p': (isEditMode$ | async)}">
+<div class="j-table-element" [ngClass]="{'m-p': (isEditMode$ | async)}" contenteditable="true" >
   <select [formControl]="tableSize" *ngIf="(isEditMode$ | async)">
     <option *ngFor="let item of values" [value]="item">{{item}}</option>
   </select>

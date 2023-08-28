@@ -2,6 +2,7 @@ import { Directive, ElementRef, HostListener, ViewContainerRef } from '@angular/
 import { componentTreeMap } from '../content-elements/content-element.interface';
 import { parseObject } from './helper';
 import { ContentElementComponent } from '../content-elements/content-element.component';
+import { EditorService } from '../services/editor.service';
 
 @Directive({
   selector: '[DroppableZone]',
@@ -11,7 +12,8 @@ export class DroppableZoneDirective {
 
   constructor(
     private element: ElementRef<HTMLElement>,
-    private viewContainerRef: ViewContainerRef
+    private viewContainerRef: ViewContainerRef,
+    private editorSrv: EditorService
   ) { }
 
 
@@ -43,6 +45,14 @@ export class DroppableZoneDirective {
 
     const contentElementRef = this.viewContainerRef.createComponent(ContentElementComponent);
     contentElementRef.instance.insideDropZone = true;
+
+    contentElementRef.instance.onContentDelete.subscribe( _ => {
+      contentElementRef.destroy();
+      this.element.nativeElement.style.display = 'block';
+      this.element.nativeElement.setAttribute('aria-empty', 'true');
+      this.element.nativeElement.style.borderColor = '#2C363A';
+      this.element.nativeElement.style.backgroundColor = '#F0F4F6';
+    });
 
     contentElementRef.instance.updateContent(compRef);
     this.viewContainerRef.insert(contentElementRef.hostView);
