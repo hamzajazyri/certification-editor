@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { EditorService } from '../../services/editor.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-table-element',
@@ -15,7 +17,14 @@ export class TableElementComponent {
   values: Array<string> = []
   tableSize = new FormControl<string>('2x2');
 
-  constructor() {
+
+  isEditMode$!: Observable<boolean>;
+
+
+  constructor(
+    private editorSrv: EditorService
+  ) {
+    this.isEditMode$ = this.editorSrv.isEditMode$;
     for(let i=1; i<20; i++) {
       for(let j=1; j<20; j++) {
         this.values.push(`${i}x${j}`)

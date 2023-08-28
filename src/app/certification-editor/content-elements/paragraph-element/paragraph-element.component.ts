@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { EditorService } from '../../services/editor.service';
 
 @Component({
   selector: 'app-paragraph-element',
@@ -16,6 +18,20 @@ export class ParagraphElementComponent implements OnInit {
   editor!: Editor;
   editorContent = new FormControl({ value: '<p>lorem mzejslqdkdfjdqsf j</p>', disabled: false });
   toolbar = toolbarEditorDefaultConfig;
+
+  isEditMode$!: Observable<boolean>;
+
+  constructor(
+    private editorSrv: EditorService
+  ) {
+    this.isEditMode$ = this.editorSrv.isEditMode$;
+    this.isEditMode$.subscribe( res => {
+      if(res)
+        this.editorContent.enable();
+      else
+        this.editorContent.disable();
+    })
+  }
 
   ngOnInit(): void {
     this.editor = new Editor({

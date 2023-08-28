@@ -1,7 +1,8 @@
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlaceholderElementComponent } from '../content-elements/placeholder-element/placeholder-element.component';
 import { DroppableDirective } from '../directives/droppable.directive';
+import { EditorService } from '../services/editor.service';
 
 @Component({
   selector: 'app-j-editor',
@@ -10,10 +11,20 @@ import { DroppableDirective } from '../directives/droppable.directive';
   templateUrl: './j-editor.component.html',
   styleUrls: ['./j-editor.component.scss']
 })
-export class JEditorComponent {
+export class JEditorComponent implements OnInit {
+
+  isEditMode = true;
+
   isEmpty = true;
-  isPreviewMode = false;
 
   @ViewChild('containerRef', {read: ViewContainerRef}) viewContainerRef!: ViewContainerRef;
 
+
+  constructor(
+    private editorSrv: EditorService
+  ){}
+
+  ngOnInit(): void {
+    this.editorSrv.isEditMode$.subscribe( res => this.isEditMode = res);
+  }
 }

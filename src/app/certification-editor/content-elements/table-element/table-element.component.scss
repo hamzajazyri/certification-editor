@@ -3,7 +3,9 @@
   background:#fff;
   border: 1px solid #AFAFAF;
   border-collapse: collapse;
-  margin-top: 15px;
+  &.m-p{
+    margin-top: 15px;
+  }
 }
 
 .table-element, .table-element th, .table-element td {

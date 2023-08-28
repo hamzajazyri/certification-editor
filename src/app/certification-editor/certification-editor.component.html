@@ -5,10 +5,10 @@
       <input class="template-name-control" placeholder="Enter Name Here" type="text" />
     </div>
     <div class="btn-actions">
-      <button>Delete</button>
-      <button>Preview</button>
+      <button (click)="deleteTemplate()">Delete</button>
+      <button (click)="updateMode()">{{isEditMode ? 'Preview' : 'Edit Mode'}}</button>
       <button (click)="generatePDF()">Download</button>
-      <button class="btn-fill">Save Template</button>
+      <button class="btn-fill" (click)="saveTemplate()">Save Template</button>
     </div>
   </div>
   <div class="j-editor-body">
@@ -82,7 +82,7 @@
     </div>
     <div class="j-editor-content">
       <div id="ngxPrintId">
-        <app-j-editor ></app-j-editor>
+        <app-j-editor></app-j-editor>
       </div>
     </div>
     <div class="j-editor-aside">

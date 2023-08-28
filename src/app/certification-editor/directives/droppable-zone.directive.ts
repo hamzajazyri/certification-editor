@@ -44,7 +44,6 @@ export class DroppableZoneDirective {
     const contentElementRef = this.viewContainerRef.createComponent(ContentElementComponent);
     contentElementRef.instance.insideDropZone = true;
 
-
     contentElementRef.instance.updateContent(compRef);
     this.viewContainerRef.insert(contentElementRef.hostView);
     this.element.nativeElement.style.display = 'none';

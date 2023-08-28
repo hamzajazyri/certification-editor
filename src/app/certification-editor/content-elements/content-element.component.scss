@@ -1,21 +1,24 @@
 .jz-widget {
   position: relative;
-  border: 1px solid #D1D8E1;
-  border-radius: 3px;
-  background:#fff;
+  background: #fff;
+
   &.m-p {
-    margin:17px;
-    padding:10px;
+    margin: 17px;
+    padding: 10px;
+    border: 1px solid #D1D8E1;
+    border-radius: 3px;
   }
+
   &::after {
     content: '';
     position: absolute;
-    background:transparent;
-    right:-70px;
-    top:0px;
-    width:100px;
+    background: transparent;
+    right: -70px;
+    top: 0px;
+    width: 100px;
     height: 140px;
   }
+
   &:hover {
     .btn-delete {
       display: flex;
@@ -35,10 +38,12 @@
     justify-content: center;
     z-index: 100;
     display: none;
+
     >svg {
       width: 20px;
       height: 20px;
     }
+
     cursor: pointer;
   }
 }

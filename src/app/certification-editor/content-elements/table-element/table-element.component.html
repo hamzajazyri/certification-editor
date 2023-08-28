@@ -1,5 +1,5 @@
-<div class="j-table-element">
-  <select [formControl]="tableSize">
+<div class="j-table-element" [ngClass]="{'m-p': (isEditMode$ | async)}">
+  <select [formControl]="tableSize" *ngIf="(isEditMode$ | async)">
     <option *ngFor="let item of values" [value]="item">{{item}}</option>
   </select>
   <table class="table-element">

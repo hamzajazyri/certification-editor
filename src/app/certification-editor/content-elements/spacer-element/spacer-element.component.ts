@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { EditorService } from '../../services/editor.service';
 
 @Component({
   selector: 'app-spacer-element',
@@ -17,5 +19,11 @@ export class SpacerElementComponent {
 
   spaceValue = new FormControl<number>(10);
 
+  isEditMode$!: Observable<boolean>;
 
+  constructor(
+    private editorSrv: EditorService
+  ) {
+    this.isEditMode$ = this.editorSrv.isEditMode$;
+  }
 }

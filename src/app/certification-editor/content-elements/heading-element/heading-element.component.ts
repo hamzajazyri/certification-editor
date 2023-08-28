@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { EditorService } from '../../services/editor.service';
 
 @Component({
   selector: 'app-heading-element',
@@ -17,6 +19,21 @@ export class HeadingElementComponent {
   editor!: Editor;
   editorContent = new FormControl({ value: '<h1>HEADING TEXT</h1>', disabled: false });
   toolbar = headingToolbarEditorDefaultConfig;
+
+  isEditMode$!: Observable<boolean>;
+
+  constructor(
+    private editorSrv: EditorService
+  ) {
+    this.isEditMode$ = this.editorSrv.isEditMode$;
+    this.isEditMode$.subscribe( res => {
+      if(res)
+        this.editorContent.enable();
+      else
+        this.editorContent.disable();
+    })
+  }
+
 
   ngOnInit(): void {
     this.editor = new Editor({
