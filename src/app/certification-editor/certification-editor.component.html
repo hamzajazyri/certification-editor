@@ -7,7 +7,7 @@
     <div class="btn-actions">
       <button (click)="deleteTemplate()">Delete</button>
       <button (click)="updateMode()">{{isEditMode ? 'Preview' : 'Edit Mode'}}</button>
-      <button (click)="generatePDF()">Download</button>
+      <button (click)="generatePDF()" [disabled]="(isEditMode)">Download</button>
       <button class="btn-fill" (click)="saveTemplate()">Save Template</button>
     </div>
   </div>

@@ -71,6 +71,7 @@ export class EditorService {
     for(let elem of this._components) {
       editorTemplate.elements.push(elem.instance.data);
     }
+    localStorage.setItem('editorTemplate', JSON.stringify(editorTemplate));
     console.log(editorTemplate);
   }
 

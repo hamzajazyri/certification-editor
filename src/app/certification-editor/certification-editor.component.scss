@@ -46,7 +46,9 @@
       background: #F8F9FA;
       cursor: pointer;
       margin-left: 15px;
-
+      &:disabled {
+        opacity: .3;
+      }
       &.btn-fill {
         background: #205280;
         color: #fff;

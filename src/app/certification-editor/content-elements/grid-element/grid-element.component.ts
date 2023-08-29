@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DroppableZoneDirective } from '../../directives/droppable-zone.directive';
 
@@ -8,10 +8,10 @@ import { DroppableZoneDirective } from '../../directives/droppable-zone.directiv
   imports: [CommonModule, DroppableZoneDirective],
   template: `
   <div class="j-grid-element-2">
-    <div class="droppable-item" DroppableZone>
+    <div class="droppable-item" DroppableZone [gridType]="'Grid2ColumnsLeft'" [gridZone]="'left'">
       Drop Content Here
     </div>
-    <div class="droppable-item" DroppableZone>
+    <div class="droppable-item" DroppableZone [gridType]="'Grid2ColumnsLeft'" [gridZone]="'right'">
       Drop Content Here
     </div>
   </div>
@@ -36,7 +36,13 @@ import { DroppableZoneDirective } from '../../directives/droppable-zone.directiv
     }`
   ]
 })
-export class Grid2ColumnsLeftElementComponent {
+export class Grid2ColumnsLeftElementComponent  {
+  @Output() onDataChange = new EventEmitter<{dataKey: string, dataValue: any}>();
+
+  @Input() data: any = {
+    left: null,
+    right: null
+  };
 }
 
 
@@ -47,10 +53,10 @@ export class Grid2ColumnsLeftElementComponent {
   imports: [CommonModule, DroppableZoneDirective],
   template: `
   <div class="j-grid-element">
-    <div class="droppable-item" DroppableZone>
+    <div class="droppable-item" DroppableZone [gridType]="'Grid2ColumnsRight'" [gridZone]="'left'">
       Drop Content Here
     </div>
-    <div class="droppable-item" DroppableZone>
+    <div class="droppable-item" DroppableZone [gridType]="'Grid2ColumnsRight'" [gridZone]="'right'">
       Drop Content Here
     </div>
   </div>
@@ -75,7 +81,13 @@ export class Grid2ColumnsLeftElementComponent {
     }`
   ]
 })
-export class Grid2ColumnsRightElementComponent {
+export class Grid2ColumnsRightElementComponent  {
+  @Output() onDataChange = new EventEmitter<{dataKey: string, dataValue: any}>();
+
+  @Input() data: any = {
+    left: null,
+    right: null
+  };
 }
 
 
@@ -86,13 +98,13 @@ export class Grid2ColumnsRightElementComponent {
   imports: [CommonModule, DroppableZoneDirective],
   template: `
   <div class="j-grid-element">
-    <div class="droppable-item" DroppableZone>
+    <div class="droppable-item" DroppableZone [gridType]="'Grid3Columns'" [gridZone]="'left'">
       Drop Content Here
     </div>
-    <div class="droppable-item" DroppableZone>
+    <div class="droppable-item" DroppableZone [gridType]="'Grid3Columns'" [gridZone]="'middle'">
       Drop Content Here
     </div>
-    <div class="droppable-item" DroppableZone>
+    <div class="droppable-item" DroppableZone [gridType]="'Grid3Columns'" [gridZone]="'right'">
       Drop Content Here
     </div>
   </div>
@@ -116,5 +128,13 @@ export class Grid2ColumnsRightElementComponent {
     }`
   ]
 })
-export class Grid3ColumnsElementComponent {
+export class Grid3ColumnsElementComponent  {
+  @Output() onDataChange = new EventEmitter<{dataKey: string, dataValue: any}>();
+
+  @Input() data: any = {
+    left: null,
+    middle: null,
+    right: null
+  };
 }
+
