@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EditorService } from '../../services/editor.service';
 import { Observable } from 'rxjs';
@@ -15,6 +15,9 @@ export class ImageElementComponent {
   @Input() data: any;
 
   isEditMode$!: Observable<boolean>;
+
+  @Output() onDataChange = new EventEmitter<{dataKey: string, dataValue: any}>();
+
 
   constructor(
     private editorSrv: EditorService

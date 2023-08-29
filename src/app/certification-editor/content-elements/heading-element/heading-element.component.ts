@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
+import { Editor, NgxEditorModule, Toolbar, toHTML } from 'ngx-editor';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, debounceTime } from 'rxjs';
 import { EditorService } from '../../services/editor.service';
 
 @Component({
@@ -17,21 +17,32 @@ export class HeadingElementComponent {
   @Input() data: any;
 
   editor!: Editor;
-  editorContent = new FormControl({ value: '<h1>HEADING TEXT</h1>', disabled: false });
+  prevEditorContentValue: any = "<h1>HEADING</h1>";
+  editorContent = new FormControl<any>({ value: null, disabled: false });
   toolbar = headingToolbarEditorDefaultConfig;
 
   isEditMode$!: Observable<boolean>;
+
+  @Output() onDataChange = new EventEmitter<{dataKey: string, dataValue: any}>();
+
 
   constructor(
     private editorSrv: EditorService
   ) {
     this.isEditMode$ = this.editorSrv.isEditMode$;
-    this.isEditMode$.subscribe( res => {
-      if(res)
+    this.isEditMode$.subscribe(res => {
+      if (res) {
         this.editorContent.enable();
-      else
+        this.editorContent.setValue(this.prevEditorContentValue);
+      } else {
+        this.prevEditorContentValue = this.editorContent.value;
         this.editorContent.disable();
-    })
+        this.editorSrv.replaceTextMatch(this.prevEditorContentValue).subscribe( val => {
+          console.log(val);
+          this.editorContent.setValue(val);
+        })
+      }
+    });
   }
 
 
@@ -41,13 +52,20 @@ export class HeadingElementComponent {
       keyboardShortcuts: true,
       inputRules: true,
     });
+
+
+    this.editorContent.valueChanges.pipe(
+      debounceTime(200)
+    ).subscribe( val => {
+      this.onDataChange.emit({dataKey: 'htmlContent', dataValue: val});
+    });
   }
 
 
 }
 
 export const headingToolbarEditorDefaultConfig: Toolbar = [
-  ['italic', 'underline',  'text_color'],
+  ['italic', 'underline', 'text_color'],
   // [],
   // ['code', ],
   // [],

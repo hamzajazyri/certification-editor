@@ -14,7 +14,7 @@ export interface ContentElementStyle {
 }
 
 export interface ContentElementData {
-  componentKey?: keyof typeof componentTreeMap;
+  componentType?: keyof typeof componentTreeMap;
   style: ContentElementStyle,
   componentData: any
 }

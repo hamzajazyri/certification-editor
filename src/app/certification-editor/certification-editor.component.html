@@ -2,7 +2,7 @@
   <div class="j-editor-header">
     <div class="template-name">
       <label>Template Name:</label>
-      <input class="template-name-control" placeholder="Enter Name Here" type="text" />
+      <input class="template-name-control" placeholder="Enter Name Here" type="text" [formControl]="templateName"/>
     </div>
     <div class="btn-actions">
       <button (click)="deleteTemplate()">Delete</button>
@@ -86,7 +86,7 @@
       </div>
     </div>
     <div class="j-editor-aside">
-      <app-content-element-container-config></app-content-element-container-config>
+      <app-content-element-container-config [content-element]="currentSetting"></app-content-element-container-config>
       <app-variables-container></app-variables-container>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ComponentRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JCollapseComponent } from './components/j-collapse/j-collapse.component';
 import { JEditorComponent } from './j-editor/j-editor.component';
@@ -7,29 +7,42 @@ import { MultiImageUploadContainerComponent } from './components/multi-image-upl
 import { jsPDF } from 'jspdf';
 import { VariablesContainerComponent } from './components/variables-container/variables-container.component';
 import { EditorService } from './services/editor.service';
-import { ContentElementContainerConfigComponent } from './content-elements/content-element.component';
+import { ContentElementComponent, ContentElementContainerConfigComponent } from './content-elements/content-element.component';
+import { ContentElementStyle } from './content-elements/content-element.interface';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-certification-editor',
   standalone: true,
-  imports: [CommonModule, JCollapseComponent, JEditorComponent, DraggableDirective, MultiImageUploadContainerComponent, VariablesContainerComponent, ContentElementContainerConfigComponent],
+  imports: [CommonModule, JCollapseComponent, JEditorComponent, DraggableDirective, MultiImageUploadContainerComponent, VariablesContainerComponent, ContentElementContainerConfigComponent, ReactiveFormsModule],
   templateUrl: './certification-editor.component.html',
   styleUrls: ['./certification-editor.component.scss']
 })
 export class CertificationEditorComponent {
 
   isEditMode = true;
+  templateName = new FormControl<string>('');
 
+  // currentSetting: {contentElement: ContentElementComponent, paddings: ContentElementStyle} | null = null;
+  currentSetting!: ComponentRef<ContentElementComponent>;
   constructor(
     private editorSrv: EditorService
-  ) {}
+  ) {
+    this.editorSrv.onPaddingSetting.subscribe( _ => this.currentSetting = _);
+    this.editorSrv.templateName$.subscribe( _ => this.templateName.setValue(_, {emitEvent: false}));
+
+    this.templateName.valueChanges.pipe(
+      debounceTime(100)
+    ).subscribe( _ => this.editorSrv.setTemplateName(_!));
+  }
 
   deleteTemplate() {
     alert("DELETE FN");
   }
 
   saveTemplate() {
-    alert("SAVE TEMPLATE");
+    this.editorSrv.saveTemplate();
   }
 
   updateMode() {

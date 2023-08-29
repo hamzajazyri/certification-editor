@@ -28,13 +28,11 @@ export class DroppableDirective {
 
     const contentElementRef = this.containerRef.createComponent(ContentElementComponent);
 
-    const compRef = this.containerRef.createComponent(componentTreeMap[obj.componentType]);
-    (compRef.instance as any).data = obj.componentData;
-
-    contentElementRef.instance.updateContent(compRef);
+    contentElementRef.instance.updateContent(obj);
     contentElementRef.instance.onContentDelete.subscribe( _ => {
       this.editorSrv.removeContentElement(contentElementRef);
     });
+
     this.editorSrv.addContentElement(contentElementRef);
 
     this.containerRef.insert(contentElementRef.hostView, index);

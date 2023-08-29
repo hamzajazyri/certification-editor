@@ -1,10 +1,11 @@
-import { Component, ComponentRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { Component, ComponentRef, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, debounceTime } from 'rxjs';
 import { EditorService } from '../services/editor.service';
-import { ContentElementData, ContentElementStyle, initContentElementData } from './content-element.interface';
+import { ContentElementData, ContentElementStyle, componentTreeMap, initContentElementData } from './content-element.interface';
 import { JCollapseComponent } from '../components/j-collapse/j-collapse.component';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { DragDropObject } from '../directives/helper';
 
 @Component({
   selector: 'app-content-element',
@@ -14,13 +15,14 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./content-element.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ContentElementComponent {
+export class ContentElementComponent implements OnChanges{
 
-  @Input() data: ContentElementData = initContentElementData;
+  @Input() data: ContentElementData = {...initContentElementData};
   @Input() insideDropZone = false;
   @ViewChild('containerRef', { static: true, read: ViewContainerRef }) containerRef!: ViewContainerRef;
 
   @Output() onContentDelete = new EventEmitter();
+  @Output() onOpenPaddingSetting = new EventEmitter<ContentElementStyle>();
 
   isEditMode$!: Observable<boolean>;
   contentCompRef!: ComponentRef<any> | null;
@@ -31,8 +33,23 @@ export class ContentElementComponent {
     this.isEditMode$ = this.editorSrv.isEditMode$;
   }
 
-  updateContent(compRef: ComponentRef<any>) {
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+  }
+
+
+
+  updateContent(obj: DragDropObject) {
     this.containerRef.clear();
+    const compRef = this.containerRef.createComponent(componentTreeMap[obj.componentType]);
+    (compRef.instance as any).data = obj.componentData;
+    ((compRef.instance as any).onDataChange as Observable<{dataKey: string, dataValue: any}>).subscribe( res => {
+      this.data.componentData[res.dataKey] = res.dataValue;
+    });
+    // (compRef.instance as any). = obj.componentData;
+    this.data.componentType = obj.componentType;
+    this.data.componentData = obj.componentData;
+    // compRef.instance.data = componentData;
     this.containerRef.insert(compRef.hostView);
     this.contentCompRef = compRef;
   }
@@ -43,6 +60,9 @@ export class ContentElementComponent {
     this.onContentDelete.emit();
   }
 
+  openPaddingSetting() {
+    this.onOpenPaddingSetting.emit(this.data.style);
+  }
 }
 
 
@@ -51,27 +71,27 @@ export class ContentElementComponent {
 @Component({
   selector: 'app-content-element-container-config',
   standalone: true,
-  imports: [CommonModule, JCollapseComponent],
+  imports: [CommonModule, JCollapseComponent, ReactiveFormsModule],
   template: `
     <j-collapse headerName="Paddings">
-      <div class="inp-grid">
+      <form class="inp-grid" [formGroup]="styleForm">
         <div>
           <label>Top</label>
-          <input type="number" placeholder="Top" />
+          <input type="number" placeholder="Top" formControlName="paddingTop" />
         </div>
         <div>
           <label>Bottom</label>
-          <input type="number" placeholder="Bottom" />
+          <input type="number" placeholder="Bottom" formControlName="paddingBottom"/>
         </div>
         <div>
           <label>Left</label>
-          <input type="number" placeholder="Left" />
+          <input type="number" placeholder="Left" formControlName="paddingLeft"/>
         </div>
         <div>
           <label>Right</label>
-          <input type="number" placeholder="Right" />
+          <input type="number" placeholder="Right" formControlName="paddingRight"/>
         </div>
-      </div>
+      </form>
     </j-collapse>
   `,
   styles: [
@@ -101,9 +121,9 @@ export class ContentElementComponent {
     }`
   ]
 })
-export class ContentElementContainerConfigComponent implements OnInit {
+export class ContentElementContainerConfigComponent implements OnChanges {
   @Input() values!: ContentElementStyle;
-
+  @Input('content-element') contentElement!: ComponentRef<ContentElementComponent>;
   styleForm = new FormGroup({
     paddingTop: new FormControl<number>(0),
     paddingBottom: new FormControl<number>(0),
@@ -111,8 +131,19 @@ export class ContentElementContainerConfigComponent implements OnInit {
     paddingRight: new FormControl<number>(0),
   })
 
-  ngOnInit(): void {
-    if(this.values)
-      this.styleForm.patchValue({...this.values});
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['contentElement']) {
+      this.styleForm.patchValue({...changes['contentElement'].currentValue.instance.data.style});
+    }
   }
+
+  ngOnInit(): void {
+    this.styleForm.valueChanges.pipe(
+      debounceTime(1000)
+    ).subscribe( _ => {
+      if(this.contentElement)
+      this.contentElement.instance.data.style = this.styleForm.value as ContentElementStyle;
+    });
+  }
+
 }

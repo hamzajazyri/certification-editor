@@ -40,8 +40,8 @@ export class DroppableZoneDirective {
     event.stopPropagation();
 
     const obj = parseObject(event.dataTransfer!.getData('text/plain'));
-    const compRef = this.viewContainerRef.createComponent(componentTreeMap[obj.componentType]);
-    (compRef.instance as any).data = obj.componentData;
+    // const compRef = this.viewContainerRef.createComponent(componentTreeMap[obj.componentType]);
+    // (compRef.instance as any).data = obj.componentData;
 
     const contentElementRef = this.viewContainerRef.createComponent(ContentElementComponent);
     contentElementRef.instance.insideDropZone = true;
@@ -54,7 +54,7 @@ export class DroppableZoneDirective {
       this.element.nativeElement.style.backgroundColor = '#F0F4F6';
     });
 
-    contentElementRef.instance.updateContent(compRef);
+    contentElementRef.instance.updateContent(obj);
     this.viewContainerRef.insert(contentElementRef.hostView);
     this.element.nativeElement.style.display = 'none';
     this.element.nativeElement.setAttribute('aria-empty', 'false');

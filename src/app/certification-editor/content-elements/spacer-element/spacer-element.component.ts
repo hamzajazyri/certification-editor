@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, debounceTime } from 'rxjs';
 import { EditorService } from '../../services/editor.service';
 
 @Component({
@@ -14,6 +14,7 @@ import { EditorService } from '../../services/editor.service';
 export class SpacerElementComponent {
 
   @Input() data: any;
+  @Output() onDataChange = new EventEmitter<{dataKey: string, dataValue: any}>();
 
   values = [1,2,3,4,5];
 
@@ -25,5 +26,11 @@ export class SpacerElementComponent {
     private editorSrv: EditorService
   ) {
     this.isEditMode$ = this.editorSrv.isEditMode$;
+
+    this.spaceValue.valueChanges.pipe(
+      debounceTime(200)
+    ).subscribe( val => {
+      this.onDataChange.emit({dataKey: 'spaceValue', dataValue: val});
+    });
   }
 }
