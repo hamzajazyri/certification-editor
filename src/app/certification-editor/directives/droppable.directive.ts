@@ -24,9 +24,10 @@ export class DroppableDirective {
     private editorSrv: EditorService
   ) { }
 
-  loadComponent(obj: DragDropObject, index: number | undefined = undefined) {
+  loadComponent(obj: DragDropObject, index: number | undefined = undefined, contRef: ViewContainerRef|undefined = undefined) {
 
-    const contentElementRef = this.containerRef.createComponent(ContentElementComponent);
+    const containerRef = contRef ? contRef : this.containerRef;
+    const contentElementRef = containerRef.createComponent(ContentElementComponent);
 
     contentElementRef.instance.updateContent(obj);
     contentElementRef.instance.onContentDelete.subscribe( _ => {
@@ -35,7 +36,7 @@ export class DroppableDirective {
 
     this.editorSrv.addContentElement(contentElementRef);
 
-    this.containerRef.insert(contentElementRef.hostView, index);
+    containerRef.insert(contentElementRef.hostView, index);
     if(index === 0)
       this.componentRefs.unshift(contentElementRef);
     else if (index)
@@ -50,12 +51,14 @@ export class DroppableDirective {
     (contentElementRef.location.nativeElement as HTMLElement).addEventListener('dragenter', () => {
       console.log((contentElementRef.location.nativeElement as HTMLElement).getAttribute('x-index'));
       this.isEntered = true;
-      this.containerRef.move(this.placeHolderRef.hostView, parseInt((contentElementRef.location.nativeElement as HTMLElement).getAttribute('x-index')!));
+      containerRef.move(this.placeHolderRef.hostView, parseInt((contentElementRef.location.nativeElement as HTMLElement).getAttribute('x-index')!));
       this.placeHolderIndex = parseInt((contentElementRef.location.nativeElement as HTMLElement).getAttribute('x-index')!);
     } );
     (contentElementRef.location.nativeElement as HTMLElement).addEventListener('dragleave', () => {
       this.isEntered = false;
     });
+    this.placeHolderIndex = -1;
+    this.hostComp.isEmpty = false;
   }
 
   loadPlaceHolder(){
@@ -118,8 +121,6 @@ export class DroppableDirective {
     this.containerRef.detach(this.placeHolderIndex);
     const obj = parseObject(event.dataTransfer!.getData('text/plain'));
     this.loadComponent(obj, this.placeHolderIndex);
-    this.placeHolderIndex = -1;
-    this.hostComp.isEmpty = false;
     return false;
   }
 

@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DroppableZoneDirective } from '../../directives/droppable-zone.directive';
+import { ContentElementData } from '../content-element.interface';
 
 @Component({
   selector: 'app-grid-2-columns-left-element',
@@ -36,13 +37,24 @@ import { DroppableZoneDirective } from '../../directives/droppable-zone.directiv
     }`
   ]
 })
-export class Grid2ColumnsLeftElementComponent  {
+export class Grid2ColumnsLeftElementComponent implements AfterViewInit {
   @Output() onDataChange = new EventEmitter<{dataKey: string, dataValue: any}>();
+  @ViewChildren(DroppableZoneDirective) droppableZoneDirective!: QueryList<DroppableZoneDirective>;
+
 
   @Input() data: any = {
     left: null,
     right: null
   };
+
+  ngAfterViewInit(): void {
+    setTimeout( () =>{
+      if(this.data.left || this.data.right) {
+        this.droppableZoneDirective.get(0)!.loadComponent(this.data.left as ContentElementData);
+        this.droppableZoneDirective.get(1)!.loadComponent(this.data.right as ContentElementData);
+      }
+    },0);
+  }
 }
 
 
@@ -81,13 +93,24 @@ export class Grid2ColumnsLeftElementComponent  {
     }`
   ]
 })
-export class Grid2ColumnsRightElementComponent  {
+export class Grid2ColumnsRightElementComponent implements AfterViewInit {
   @Output() onDataChange = new EventEmitter<{dataKey: string, dataValue: any}>();
+  @ViewChildren(DroppableZoneDirective) droppableZoneDirective!: QueryList<DroppableZoneDirective>;
+
 
   @Input() data: any = {
     left: null,
     right: null
   };
+
+  ngAfterViewInit(): void {
+    setTimeout( () =>{
+      if(this.data.left || this.data.right) {
+        this.droppableZoneDirective.get(0)!.loadComponent(this.data.left as ContentElementData);
+        this.droppableZoneDirective.get(1)!.loadComponent(this.data.right as ContentElementData);
+      }
+    },0);
+  }
 }
 
 
@@ -128,13 +151,24 @@ export class Grid2ColumnsRightElementComponent  {
     }`
   ]
 })
-export class Grid3ColumnsElementComponent  {
+export class Grid3ColumnsElementComponent implements AfterViewInit  {
   @Output() onDataChange = new EventEmitter<{dataKey: string, dataValue: any}>();
+  @ViewChildren(DroppableZoneDirective) droppableZoneDirective!: QueryList<DroppableZoneDirective>;
 
   @Input() data: any = {
     left: null,
     middle: null,
     right: null
   };
+
+  ngAfterViewInit(): void {
+    setTimeout( () =>{
+      if(this.data.left || this.data.right) {
+        this.droppableZoneDirective.get(0)!.loadComponent(this.data.left as ContentElementData);
+        this.droppableZoneDirective.get(1)!.loadComponent(this.data.middle as ContentElementData);
+        this.droppableZoneDirective.get(2)!.loadComponent(this.data.right as ContentElementData);
+      }
+    },0);
+  }
 }
 

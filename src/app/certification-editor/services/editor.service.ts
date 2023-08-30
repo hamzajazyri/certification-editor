@@ -75,6 +75,12 @@ export class EditorService {
     console.log(editorTemplate);
   }
 
+  loadTemplate(): EditorTemplate | null {
+    const templateJson = localStorage.getItem('editorTemplate');
+    if(!templateJson) return null;
+    return JSON.parse(templateJson) as EditorTemplate;
+  }
+
 }
 
 

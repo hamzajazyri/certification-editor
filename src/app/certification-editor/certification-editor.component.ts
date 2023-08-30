@@ -6,9 +6,8 @@ import { DraggableDirective } from './directives/draggable.directive';
 import { MultiImageUploadContainerComponent } from './components/multi-image-upload-container/multi-image-upload-container.component';
 import { jsPDF } from 'jspdf';
 import { VariablesContainerComponent } from './components/variables-container/variables-container.component';
-import { EditorService } from './services/editor.service';
+import { EditorService, EditorTemplate } from './services/editor.service';
 import { ContentElementComponent, ContentElementContainerConfigComponent } from './content-elements/content-element.component';
-import { ContentElementStyle } from './content-elements/content-element.interface';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
 
@@ -23,9 +22,10 @@ export class CertificationEditorComponent {
 
   isEditMode = true;
   templateName = new FormControl<string>('');
-
-  // currentSetting: {contentElement: ContentElementComponent, paddings: ContentElementStyle} | null = null;
   currentSetting!: ComponentRef<ContentElementComponent>;
+
+  editorTemplate: EditorTemplate | null = null;
+
   constructor(
     private editorSrv: EditorService
   ) {
@@ -35,6 +35,9 @@ export class CertificationEditorComponent {
     this.templateName.valueChanges.pipe(
       debounceTime(100)
     ).subscribe( _ => this.editorSrv.setTemplateName(_!));
+
+
+    this.editorTemplate = this.editorSrv.loadTemplate();
   }
 
   deleteTemplate() {
@@ -57,10 +60,11 @@ export class CertificationEditorComponent {
 
   generatePDF() {
       var pdf = new jsPDF('p', 'px', 'a4');
+      const tempName = this.templateName.value != '' ? this.templateName.value : 'default-name';
       document.getElementById('ngxPrintId')!.style.transform = 'scale(.5) translate(-50%, -50%)';
       pdf.html(document.getElementById('ngxPrintId')!, {
         callback: function (pdf) {
-          pdf.save('BOM NAME - Z2Data BOM Analysis.pdf');
+          pdf.save(`${tempName}.pdf`);
           document.getElementById('ngxPrintId')!.style.transform = 'none';
         }
       });

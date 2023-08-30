@@ -1,4 +1,4 @@
-import { componentTreeMap } from "../content-elements/content-element.interface";
+import { ContentElementStyle, componentTreeMap } from "../content-elements/content-element.interface";
 
 export function parseObject(objStr: string): DragDropObject {
   return JSON.parse(objStr);
@@ -7,6 +7,6 @@ export function parseObject(objStr: string): DragDropObject {
 
 export type DragDropObject = {
   componentType: keyof typeof componentTreeMap,
-  componentData: any,
-  isEditor?: boolean
+  componentData: any
+  style?: ContentElementStyle
 }

@@ -1,3 +1,4 @@
+import { DragDropObject } from "../directives/helper";
 import { Grid2ColumnsLeftElementComponent, Grid2ColumnsRightElementComponent, Grid3ColumnsElementComponent } from "./grid-element/grid-element.component";
 import { HeadingElementComponent } from "./heading-element/heading-element.component";
 import { ImageElementComponent } from "./image-element/image-element.component";
@@ -13,11 +14,7 @@ export interface ContentElementStyle {
   paddingLeft: number;
 }
 
-export interface ContentElementData {
-  componentType?: keyof typeof componentTreeMap;
-  style: ContentElementStyle,
-  componentData: any
-}
+export interface ContentElementData extends DragDropObject {}
 
 export const initContentElementData : ContentElementData = {
   style: {
@@ -26,7 +23,8 @@ export const initContentElementData : ContentElementData = {
     paddingLeft: 0,
     paddingRight: 0,
   },
-  componentData: {}
+  componentData: {},
+  componentType: 'spacer'
 }
 
 export const componentTreeMap = {

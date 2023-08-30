@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { JCollapseComponent } from '../j-collapse/j-collapse.component';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { EditorService } from '../../services/editor.service';
-import { debounceTime } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-variables-container',
@@ -25,6 +25,16 @@ export class VariablesContainerComponent {
   constructor(
     private editorSrv: EditorService
   ) {
+    this.editorSrv.variables$.pipe(
+      distinctUntilChanged()
+    ).subscribe( res => {
+      console.log("variables");
+      console.log(res);
+      this.formGroups.clear({emitEvent: false});
+      for(let r of res) {
+        this.addSchemaVariable(r.label, r.value, false);
+      }
+    })
     this.schemaFrom.valueChanges.pipe(
       debounceTime(1000)
     ).subscribe( _ => {
@@ -32,12 +42,12 @@ export class VariablesContainerComponent {
     });
   }
 
-  addSchemaVariable(label: string, value: string) {
+  addSchemaVariable(label: string, value: string, emit: boolean=true) {
     const schemaFormGroup = new FormGroup({
       label: new FormControl(label),
       value: new FormControl(value)
     });
-    this.schemaFrom.controls.groups.push(schemaFormGroup);
+    this.schemaFrom.controls.groups.push(schemaFormGroup, {emitEvent: emit});
   }
 
   removeSchemaVariable(index: number) {

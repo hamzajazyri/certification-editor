@@ -1,9 +1,9 @@
 <div class="jz-widget" [ngClass]="{'m-p': !insideDropZone && (isEditMode$ | async)}"
   [ngStyle]="{
-    'padding-top': data.style.paddingTop+'px',
-    'padding-bottom': data.style.paddingBottom+'px',
-    'padding-left': data.style.paddingLeft+'px',
-    'padding-right': data.style.paddingRight+'px',
+    'padding-top': data.style?.paddingTop+'px',
+    'padding-bottom': data.style?.paddingBottom+'px',
+    'padding-left': data.style?.paddingLeft+'px',
+    'padding-right': data.style?.paddingRight+'px',
   }"
 >
   <button class="btn-delete" (click)="removeContent()" *ngIf="(isEditMode$ | async)">

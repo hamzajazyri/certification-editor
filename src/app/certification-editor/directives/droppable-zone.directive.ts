@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Host, HostListener, Input, Optional, ViewContainerRef } from '@angular/core';
 import { componentTreeMap } from '../content-elements/content-element.interface';
-import { parseObject } from './helper';
+import { DragDropObject, parseObject } from './helper';
 import { ContentElementComponent } from '../content-elements/content-element.component';
 import { EditorService } from '../services/editor.service';
 import { Grid2ColumnsLeftElementComponent, Grid2ColumnsRightElementComponent, Grid3ColumnsElementComponent } from '../content-elements/grid-element/grid-element.component';
@@ -24,9 +24,9 @@ export class DroppableZoneDirective {
   ) { }
 
   get hostComp() {
-    if(this.gridType === 'Grid2ColumnsLeft')
+    if (this.gridType === 'Grid2ColumnsLeft')
       return this.hostComp1;
-    if(this.gridType === 'Grid2ColumnsRight')
+    if (this.gridType === 'Grid2ColumnsRight')
       return this.hostComp2;
     return this.hostComp3;
   }
@@ -45,19 +45,15 @@ export class DroppableZoneDirective {
     this.element.nativeElement.style.backgroundColor = '#F0F4F6';
   }
 
-
-  @HostListener('drop', ['$event'])
-  handleDrop(event: DragEvent) {
-
-
-    event.stopPropagation();
-
-    const obj = parseObject(event.dataTransfer!.getData('text/plain'));
-
+  loadComponent(obj: DragDropObject) {
     const contentElementRef = this.viewContainerRef.createComponent(ContentElementComponent);
     contentElementRef.instance.insideDropZone = true;
 
-    contentElementRef.instance.onContentDelete.subscribe( _ => {
+
+
+
+
+    contentElementRef.instance.onContentDelete.subscribe(_ => {
       contentElementRef.destroy();
       this.element.nativeElement.style.display = 'block';
       this.element.nativeElement.setAttribute('aria-empty', 'true');
@@ -69,9 +65,17 @@ export class DroppableZoneDirective {
     this.viewContainerRef.insert(contentElementRef.hostView);
     this.element.nativeElement.style.display = 'none';
     this.element.nativeElement.setAttribute('aria-empty', 'false');
-
     this.hostComp.data[this.gridZone] = obj;
-    this.hostComp.onDataChange.emit({dataKey: this.gridZone, dataValue: obj});
+    this.hostComp.onDataChange.emit({ dataKey: this.gridZone, dataValue: obj });
+
+  }
+
+  @HostListener('drop', ['$event'])
+  handleDrop(event: DragEvent) {
+
+    event.stopPropagation();
+    const obj = parseObject(event.dataTransfer!.getData('text/plain'));
+    this.loadComponent(obj);
     return false;
   }
 

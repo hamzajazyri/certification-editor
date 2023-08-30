@@ -41,7 +41,7 @@ export class ContentElementComponent implements OnChanges{
 
   updateContent(obj: DragDropObject) {
     this.containerRef.clear();
-    const compRef = this.containerRef.createComponent(componentTreeMap[obj.componentType]);
+    const compRef = this.containerRef.createComponent(componentTreeMap[obj.componentType] as any);
     (compRef.instance as any).data = obj.componentData;
     ((compRef.instance as any).onDataChange as Observable<{dataKey: string, dataValue: any}>).subscribe( res => {
       this.data.componentData[res.dataKey] = res.dataValue;
