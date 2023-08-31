@@ -6,11 +6,12 @@ import { ContentElementData, ContentElementStyle, componentTreeMap, initContentE
 import { JCollapseComponent } from '../components/j-collapse/j-collapse.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DragDropObject } from '../directives/helper';
+import { DraggableDirective } from '../directives/draggable.directive';
 
 @Component({
   selector: 'app-content-element',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DraggableDirective],
   templateUrl: './content-element.component.html',
   styleUrls: ['./content-element.component.scss'],
   encapsulation: ViewEncapsulation.None
