@@ -49,6 +49,8 @@ export class ContentElementComponent implements OnChanges{
     // (compRef.instance as any). = obj.componentData;
     this.data.componentType = obj.componentType;
     this.data.componentData = obj.componentData;
+    if(obj.style)
+      this.data.style = obj.style;
     // compRef.instance.data = componentData;
     this.containerRef.insert(compRef.hostView);
     this.contentCompRef = compRef;

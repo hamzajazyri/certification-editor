@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { EditorService } from '../../services/editor.service';
@@ -11,13 +11,13 @@ import { Observable, debounceTime } from 'rxjs';
   templateUrl: './table-element.component.html',
   styleUrls: ['./table-element.component.scss']
 })
-export class TableElementComponent {
+export class TableElementComponent implements AfterViewInit {
   @Input() data!: any;
   @ViewChild('tableRef') tableRef!: ElementRef<HTMLTableElement>;
 
   @Output() onDataChange = new EventEmitter<{dataKey: string, dataValue: any}>();
 
-  matrix: Array<Array<string>> = [[]];
+  matrix: Array<Array<string>> = [[]] ;
   matrixValues: Array<Array<string>> = [[]];
   get matrixHeader() {
     return this.matrix[0];
@@ -38,6 +38,9 @@ export class TableElementComponent {
   constructor(
     private editorSrv: EditorService
   ) {
+    this.tableSize.setValue('2x2');
+    this.generateMatrix();
+
     this.isEditMode$ = this.editorSrv.isEditMode$;
     for (let i = 1; i < 20; i++) {
       for (let j = 1; j < 20; j++) {
@@ -48,7 +51,10 @@ export class TableElementComponent {
     this.tableSize.valueChanges.pipe(
       debounceTime(100)
     ).subscribe(_ => this.generateMatrix());
+  }
 
+
+  ngAfterViewInit(): void {
     this.isEditMode$.subscribe(_ => {
       if (_ === false) {
         this.prevHTML = this.tableRef.nativeElement.innerHTML;
@@ -56,20 +62,22 @@ export class TableElementComponent {
           this.tableRef.nativeElement.innerHTML = innerHtml;
         });
       }else {
+        if(this.prevHTML != null)
         this.tableRef.nativeElement.innerHTML = this.prevHTML;
         this.prevHTML = null;
       }
     });
+    console.log(this.matrix);
   }
 
 
 
 
   get rowsCount() {
-    return new Array(parseInt(this.tableSize.value!.split('x')[0]));
+    return this.matrix.length;
   }
   get colsCount() {
-    return new Array(parseInt(this.tableSize.value!.split('x')[1]));
+    return this.matrix.at(0)?.length || 0;
   }
 
   generateMatrix() {
