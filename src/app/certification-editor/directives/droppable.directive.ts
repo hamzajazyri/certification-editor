@@ -49,7 +49,6 @@ export class DroppableDirective {
       (this.componentRefs[i].location.nativeElement as HTMLElement).setAttribute('x-index', i.toString());
     }
     (contentElementRef.location.nativeElement as HTMLElement).addEventListener('dragenter', () => {
-      console.log((contentElementRef.location.nativeElement as HTMLElement).getAttribute('x-index'));
       this.isEntered = true;
       containerRef.move(this.placeHolderRef.hostView, parseInt((contentElementRef.location.nativeElement as HTMLElement).getAttribute('x-index')!));
       this.placeHolderIndex = parseInt((contentElementRef.location.nativeElement as HTMLElement).getAttribute('x-index')!);
@@ -85,12 +84,9 @@ export class DroppableDirective {
 
   @HostListener('dragenter', ['$event'])
   handleDragEnter(event: DragEvent) {
-    console.log("DRAG EVENT ENTER");
-
     if(this.isDropZone(event.target as HTMLElement)) {
       this.containerRef.detach(this.placeHolderIndex);
     }
-
     if(!this.isEntered){
       this.loadPlaceHolder();
     }
@@ -102,7 +98,6 @@ export class DroppableDirective {
 
   @HostListener('dragleave', ['$event'])
   handleDragLeave(event: DragEvent) {
-    console.log("DRAG EVENT LEAVE");
     if(this.isEntered){
       return;
     }
@@ -111,7 +106,6 @@ export class DroppableDirective {
 
   @HostListener('drop', ['$event'])
   handleDrop(event: DragEvent) {
-    console.log("laod component")
     if(this.isDropZone(event.target as HTMLElement)) {
       this.placeHolderIndex = -1;
       return;

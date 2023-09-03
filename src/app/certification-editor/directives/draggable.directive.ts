@@ -15,7 +15,6 @@ export class DraggableDirective {
 
   @HostListener('dragstart', ['$event'])
   handleDragStart(event: DragEvent) {
-    console.log("DRAG EVENT START:");
     if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = 'move';
       event.dataTransfer.setData('text/plain', this.stringifyObject());

@@ -10,9 +10,11 @@
   color: #393939;
   font-size: 14px;
   font-weight: 500;
+
   input {
     display: none;
   }
+
   span {
     color: #205280;
     font-weight: 500;
@@ -26,8 +28,17 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+
+  >div {
+    &.inactive {
+      pointer-events: none;
+      opacity: .5;
+    }
+  }
+
   img {
     max-width: 100%;
   }
+
   margin-bottom: 10px;
 }

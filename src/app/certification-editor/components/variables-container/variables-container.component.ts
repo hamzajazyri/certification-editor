@@ -28,8 +28,6 @@ export class VariablesContainerComponent {
     this.editorSrv.variables$.pipe(
       distinctUntilChanged()
     ).subscribe( res => {
-      console.log("variables");
-      console.log(res);
       this.formGroups.clear({emitEvent: false});
       for(let r of res) {
         this.addSchemaVariable(r.label, r.value, false);

@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlaceholderElementComponent } from '../content-elements/placeholder-element/placeholder-element.component';
 import { DroppableDirective } from '../directives/droppable.directive';

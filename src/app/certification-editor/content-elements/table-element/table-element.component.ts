@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { EditorService } from '../../services/editor.service';
@@ -11,7 +11,7 @@ import { Observable, debounceTime } from 'rxjs';
   templateUrl: './table-element.component.html',
   styleUrls: ['./table-element.component.scss']
 })
-export class TableElementComponent implements AfterViewInit {
+export class TableElementComponent implements AfterViewInit, OnInit {
   @Input() data!: any;
   @ViewChild('tableRef') tableRef!: ElementRef<HTMLTableElement>;
 
@@ -32,7 +32,7 @@ export class TableElementComponent implements AfterViewInit {
   tableSize = new FormControl<string>('2x2');
 
 
-  isEditMode$!: Observable<boolean>;
+  isEditMode$: Observable<boolean>;
 
 
   constructor(
@@ -42,6 +42,7 @@ export class TableElementComponent implements AfterViewInit {
     this.generateMatrix();
 
     this.isEditMode$ = this.editorSrv.isEditMode$;
+
     for (let i = 1; i < 20; i++) {
       for (let j = 1; j < 20; j++) {
         this.values.push(`${i}x${j}`)
@@ -53,6 +54,13 @@ export class TableElementComponent implements AfterViewInit {
     ).subscribe(_ => this.generateMatrix());
   }
 
+
+  ngOnInit(): void {
+    if(this.data?.matrix) {
+      this.matrix = this.data.matrix;
+      this.tableSize.setValue(`${this.matrix.length}x${this.matrix[0].length}`, {emitEvent: false});
+    }
+  }
 
   ngAfterViewInit(): void {
     this.isEditMode$.subscribe(_ => {
@@ -67,11 +75,7 @@ export class TableElementComponent implements AfterViewInit {
         this.prevHTML = null;
       }
     });
-    console.log(this.matrix);
   }
-
-
-
 
   get rowsCount() {
     return this.matrix.length;
@@ -81,7 +85,7 @@ export class TableElementComponent implements AfterViewInit {
   }
 
   generateMatrix() {
-    const addToArr = new Array(parseInt(this.tableSize.value!.split('x')[0])).fill(0).map(
+    const addToArr = new Array(parseInt(this.tableSize.value!.split('x')[0])).fill('').map(
       (_, index) => this.generateColumnsArray(parseInt(this.tableSize.value!.split('x')[1]))
     );
     let prevMatrix = this.matrix;

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DraggableDirective } from '../../directives/draggable.directive';
+import { EditorService } from '../../services/editor.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-multi-image-upload-container',
@@ -12,7 +14,13 @@ import { DraggableDirective } from '../../directives/draggable.directive';
 export class MultiImageUploadContainerComponent {
 
   imageList: Array<string | ArrayBuffer> = [];
+  isEditMode$: Observable<boolean>;
 
+  constructor(
+    private editorSrv: EditorService
+  ) {
+    this.isEditMode$ = this.editorSrv.isEditMode$;
+  }
 
   onFileSelected(event: any): void {
     for( const file of event.target.files)

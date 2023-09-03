@@ -85,7 +85,7 @@
     > div {
       // width: calc(447px * 2);
       width: calc(413px * 2);
-      height: calc(631px * 2);
+      min-height: calc(631px * 2);
       margin:auto;
       border: 1px dashed #2C363A;
       background: #F0F4F6;
@@ -104,7 +104,11 @@
   border-radius: 5px;
   background: #C9D1DA;
   margin-bottom: 10px;
-
+  pointer-events: all;
+  &.inactive {
+    pointer-events: none;
+    opacity: .5;
+  }
   span {
     color: #393939;
     font-family: Roboto;

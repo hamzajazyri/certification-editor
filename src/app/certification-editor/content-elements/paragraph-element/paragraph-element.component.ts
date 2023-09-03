@@ -36,7 +36,6 @@ export class ParagraphElementComponent implements OnInit {
         this.prevEditorContentValue = this.editorContent.value;
         this.editorContent.disable();
         this.editorSrv.replaceTextMatch(this.prevEditorContentValue).subscribe( val => {
-          console.log(val);
           this.editorContent.setValue(val);
         })
       }
@@ -49,6 +48,10 @@ export class ParagraphElementComponent implements OnInit {
       keyboardShortcuts: true,
       inputRules: true,
     });
+
+    if(this.data?.htmlContent) {
+      this.editorContent.setValue(this.data?.htmlContent);
+    }
 
     this.editorContent.valueChanges.pipe(
       debounceTime(200)

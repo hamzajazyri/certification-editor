@@ -36,7 +36,6 @@ export class CertificationEditorComponent {
       debounceTime(100)
     ).subscribe( _ => this.editorSrv.setTemplateName(_!));
 
-
     this.editorTemplate = this.editorSrv.loadTemplate();
   }
 

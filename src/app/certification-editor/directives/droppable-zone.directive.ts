@@ -33,32 +33,29 @@ export class DroppableZoneDirective {
 
   @HostListener('dragenter', ['$event'])
   handleDragEnter(event: DragEvent) {
-    console.log("DRAG EVENT ENTER");
     this.element.nativeElement.style.borderColor = 'green';
     this.element.nativeElement.style.backgroundColor = 'rgba(0,200,0,.1)';
   }
 
   @HostListener('dragleave', ['$event'])
   handleDragLeave(event: DragEvent) {
-    console.log("DRAG EVENT Leave");
     this.element.nativeElement.style.borderColor = '#2C363A';
     this.element.nativeElement.style.backgroundColor = '#F0F4F6';
   }
 
   loadComponent(obj: DragDropObject) {
+    if(obj.componentType.startsWith(('layout'))) {
+      alert('Content elements are the only ones that can be dropped.');
+      this.resetDropZoneStyle();
+      return;
+    }
     const contentElementRef = this.viewContainerRef.createComponent(ContentElementComponent);
     contentElementRef.instance.insideDropZone = true;
 
 
-
-
-
     contentElementRef.instance.onContentDelete.subscribe(_ => {
       contentElementRef.destroy();
-      this.element.nativeElement.style.display = 'block';
-      this.element.nativeElement.setAttribute('aria-empty', 'true');
-      this.element.nativeElement.style.borderColor = '#2C363A';
-      this.element.nativeElement.style.backgroundColor = '#F0F4F6';
+      this.resetDropZoneStyle();
     });
 
     contentElementRef.instance.updateContent(obj);
@@ -67,7 +64,13 @@ export class DroppableZoneDirective {
     this.element.nativeElement.setAttribute('aria-empty', 'false');
     this.hostComp.data[this.gridZone] = obj;
     this.hostComp.onDataChange.emit({ dataKey: this.gridZone, dataValue: obj });
+  }
 
+  private resetDropZoneStyle() {
+    this.element.nativeElement.style.display = 'block';
+    this.element.nativeElement.setAttribute('aria-empty', 'true');
+    this.element.nativeElement.style.borderColor = '#2C363A';
+    this.element.nativeElement.style.backgroundColor = '#F0F4F6';
   }
 
   @HostListener('drop', ['$event'])

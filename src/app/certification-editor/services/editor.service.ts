@@ -14,7 +14,7 @@ export class EditorService {
   private _variableGroups$ = new BehaviorSubject<Array<{ label: string; value: string }>>([]);
   variables$: Observable<Array<{ label: string; value: string }>>;
 
-  private _components: Array<ComponentRef<ContentElementComponent>>= [];
+  private _components: Array<ComponentRef<ContentElementComponent>> = [];
 
   private _templateName$ = new BehaviorSubject<string>('');
   templateName$: Observable<string>;
@@ -34,23 +34,29 @@ export class EditorService {
     this._variableGroups$.next(newVariableGroups);
   }
 
-  addContentElement(compRef: ComponentRef<ContentElementComponent>) {
-    compRef.instance.onOpenPaddingSetting.subscribe( res => {
+  addContentElement(compRef: ComponentRef<ContentElementComponent>, index: number = -1) {
+    compRef.instance.onOpenPaddingSetting.subscribe(res => {
       this.onPaddingSetting.emit(compRef)
     });
-    this._components.push(compRef);
+
+    if (index === 0)
+      this._components.unshift(compRef);
+    else if (index != -1)
+      this._components.splice(index, 0, compRef);
+    else
+      this._components.push(compRef);
   }
 
   removeContentElement(compRef: ComponentRef<ContentElementComponent>) {
     compRef.destroy();
-    this._components = this._components.filter( comp => compRef != comp);
+    this._components = this._components.filter(comp => compRef != comp);
   }
 
   replaceTextMatch(content: string): Observable<string> {
     return this.variables$.pipe(
-      switchMap( variables => {
+      switchMap(variables => {
         let ctn = content;
-        for(let vari of variables) {
+        for (let vari of variables) {
           ctn = ctn.replaceAll(`#{${vari.label}}`, vari.value);
         }
         return of(ctn);
@@ -63,21 +69,20 @@ export class EditorService {
   }
 
   saveTemplate() {
-    const editorTemplate : EditorTemplate = {
+    const editorTemplate: EditorTemplate = {
       templateName: this._templateName$.getValue(),
       variables: this._variableGroups$.getValue(),
       elements: []
     };
-    for(let elem of this._components) {
+    for (let elem of this._components) {
       editorTemplate.elements.push(elem.instance.data);
     }
     localStorage.setItem('editorTemplate', JSON.stringify(editorTemplate));
-    console.log(editorTemplate);
   }
 
   loadTemplate(): EditorTemplate | null {
     const templateJson = localStorage.getItem('editorTemplate');
-    if(!templateJson) return null;
+    if (!templateJson) return null;
     return JSON.parse(templateJson) as EditorTemplate;
   }
 

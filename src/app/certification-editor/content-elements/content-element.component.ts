@@ -1,4 +1,4 @@
-import { Component, ComponentRef, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { Component, ComponentRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, debounceTime } from 'rxjs';
 import { EditorService } from '../services/editor.service';
@@ -16,7 +16,7 @@ import { DraggableDirective } from '../directives/draggable.directive';
   styleUrls: ['./content-element.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ContentElementComponent implements OnChanges{
+export class ContentElementComponent {
 
   @Input() data: ContentElementData = {...initContentElementData};
   @Input() insideDropZone = false;
@@ -33,12 +33,6 @@ export class ContentElementComponent implements OnChanges{
   ) {
     this.isEditMode$ = this.editorSrv.isEditMode$;
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-  }
-
-
 
   updateContent(obj: DragDropObject) {
     this.containerRef.clear();
@@ -136,7 +130,7 @@ export class ContentElementContainerConfigComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['contentElement']) {
-      this.styleForm.patchValue({...changes['contentElement'].currentValue.instance.data.style});
+      this.styleForm.patchValue({...changes['contentElement'].currentValue?.instance?.data?.style});
     }
   }
 

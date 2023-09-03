@@ -2,13 +2,15 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, QueryLis
 import { CommonModule } from '@angular/common';
 import { DroppableZoneDirective } from '../../directives/droppable-zone.directive';
 import { ContentElementData } from '../content-element.interface';
+import { EditorService } from '../../services/editor.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-grid-2-columns-left-element',
   standalone: true,
   imports: [CommonModule, DroppableZoneDirective],
   template: `
-  <div class="j-grid-element-2">
+  <div class="j-grid-element-2" [ngClass]="{'min-p': (isEditMode$ | async)}">
     <div class="droppable-item" DroppableZone [gridType]="'Grid2ColumnsLeft'" [gridZone]="'left'">
       Drop Content Here
     </div>
@@ -22,8 +24,10 @@ import { ContentElementData } from '../content-element.interface';
         display: grid;
         grid-template-columns: 1fr 3fr;
         gap: 20px;
-        /* padding:20px; */
         background:#fff;
+    }`,
+    `.min-p {
+      padding:17px;
     }`,
     `.j-grid-element-2 .droppable-item {
         width: 100%;
@@ -47,6 +51,14 @@ export class Grid2ColumnsLeftElementComponent implements AfterViewInit {
     right: null
   };
 
+  isEditMode$: Observable<boolean>;
+
+  constructor(
+    private editorSrv: EditorService
+  ) {
+    this.isEditMode$ = this.editorSrv.isEditMode$;
+  }
+
   ngAfterViewInit(): void {
     setTimeout( () =>{
       if(this.data.left || this.data.right) {
@@ -64,7 +76,7 @@ export class Grid2ColumnsLeftElementComponent implements AfterViewInit {
   standalone: true,
   imports: [CommonModule, DroppableZoneDirective],
   template: `
-  <div class="j-grid-element">
+  <div class="j-grid-element" [ngClass]="{'min-p': (isEditMode$ | async)}">
     <div class="droppable-item" DroppableZone [gridType]="'Grid2ColumnsRight'" [gridZone]="'left'">
       Drop Content Here
     </div>
@@ -80,6 +92,9 @@ export class Grid2ColumnsLeftElementComponent implements AfterViewInit {
         gap: 20px;
         /* padding:20px; */
         background:#fff;
+    }`,
+    `.min-p {
+      padding:17px;
     }`,
     `.j-grid-element .droppable-item {
         width: 100%;
@@ -103,6 +118,14 @@ export class Grid2ColumnsRightElementComponent implements AfterViewInit {
     right: null
   };
 
+  isEditMode$: Observable<boolean>;
+
+  constructor(
+    private editorSrv: EditorService
+  ) {
+    this.isEditMode$ = this.editorSrv.isEditMode$;
+  }
+
   ngAfterViewInit(): void {
     setTimeout( () =>{
       if(this.data.left || this.data.right) {
@@ -120,7 +143,7 @@ export class Grid2ColumnsRightElementComponent implements AfterViewInit {
   standalone: true,
   imports: [CommonModule, DroppableZoneDirective],
   template: `
-  <div class="j-grid-element">
+  <div class="j-grid-element" [ngClass]="{'min-p': (isEditMode$ | async)}">
     <div class="droppable-item" DroppableZone [gridType]="'Grid3Columns'" [gridZone]="'left'">
       Drop Content Here
     </div>
@@ -138,6 +161,9 @@ export class Grid2ColumnsRightElementComponent implements AfterViewInit {
         grid-template-columns: 1fr 1fr 1fr;
         gap: 20px;
         background:#fff;
+    }`,
+    `.min-p {
+      padding:17px;
     }`,
     `.j-grid-element .droppable-item {
         width: 100%;
@@ -160,6 +186,14 @@ export class Grid3ColumnsElementComponent implements AfterViewInit  {
     middle: null,
     right: null
   };
+
+  isEditMode$: Observable<boolean>;
+
+  constructor(
+    private editorSrv: EditorService
+  ) {
+    this.isEditMode$ = this.editorSrv.isEditMode$;
+  }
 
   ngAfterViewInit(): void {
     setTimeout( () =>{
