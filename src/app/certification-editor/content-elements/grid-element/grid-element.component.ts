@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
   standalone: true,
   imports: [CommonModule, DroppableZoneDirective],
   template: `
-  <div class="j-grid-element-2" [ngClass]="{'min-p': (isEditMode$ | async)}">
+  <div class="j-grid-element" [ngClass]="{'min-p': (isEditMode$ | async)}">
     <div class="droppable-item" DroppableZone [gridType]="'Grid2ColumnsLeft'" [gridZone]="'left'">
       Drop Content Here
     </div>
@@ -20,7 +20,7 @@ import { Observable } from 'rxjs';
   </div>
   `,
   styles: [
-    `.j-grid-element-2 {
+    `.j-grid-element {
         display: grid;
         grid-template-columns: 1fr 3fr;
         gap: 20px;
@@ -29,7 +29,7 @@ import { Observable } from 'rxjs';
     `.min-p {
       padding:17px;
     }`,
-    `.j-grid-element-2 .droppable-item {
+    `.j-grid-element .droppable-item {
         width: 100%;
         padding: 20px;
         border: 1px dashed #2C363A;
